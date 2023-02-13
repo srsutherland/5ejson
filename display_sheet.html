@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+    <title>Character Sheet</title>
+    <link href="res/sheet.css" rel="stylesheet">
+    <script src="src/dndbeyond.js"></script>
+    <script src="test_json/Jack.jsonp"></script>
+</head>
+<body>
+    <section id="sheet">
+        <h2 id="name">Name</h2>
+        <table id="abilityscores">
+        </table>
+    </section>
+    <script>
+        const utfCircleOpen =  "○"
+        const utfCircleFull =  "⦿"
+        const utfDiamondOpen = "◇"
+        const utfDiamondFull = "◈"
+        const modString = (mod) => (mod < 0 ? "" : "+") + mod
+        document.addEventListener("DOMContentLoaded", () => {
+            char = window.character
+            document.getElementById("name").textContent = character.name
+            const ASTable = document.getElementById("abilityscores")
+            const ASRows = []
+            for (let i = 0; i < 4; i++) {
+                ASRows[i] = document.createElement("tr")
+                ASTable.insertAdjacentElement("beforeend", ASRows[i])
+            }
+            for (const ability of abilityScoreNames) {
+                ASRows[0].insertAdjacentHTML("beforeend", `<th>${ability}</th>`)
+                const score = character.abilityScores[ability]
+                ASRows[1].insertAdjacentHTML("beforeend", `<td>${score}</td>`)
+                const mod = Math.floor((score-10)/2)
+                ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
+                let skillBox = `<div>◇ Saving Throw: ${character.saves[ability]}</div>`
+                for (const skillName of skillNamesByAbility[ability]) {
+                    const skillMod = character.skills[skillName]
+                    skillBox += `<div>○ ${skillName}: ${modString(skillMod)}</div>`
+                }
+                ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
+            }
+        })
+    </script>
+</body>

@@ -1,0 +1,4229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://character-service.dndbeyond.com/character/v5/character/",
+  "title": "DnD Beyond Character json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "userId": {
+          "type": "number"
+        },
+        "username": {
+          "type": "string"
+        },
+        "isAssignedToPlayer": {
+          "type": "boolean"
+        },
+        "readonlyUrl": {
+          "type": "string"
+        },
+        "decorations": {
+          "type": "object",
+          "properties": {
+            "avatarUrl": {
+              "type": "string"
+            },
+            "frameAvatarUrl": {},
+            "backdropAvatarUrl": {},
+            "smallBackdropAvatarUrl": {},
+            "largeBackdropAvatarUrl": {},
+            "thumbnailBackdropAvatarUrl": {},
+            "defaultBackdrop": {
+              "type": "object",
+              "properties": {
+                "backdropAvatarUrl": {
+                  "type": "string"
+                },
+                "smallBackdropAvatarUrl": {
+                  "type": "string"
+                },
+                "largeBackdropAvatarUrl": {
+                  "type": "string"
+                },
+                "thumbnailBackdropAvatarUrl": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "backdropAvatarUrl",
+                "smallBackdropAvatarUrl",
+                "largeBackdropAvatarUrl",
+                "thumbnailBackdropAvatarUrl"
+              ]
+            },
+            "avatarId": {
+              "type": "number"
+            },
+            "portraitDecorationKey": {},
+            "frameAvatarDecorationKey": {},
+            "frameAvatarId": {},
+            "backdropAvatarDecorationKey": {},
+            "backdropAvatarId": {},
+            "smallBackdropAvatarDecorationKey": {
+              "type": "string"
+            },
+            "smallBackdropAvatarId": {},
+            "largeBackdropAvatarDecorationKey": {
+              "type": "string"
+            },
+            "largeBackdropAvatarId": {},
+            "thumbnailBackdropAvatarDecorationKey": {
+              "type": "string"
+            },
+            "thumbnailBackdropAvatarId": {},
+            "themeColor": {}
+          },
+          "required": [
+            "avatarUrl",
+            "frameAvatarUrl",
+            "backdropAvatarUrl",
+            "smallBackdropAvatarUrl",
+            "largeBackdropAvatarUrl",
+            "thumbnailBackdropAvatarUrl",
+            "defaultBackdrop",
+            "avatarId",
+            "portraitDecorationKey",
+            "frameAvatarDecorationKey",
+            "frameAvatarId",
+            "backdropAvatarDecorationKey",
+            "backdropAvatarId",
+            "smallBackdropAvatarDecorationKey",
+            "smallBackdropAvatarId",
+            "largeBackdropAvatarDecorationKey",
+            "largeBackdropAvatarId",
+            "thumbnailBackdropAvatarDecorationKey",
+            "thumbnailBackdropAvatarId",
+            "themeColor"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "socialName": {},
+        "gender": {},
+        "faith": {},
+        "age": {},
+        "hair": {},
+        "eyes": {},
+        "skin": {},
+        "height": {},
+        "weight": {},
+        "inspiration": {
+          "type": "boolean"
+        },
+        "baseHitPoints": {
+          "type": "number"
+        },
+        "bonusHitPoints": {
+          "type": "number"
+        },
+        "overrideHitPoints": {},
+        "removedHitPoints": {
+          "type": "number"
+        },
+        "temporaryHitPoints": {
+          "type": "number"
+        },
+        "currentXp": {
+          "type": "number"
+        },
+        "alignmentId": {
+          "type": "number"
+        },
+        "lifestyleId": {
+          "type": "number"
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {},
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        "bonusStats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {},
+              "value": {}
+            },
+            "required": [
+              "id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        "overrideStats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {},
+              "value": {}
+            },
+            "required": [
+              "id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        "background": {
+          "type": "object",
+          "properties": {
+            "hasCustomBackground": {
+              "type": "boolean"
+            },
+            "definition": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "entityTypeId": {
+                  "type": "number"
+                },
+                "definitionKey": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "snippet": {
+                  "type": "string"
+                },
+                "shortDescription": {
+                  "type": "string"
+                },
+                "skillProficienciesDescription": {
+                  "type": "string"
+                },
+                "toolProficienciesDescription": {
+                  "type": "string"
+                },
+                "languagesDescription": {
+                  "type": "string"
+                },
+                "equipmentDescription": {
+                  "type": "string"
+                },
+                "featureName": {
+                  "type": "string"
+                },
+                "featureDescription": {
+                  "type": "string"
+                },
+                "avatarUrl": {},
+                "largeAvatarUrl": {},
+                "suggestedCharacteristicsDescription": {
+                  "type": "string"
+                },
+                "suggestedProficiencies": {},
+                "suggestedLanguages": {},
+                "organization": {},
+                "contractsDescription": {
+                  "type": "string"
+                },
+                "spellsPreDescription": {
+                  "type": "string"
+                },
+                "spellsPostDescription": {
+                  "type": "string"
+                },
+                "personalityTraits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "diceRoll": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "diceRoll"
+                    ]
+                  }
+                },
+                "ideals": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "diceRoll": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "diceRoll"
+                    ]
+                  }
+                },
+                "bonds": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "diceRoll": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "diceRoll"
+                    ]
+                  }
+                },
+                "flaws": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "diceRoll": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "diceRoll"
+                    ]
+                  }
+                },
+                "isHomebrew": {
+                  "type": "boolean"
+                },
+                "sources": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sourceId": {
+                        "type": "number"
+                      },
+                      "pageNumber": {},
+                      "sourceType": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "sourceId",
+                      "pageNumber",
+                      "sourceType"
+                    ]
+                  }
+                },
+                "spellListIds": {
+                  "type": "array",
+                  "items": {}
+                },
+                "featList": {}
+              },
+              "required": [
+                "id",
+                "entityTypeId",
+                "definitionKey",
+                "name",
+                "description",
+                "snippet",
+                "shortDescription",
+                "skillProficienciesDescription",
+                "toolProficienciesDescription",
+                "languagesDescription",
+                "equipmentDescription",
+                "featureName",
+                "featureDescription",
+                "avatarUrl",
+                "largeAvatarUrl",
+                "suggestedCharacteristicsDescription",
+                "suggestedProficiencies",
+                "suggestedLanguages",
+                "organization",
+                "contractsDescription",
+                "spellsPreDescription",
+                "spellsPostDescription",
+                "personalityTraits",
+                "ideals",
+                "bonds",
+                "flaws",
+                "isHomebrew",
+                "sources",
+                "spellListIds",
+                "featList"
+              ]
+            },
+            "definitionId": {},
+            "customBackground": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "entityTypeId": {
+                  "type": "number"
+                },
+                "name": {},
+                "description": {},
+                "featuresBackground": {},
+                "characteristicsBackground": {},
+                "featuresBackgroundDefinitionId": {},
+                "characteristicsBackgroundDefinitionId": {},
+                "backgroundType": {}
+              },
+              "required": [
+                "id",
+                "entityTypeId",
+                "name",
+                "description",
+                "featuresBackground",
+                "characteristicsBackground",
+                "featuresBackgroundDefinitionId",
+                "characteristicsBackgroundDefinitionId",
+                "backgroundType"
+              ]
+            }
+          },
+          "required": [
+            "hasCustomBackground",
+            "definition",
+            "definitionId",
+            "customBackground"
+          ]
+        },
+        "race": {
+          "type": "object",
+          "properties": {
+            "isSubRace": {
+              "type": "boolean"
+            },
+            "baseRaceName": {
+              "type": "string"
+            },
+            "entityRaceId": {
+              "type": "number"
+            },
+            "entityRaceTypeId": {
+              "type": "number"
+            },
+            "definitionKey": {
+              "type": "string"
+            },
+            "fullName": {
+              "type": "string"
+            },
+            "baseRaceId": {
+              "type": "number"
+            },
+            "baseRaceTypeId": {
+              "type": "number"
+            },
+            "description": {
+              "type": "string"
+            },
+            "avatarUrl": {},
+            "largeAvatarUrl": {
+              "type": "string"
+            },
+            "portraitAvatarUrl": {
+              "type": "string"
+            },
+            "moreDetailsUrl": {
+              "type": "string"
+            },
+            "isHomebrew": {
+              "type": "boolean"
+            },
+            "isLegacy": {
+              "type": "boolean"
+            },
+            "groupIds": {
+              "type": "array",
+              "items": {}
+            },
+            "type": {
+              "type": "number"
+            },
+            "supportsSubrace": {},
+            "subRaceShortName": {},
+            "baseName": {
+              "type": "string"
+            },
+            "racialTraits": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "definition": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "definitionKey": {
+                        "type": "string"
+                      },
+                      "entityTypeId": {
+                        "type": "number"
+                      },
+                      "displayOrder": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      },
+                      "hideInBuilder": {
+                        "type": "boolean"
+                      },
+                      "hideInSheet": {
+                        "type": "boolean"
+                      },
+                      "activation": {},
+                      "sourceId": {
+                        "type": "number"
+                      },
+                      "sourcePageNumber": {
+                        "type": "number"
+                      },
+                      "creatureRules": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "spellListIds": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "featureType": {
+                        "type": "number"
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "number"
+                            },
+                            "pageNumber": {
+                              "type": "number"
+                            },
+                            "sourceType": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "pageNumber",
+                            "sourceType"
+                          ]
+                        }
+                      },
+                      "affectedFeatureDefinitionKeys": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "isCalledOut": {
+                        "type": "boolean"
+                      },
+                      "entityType": {
+                        "type": "string"
+                      },
+                      "entityID": {
+                        "type": "string"
+                      },
+                      "entityRaceId": {
+                        "type": "number"
+                      },
+                      "entityRaceTypeId": {
+                        "type": "number"
+                      },
+                      "displayConfiguration": {
+                        "type": "object",
+                        "properties": {
+                          "ABILITYSCORE": {
+                            "type": "number"
+                          },
+                          "RACIALTRAIT": {
+                            "type": "number"
+                          },
+                          "LANGUAGE": {
+                            "type": "number"
+                          },
+                          "CLASSFEATURE": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "ABILITYSCORE",
+                          "RACIALTRAIT",
+                          "LANGUAGE",
+                          "CLASSFEATURE"
+                        ]
+                      },
+                      "requiredLevel": {}
+                    },
+                    "required": [
+                      "id",
+                      "definitionKey",
+                      "entityTypeId",
+                      "displayOrder",
+                      "name",
+                      "description",
+                      "snippet",
+                      "hideInBuilder",
+                      "hideInSheet",
+                      "activation",
+                      "sourceId",
+                      "sourcePageNumber",
+                      "creatureRules",
+                      "spellListIds",
+                      "featureType",
+                      "sources",
+                      "affectedFeatureDefinitionKeys",
+                      "isCalledOut",
+                      "entityType",
+                      "entityID",
+                      "entityRaceId",
+                      "entityRaceTypeId",
+                      "displayConfiguration",
+                      "requiredLevel"
+                    ]
+                  }
+                },
+                "required": [
+                  "definition"
+                ]
+              }
+            },
+            "weightSpeeds": {
+              "type": "object",
+              "properties": {
+                "normal": {
+                  "type": "object",
+                  "properties": {
+                    "walk": {
+                      "type": "number"
+                    },
+                    "fly": {
+                      "type": "number"
+                    },
+                    "burrow": {
+                      "type": "number"
+                    },
+                    "swim": {
+                      "type": "number"
+                    },
+                    "climb": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "walk",
+                    "fly",
+                    "burrow",
+                    "swim",
+                    "climb"
+                  ]
+                },
+                "encumbered": {},
+                "heavilyEncumbered": {},
+                "pushDragLift": {},
+                "override": {}
+              },
+              "required": [
+                "normal",
+                "encumbered",
+                "heavilyEncumbered",
+                "pushDragLift",
+                "override"
+              ]
+            },
+            "featIds": {
+              "type": "array",
+              "items": {}
+            },
+            "size": {},
+            "sizeId": {
+              "type": "number"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sourceId": {
+                    "type": "number"
+                  },
+                  "pageNumber": {
+                    "type": "number"
+                  },
+                  "sourceType": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "sourceId",
+                  "pageNumber",
+                  "sourceType"
+                ]
+              }
+            }
+          },
+          "required": [
+            "isSubRace",
+            "baseRaceName",
+            "entityRaceId",
+            "entityRaceTypeId",
+            "definitionKey",
+            "fullName",
+            "baseRaceId",
+            "baseRaceTypeId",
+            "description",
+            "avatarUrl",
+            "largeAvatarUrl",
+            "portraitAvatarUrl",
+            "moreDetailsUrl",
+            "isHomebrew",
+            "isLegacy",
+            "groupIds",
+            "type",
+            "supportsSubrace",
+            "subRaceShortName",
+            "baseName",
+            "racialTraits",
+            "weightSpeeds",
+            "featIds",
+            "size",
+            "sizeId",
+            "sources"
+          ]
+        },
+        "raceDefinitionId": {},
+        "raceDefinitionTypeId": {},
+        "notes": {
+          "type": "object",
+          "properties": {
+            "allies": {},
+            "personalPossessions": {},
+            "otherHoldings": {},
+            "organizations": {},
+            "enemies": {},
+            "backstory": {},
+            "otherNotes": {}
+          },
+          "required": [
+            "allies",
+            "personalPossessions",
+            "otherHoldings",
+            "organizations",
+            "enemies",
+            "backstory",
+            "otherNotes"
+          ]
+        },
+        "traits": {
+          "type": "object",
+          "properties": {
+            "personalityTraits": {},
+            "ideals": {},
+            "bonds": {},
+            "flaws": {},
+            "appearance": {}
+          },
+          "required": [
+            "personalityTraits",
+            "ideals",
+            "bonds",
+            "flaws",
+            "appearance"
+          ]
+        },
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "useHomebrewContent": {
+              "type": "boolean"
+            },
+            "progressionType": {
+              "type": "number"
+            },
+            "encumbranceType": {
+              "type": "number"
+            },
+            "ignoreCoinWeight": {
+              "type": "boolean"
+            },
+            "hitPointType": {
+              "type": "number"
+            },
+            "showUnarmedStrike": {
+              "type": "boolean"
+            },
+            "showScaledSpells": {
+              "type": "boolean"
+            },
+            "primarySense": {
+              "type": "number"
+            },
+            "primaryMovement": {
+              "type": "number"
+            },
+            "privacyType": {
+              "type": "number"
+            },
+            "sharingType": {
+              "type": "number"
+            },
+            "abilityScoreDisplayType": {
+              "type": "number"
+            },
+            "enforceFeatRules": {
+              "type": "boolean"
+            },
+            "enforceMulticlassRules": {
+              "type": "boolean"
+            },
+            "enableOptionalClassFeatures": {
+              "type": "boolean"
+            },
+            "enableOptionalOrigins": {
+              "type": "boolean"
+            },
+            "enableDarkMode": {
+              "type": "boolean"
+            },
+            "enableContainerCurrency": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "useHomebrewContent",
+            "progressionType",
+            "encumbranceType",
+            "ignoreCoinWeight",
+            "hitPointType",
+            "showUnarmedStrike",
+            "showScaledSpells",
+            "primarySense",
+            "primaryMovement",
+            "privacyType",
+            "sharingType",
+            "abilityScoreDisplayType",
+            "enforceFeatRules",
+            "enforceMulticlassRules",
+            "enableOptionalClassFeatures",
+            "enableOptionalOrigins",
+            "enableDarkMode",
+            "enableContainerCurrency"
+          ]
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "startingEquipmentType": {},
+            "abilityScoreType": {
+              "type": "number"
+            },
+            "showHelpText": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "startingEquipmentType",
+            "abilityScoreType",
+            "showHelpText"
+          ]
+        },
+        "lifestyle": {},
+        "inventory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "entityTypeId": {
+                "type": "number"
+              },
+              "definition": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "baseTypeId": {
+                    "type": "number"
+                  },
+                  "entityTypeId": {
+                    "type": "number"
+                  },
+                  "definitionKey": {
+                    "type": "string"
+                  },
+                  "canEquip": {
+                    "type": "boolean"
+                  },
+                  "magic": {
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "snippet": {},
+                  "weight": {
+                    "type": "number"
+                  },
+                  "weightMultiplier": {
+                    "type": "number"
+                  },
+                  "capacity": {
+                    "type": "string"
+                  },
+                  "capacityWeight": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "canAttune": {
+                    "type": "boolean"
+                  },
+                  "attunementDescription": {},
+                  "rarity": {
+                    "type": "string"
+                  },
+                  "isHomebrew": {
+                    "type": "boolean"
+                  },
+                  "version": {},
+                  "sourceId": {},
+                  "sourcePageNumber": {},
+                  "stackable": {
+                    "type": "boolean"
+                  },
+                  "bundleSize": {
+                    "type": "number"
+                  },
+                  "avatarUrl": {},
+                  "largeAvatarUrl": {},
+                  "filterType": {
+                    "type": "string"
+                  },
+                  "cost": {
+                    "type": "number"
+                  },
+                  "isPack": {
+                    "type": "boolean"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "grantedModifiers": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "subType": {
+                    "type": "string"
+                  },
+                  "isConsumable": {
+                    "type": "boolean"
+                  },
+                  "weaponBehaviors": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "baseItemId": {
+                    "type": "number"
+                  },
+                  "baseArmorName": {
+                    "type": "string"
+                  },
+                  "strengthRequirement": {},
+                  "armorClass": {
+                    "type": "number"
+                  },
+                  "stealthCheck": {
+                    "type": "number"
+                  },
+                  "damage": {
+                    "type": "object",
+                    "properties": {
+                      "diceCount": {
+                        "type": "number"
+                      },
+                      "diceValue": {
+                        "type": "number"
+                      },
+                      "diceMultiplier": {},
+                      "fixedValue": {},
+                      "diceString": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "diceCount",
+                      "diceValue",
+                      "diceMultiplier",
+                      "fixedValue",
+                      "diceString"
+                    ]
+                  },
+                  "damageType": {
+                    "type": "string"
+                  },
+                  "fixedDamage": {},
+                  "properties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "notes": {}
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "notes"
+                      ]
+                    }
+                  },
+                  "attackType": {
+                    "type": "number"
+                  },
+                  "categoryId": {
+                    "type": "number"
+                  },
+                  "range": {
+                    "type": "number"
+                  },
+                  "longRange": {
+                    "type": "number"
+                  },
+                  "isMonkWeapon": {
+                    "type": "boolean"
+                  },
+                  "levelInfusionGranted": {},
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sourceId": {
+                          "type": "number"
+                        },
+                        "pageNumber": {},
+                        "sourceType": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "sourceId",
+                        "pageNumber",
+                        "sourceType"
+                      ]
+                    }
+                  },
+                  "armorTypeId": {
+                    "type": "number"
+                  },
+                  "gearTypeId": {
+                    "type": "number"
+                  },
+                  "groupedId": {},
+                  "canBeAddedToInventory": {
+                    "type": "boolean"
+                  },
+                  "isContainer": {
+                    "type": "boolean"
+                  },
+                  "isCustomItem": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "id",
+                  "baseTypeId",
+                  "entityTypeId",
+                  "definitionKey",
+                  "canEquip",
+                  "magic",
+                  "name",
+                  "snippet",
+                  "weight",
+                  "weightMultiplier",
+                  "capacityWeight",
+                  "type",
+                  "description",
+                  "canAttune",
+                  "attunementDescription",
+                  "rarity",
+                  "isHomebrew",
+                  "version",
+                  "sourceId",
+                  "sourcePageNumber",
+                  "stackable",
+                  "bundleSize",
+                  "avatarUrl",
+                  "largeAvatarUrl",
+                  "filterType",
+                  "cost",
+                  "isPack",
+                  "tags",
+                  "grantedModifiers",
+                  "isConsumable",
+                  "weaponBehaviors",
+                  "strengthRequirement",
+                  "fixedDamage",
+                  "isMonkWeapon",
+                  "levelInfusionGranted",
+                  "sources",
+                  "groupedId",
+                  "canBeAddedToInventory",
+                  "isContainer",
+                  "isCustomItem"
+                ]
+              },
+              "definitionId": {
+                "type": "number"
+              },
+              "definitionTypeId": {
+                "type": "number"
+              },
+              "displayAsAttack": {},
+              "quantity": {
+                "type": "number"
+              },
+              "isAttuned": {
+                "type": "boolean"
+              },
+              "equipped": {
+                "type": "boolean"
+              },
+              "equippedEntityTypeId": {
+                "type": "number"
+              },
+              "equippedEntityId": {
+                "type": "number"
+              },
+              "chargesUsed": {
+                "type": "number"
+              },
+              "limitedUse": {},
+              "containerEntityId": {
+                "type": "number"
+              },
+              "containerEntityTypeId": {
+                "type": "number"
+              },
+              "containerDefinitionKey": {
+                "type": "string"
+              },
+              "currency": {}
+            },
+            "required": [
+              "id",
+              "entityTypeId",
+              "definition",
+              "definitionId",
+              "definitionTypeId",
+              "displayAsAttack",
+              "quantity",
+              "isAttuned",
+              "equipped",
+              "chargesUsed",
+              "limitedUse",
+              "containerEntityId",
+              "containerEntityTypeId",
+              "containerDefinitionKey",
+              "currency"
+            ]
+          }
+        },
+        "currencies": {
+          "type": "object",
+          "properties": {
+            "cp": {
+              "type": "number"
+            },
+            "sp": {
+              "type": "number"
+            },
+            "gp": {
+              "type": "number"
+            },
+            "ep": {
+              "type": "number"
+            },
+            "pp": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "cp",
+            "sp",
+            "gp",
+            "ep",
+            "pp"
+          ]
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "entityTypeId": {
+                "type": "number"
+              },
+              "level": {
+                "type": "number"
+              },
+              "isStartingClass": {
+                "type": "boolean"
+              },
+              "hitDiceUsed": {
+                "type": "number"
+              },
+              "definitionId": {
+                "type": "number"
+              },
+              "subclassDefinitionId": {},
+              "definition": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "definitionKey": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "equipmentDescription": {
+                    "type": "string"
+                  },
+                  "parentClassId": {},
+                  "avatarUrl": {
+                    "type": "string"
+                  },
+                  "largeAvatarUrl": {
+                    "type": "string"
+                  },
+                  "portraitAvatarUrl": {
+                    "type": "string"
+                  },
+                  "moreDetailsUrl": {
+                    "type": "string"
+                  },
+                  "spellCastingAbilityId": {
+                    "type": "number"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sourceId": {
+                          "type": "number"
+                        },
+                        "pageNumber": {
+                          "type": "number"
+                        },
+                        "sourceType": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "sourceId",
+                        "pageNumber",
+                        "sourceType"
+                      ]
+                    }
+                  },
+                  "classFeatures": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "prerequisite": {},
+                        "description": {
+                          "type": "string"
+                        },
+                        "requiredLevel": {
+                          "type": "number"
+                        },
+                        "displayOrder": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "prerequisite",
+                        "description",
+                        "requiredLevel",
+                        "displayOrder"
+                      ]
+                    }
+                  },
+                  "hitDice": {
+                    "type": "number"
+                  },
+                  "wealthDice": {
+                    "type": "object",
+                    "properties": {
+                      "diceCount": {
+                        "type": "number"
+                      },
+                      "diceValue": {
+                        "type": "number"
+                      },
+                      "diceMultiplier": {
+                        "type": "number"
+                      },
+                      "fixedValue": {},
+                      "diceString": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "diceCount",
+                      "diceValue",
+                      "diceMultiplier",
+                      "fixedValue",
+                      "diceString"
+                    ]
+                  },
+                  "canCastSpells": {
+                    "type": "boolean"
+                  },
+                  "knowsAllSpells": {
+                    "type": "boolean"
+                  },
+                  "spellPrepareType": {},
+                  "spellContainerName": {},
+                  "sourcePageNumber": {
+                    "type": "number"
+                  },
+                  "subclassDefinition": {},
+                  "isHomebrew": {
+                    "type": "boolean"
+                  },
+                  "primaryAbilities": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "spellRules": {
+                    "type": "object",
+                    "properties": {
+                      "multiClassSpellSlotDivisor": {
+                        "type": "number"
+                      },
+                      "isRitualSpellCaster": {
+                        "type": "boolean"
+                      },
+                      "levelCantripsKnownMaxes": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "levelSpellKnownMaxes": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "levelSpellSlots": {
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "multiClassSpellSlotRounding": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "multiClassSpellSlotDivisor",
+                      "isRitualSpellCaster",
+                      "levelCantripsKnownMaxes",
+                      "levelSpellKnownMaxes",
+                      "levelSpellSlots",
+                      "multiClassSpellSlotRounding"
+                    ]
+                  },
+                  "prerequisites": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "prerequisiteMappings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "entityId": {
+                                "type": "number"
+                              },
+                              "entityTypeId": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "subType": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "number"
+                              },
+                              "friendlyTypeName": {
+                                "type": "string"
+                              },
+                              "friendlySubTypeName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "entityId",
+                              "entityTypeId",
+                              "type",
+                              "subType",
+                              "value",
+                              "friendlyTypeName",
+                              "friendlySubTypeName"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "prerequisiteMappings"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "definitionKey",
+                  "name",
+                  "description",
+                  "equipmentDescription",
+                  "parentClassId",
+                  "avatarUrl",
+                  "largeAvatarUrl",
+                  "portraitAvatarUrl",
+                  "moreDetailsUrl",
+                  "spellCastingAbilityId",
+                  "sources",
+                  "classFeatures",
+                  "hitDice",
+                  "wealthDice",
+                  "canCastSpells",
+                  "knowsAllSpells",
+                  "spellPrepareType",
+                  "spellContainerName",
+                  "sourcePageNumber",
+                  "subclassDefinition",
+                  "isHomebrew",
+                  "primaryAbilities",
+                  "spellRules",
+                  "prerequisites"
+                ]
+              },
+              "subclassDefinition": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "definitionKey": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "equipmentDescription": {},
+                  "parentClassId": {
+                    "type": "number"
+                  },
+                  "avatarUrl": {},
+                  "largeAvatarUrl": {},
+                  "portraitAvatarUrl": {},
+                  "moreDetailsUrl": {
+                    "type": "string"
+                  },
+                  "spellCastingAbilityId": {
+                    "type": "number"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sourceId": {
+                          "type": "number"
+                        },
+                        "pageNumber": {
+                          "type": "number"
+                        },
+                        "sourceType": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "sourceId",
+                        "pageNumber",
+                        "sourceType"
+                      ]
+                    }
+                  },
+                  "classFeatures": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "prerequisite": {},
+                        "description": {
+                          "type": "string"
+                        },
+                        "requiredLevel": {
+                          "type": "number"
+                        },
+                        "displayOrder": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "prerequisite",
+                        "description",
+                        "requiredLevel",
+                        "displayOrder"
+                      ]
+                    }
+                  },
+                  "hitDice": {
+                    "type": "number"
+                  },
+                  "wealthDice": {},
+                  "canCastSpells": {
+                    "type": "boolean"
+                  },
+                  "knowsAllSpells": {
+                    "type": "boolean"
+                  },
+                  "spellPrepareType": {},
+                  "spellContainerName": {},
+                  "sourcePageNumber": {
+                    "type": "number"
+                  },
+                  "subclassDefinition": {},
+                  "isHomebrew": {
+                    "type": "boolean"
+                  },
+                  "primaryAbilities": {},
+                  "spellRules": {},
+                  "prerequisites": {}
+                },
+                "required": [
+                  "id",
+                  "definitionKey",
+                  "name",
+                  "description",
+                  "equipmentDescription",
+                  "parentClassId",
+                  "avatarUrl",
+                  "largeAvatarUrl",
+                  "portraitAvatarUrl",
+                  "moreDetailsUrl",
+                  "spellCastingAbilityId",
+                  "sources",
+                  "classFeatures",
+                  "hitDice",
+                  "wealthDice",
+                  "canCastSpells",
+                  "knowsAllSpells",
+                  "spellPrepareType",
+                  "spellContainerName",
+                  "sourcePageNumber",
+                  "subclassDefinition",
+                  "isHomebrew",
+                  "primaryAbilities",
+                  "spellRules",
+                  "prerequisites"
+                ]
+              },
+              "classFeatures": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "definition": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "definitionKey": {
+                          "type": "string"
+                        },
+                        "entityTypeId": {
+                          "type": "number"
+                        },
+                        "displayOrder": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "snippet": {
+                          "type": "string"
+                        },
+                        "activation": {},
+                        "multiClassDescription": {
+                          "type": "string"
+                        },
+                        "requiredLevel": {
+                          "type": "number"
+                        },
+                        "isSubClassFeature": {
+                          "type": "boolean"
+                        },
+                        "limitedUse": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "level": {},
+                              "uses": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "level",
+                              "uses"
+                            ]
+                          }
+                        },
+                        "hideInBuilder": {
+                          "type": "boolean"
+                        },
+                        "hideInSheet": {
+                          "type": "boolean"
+                        },
+                        "sourceId": {
+                          "type": "number"
+                        },
+                        "sourcePageNumber": {
+                          "type": "number"
+                        },
+                        "creatureRules": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "levelScales": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "infusionRules": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "spellListIds": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "classId": {
+                          "type": "number"
+                        },
+                        "featureType": {
+                          "type": "number"
+                        },
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "sourceId": {
+                                "type": "number"
+                              },
+                              "pageNumber": {
+                                "type": "number"
+                              },
+                              "sourceType": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "sourceId",
+                              "pageNumber",
+                              "sourceType"
+                            ]
+                          }
+                        },
+                        "affectedFeatureDefinitionKeys": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "entityType": {
+                          "type": "string"
+                        },
+                        "entityID": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "definitionKey",
+                        "entityTypeId",
+                        "displayOrder",
+                        "name",
+                        "description",
+                        "snippet",
+                        "activation",
+                        "multiClassDescription",
+                        "requiredLevel",
+                        "isSubClassFeature",
+                        "limitedUse",
+                        "hideInBuilder",
+                        "hideInSheet",
+                        "sourceId",
+                        "sourcePageNumber",
+                        "creatureRules",
+                        "levelScales",
+                        "infusionRules",
+                        "spellListIds",
+                        "classId",
+                        "featureType",
+                        "sources",
+                        "affectedFeatureDefinitionKeys",
+                        "entityType",
+                        "entityID"
+                      ]
+                    },
+                    "levelScale": {}
+                  },
+                  "required": [
+                    "definition",
+                    "levelScale"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "entityTypeId",
+              "level",
+              "isStartingClass",
+              "hitDiceUsed",
+              "definitionId",
+              "subclassDefinitionId",
+              "definition",
+              "subclassDefinition",
+              "classFeatures"
+            ]
+          }
+        },
+        "feats": {
+          "type": "array",
+          "items": {}
+        },
+        "features": {
+          "type": "array",
+          "items": {}
+        },
+        "customDefenseAdjustments": {
+          "type": "array",
+          "items": {}
+        },
+        "customSenses": {
+          "type": "array",
+          "items": {}
+        },
+        "customSpeeds": {
+          "type": "array",
+          "items": {}
+        },
+        "customProficiencies": {
+          "type": "array",
+          "items": {}
+        },
+        "customActions": {
+          "type": "array",
+          "items": {}
+        },
+        "characterValues": {
+          "type": "array",
+          "items": {}
+        },
+        "conditions": {
+          "type": "array",
+          "items": {}
+        },
+        "deathSaves": {
+          "type": "object",
+          "properties": {
+            "failCount": {
+              "type": "number"
+            },
+            "successCount": {
+              "type": "number"
+            },
+            "isStabilized": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "failCount",
+            "successCount",
+            "isStabilized"
+          ]
+        },
+        "adjustmentXp": {},
+        "spellSlots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "number"
+              },
+              "used": {
+                "type": "number"
+              },
+              "available": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "level",
+              "used",
+              "available"
+            ]
+          }
+        },
+        "pactMagic": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "number"
+              },
+              "used": {
+                "type": "number"
+              },
+              "available": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "level",
+              "used",
+              "available"
+            ]
+          }
+        },
+        "activeSourceCategories": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "spells": {
+          "type": "object",
+          "properties": {
+            "race": {
+              "type": "array",
+              "items": {}
+            },
+            "class": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "overrideSaveDc": {},
+                  "limitedUse": {},
+                  "id": {
+                    "type": "number"
+                  },
+                  "entityTypeId": {
+                    "type": "number"
+                  },
+                  "definition": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "definitionKey": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "level": {
+                        "type": "number"
+                      },
+                      "school": {
+                        "type": "string"
+                      },
+                      "duration": {
+                        "type": "object",
+                        "properties": {
+                          "durationInterval": {
+                            "type": "number"
+                          },
+                          "durationUnit": {
+                            "type": "string"
+                          },
+                          "durationType": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "durationInterval",
+                          "durationType"
+                        ]
+                      },
+                      "activation": {
+                        "type": "object",
+                        "properties": {
+                          "activationTime": {
+                            "type": "number"
+                          },
+                          "activationType": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "activationTime",
+                          "activationType"
+                        ]
+                      },
+                      "range": {
+                        "type": "object",
+                        "properties": {
+                          "origin": {
+                            "type": "string"
+                          },
+                          "rangeValue": {
+                            "type": "number"
+                          },
+                          "aoeType": {
+                            "type": "string"
+                          },
+                          "aoeValue": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "origin",
+                          "rangeValue"
+                        ]
+                      },
+                      "asPartOfWeaponAttack": {
+                        "type": "boolean"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      },
+                      "concentration": {
+                        "type": "boolean"
+                      },
+                      "ritual": {
+                        "type": "boolean"
+                      },
+                      "rangeArea": {},
+                      "damageEffect": {},
+                      "components": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "componentsDescription": {
+                        "type": "string"
+                      },
+                      "saveDcAbilityId": {},
+                      "healing": {},
+                      "healingDice": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "tempHpDice": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "attackType": {},
+                      "canCastAtHigherLevel": {
+                        "type": "boolean"
+                      },
+                      "isHomebrew": {
+                        "type": "boolean"
+                      },
+                      "version": {},
+                      "sourceId": {},
+                      "sourcePageNumber": {
+                        "type": "number"
+                      },
+                      "requiresSavingThrow": {
+                        "type": "boolean"
+                      },
+                      "requiresAttackRoll": {
+                        "type": "boolean"
+                      },
+                      "atHigherLevels": {
+                        "type": "object",
+                        "properties": {
+                          "higherLevelDefinitions": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "additionalAttacks": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "additionalTargets": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "areaOfEffect": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "duration": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "creatures": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "special": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "points": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "range": {
+                            "type": "array",
+                            "items": {}
+                          }
+                        },
+                        "required": [
+                          "higherLevelDefinitions",
+                          "additionalAttacks",
+                          "additionalTargets",
+                          "areaOfEffect",
+                          "duration",
+                          "creatures",
+                          "special",
+                          "points",
+                          "range"
+                        ]
+                      },
+                      "modifiers": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "fixedValue": {},
+                            "id": {
+                              "type": "string"
+                            },
+                            "entityId": {},
+                            "entityTypeId": {},
+                            "type": {
+                              "type": "string"
+                            },
+                            "subType": {
+                              "type": "string"
+                            },
+                            "dice": {},
+                            "restriction": {
+                              "type": "string"
+                            },
+                            "statId": {},
+                            "requiresAttunement": {
+                              "type": "boolean"
+                            },
+                            "duration": {},
+                            "friendlyTypeName": {
+                              "type": "string"
+                            },
+                            "friendlySubtypeName": {
+                              "type": "string"
+                            },
+                            "isGranted": {
+                              "type": "boolean"
+                            },
+                            "bonusTypes": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "value": {},
+                            "availableToMulticlass": {},
+                            "modifierTypeId": {
+                              "type": "number"
+                            },
+                            "modifierSubTypeId": {
+                              "type": "number"
+                            },
+                            "componentId": {
+                              "type": "number"
+                            },
+                            "componentTypeId": {
+                              "type": "number"
+                            },
+                            "die": {
+                              "type": "object",
+                              "properties": {
+                                "diceCount": {
+                                  "type": "number"
+                                },
+                                "diceValue": {
+                                  "type": "number"
+                                },
+                                "diceMultiplier": {},
+                                "fixedValue": {
+                                  "type": "number"
+                                },
+                                "diceString": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "diceCount",
+                                "diceValue",
+                                "diceMultiplier",
+                                "diceString"
+                              ]
+                            },
+                            "count": {
+                              "type": "number"
+                            },
+                            "durationUnit": {},
+                            "usePrimaryStat": {
+                              "type": "boolean"
+                            },
+                            "atHigherLevels": {
+                              "type": "object",
+                              "properties": {
+                                "higherLevelDefinitions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "level": {
+                                        "type": "number"
+                                      },
+                                      "typeId": {
+                                        "type": "number"
+                                      },
+                                      "dice": {},
+                                      "value": {
+                                        "type": "number"
+                                      },
+                                      "details": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "level",
+                                      "typeId",
+                                      "dice",
+                                      "value",
+                                      "details"
+                                    ]
+                                  }
+                                },
+                                "additionalAttacks": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "additionalTargets": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "areaOfEffect": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "duration": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "creatures": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "special": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "points": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "range": {
+                                  "type": "array",
+                                  "items": {}
+                                }
+                              },
+                              "required": [
+                                "higherLevelDefinitions",
+                                "additionalAttacks",
+                                "additionalTargets",
+                                "areaOfEffect",
+                                "duration",
+                                "creatures",
+                                "special",
+                                "points",
+                                "range"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "fixedValue",
+                            "id",
+                            "entityId",
+                            "entityTypeId",
+                            "type",
+                            "subType",
+                            "dice",
+                            "restriction",
+                            "statId",
+                            "requiresAttunement",
+                            "duration",
+                            "friendlyTypeName",
+                            "friendlySubtypeName",
+                            "isGranted",
+                            "bonusTypes",
+                            "value",
+                            "availableToMulticlass",
+                            "modifierTypeId",
+                            "modifierSubTypeId",
+                            "componentId",
+                            "componentTypeId",
+                            "die",
+                            "count",
+                            "durationUnit",
+                            "usePrimaryStat",
+                            "atHigherLevels"
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "castingTimeDescription": {
+                        "type": "string"
+                      },
+                      "scaleType": {
+                        "type": "string"
+                      },
+                      "sources": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "number"
+                            },
+                            "pageNumber": {
+                              "type": "number"
+                            },
+                            "sourceType": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceType"
+                          ]
+                        }
+                      },
+                      "spellGroups": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "definitionKey",
+                      "name",
+                      "level",
+                      "school",
+                      "duration",
+                      "activation",
+                      "range",
+                      "asPartOfWeaponAttack",
+                      "description",
+                      "snippet",
+                      "concentration",
+                      "ritual",
+                      "rangeArea",
+                      "damageEffect",
+                      "components",
+                      "componentsDescription",
+                      "saveDcAbilityId",
+                      "healing",
+                      "healingDice",
+                      "tempHpDice",
+                      "attackType",
+                      "canCastAtHigherLevel",
+                      "isHomebrew",
+                      "version",
+                      "sourceId",
+                      "sourcePageNumber",
+                      "requiresSavingThrow",
+                      "requiresAttackRoll",
+                      "atHigherLevels",
+                      "modifiers",
+                      "conditions",
+                      "tags",
+                      "castingTimeDescription",
+                      "sources",
+                      "spellGroups"
+                    ]
+                  },
+                  "definitionId": {
+                    "type": "number"
+                  },
+                  "prepared": {
+                    "type": "boolean"
+                  },
+                  "countsAsKnownSpell": {
+                    "type": "boolean"
+                  },
+                  "usesSpellSlot": {
+                    "type": "boolean"
+                  },
+                  "castAtLevel": {
+                    "type": "number"
+                  },
+                  "alwaysPrepared": {
+                    "type": "boolean"
+                  },
+                  "restriction": {
+                    "type": "string"
+                  },
+                  "spellCastingAbilityId": {
+                    "type": "number"
+                  },
+                  "displayAsAttack": {},
+                  "additionalDescription": {},
+                  "castOnlyAsRitual": {
+                    "type": "boolean"
+                  },
+                  "ritualCastingType": {},
+                  "range": {
+                    "type": "object",
+                    "properties": {
+                      "origin": {
+                        "type": "string"
+                      },
+                      "rangeValue": {
+                        "type": "number"
+                      },
+                      "aoeType": {
+                        "type": "string"
+                      },
+                      "aoeValue": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "origin",
+                      "rangeValue"
+                    ]
+                  },
+                  "activation": {
+                    "type": "object",
+                    "properties": {
+                      "activationTime": {
+                        "type": "number"
+                      },
+                      "activationType": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "activationTime",
+                      "activationType"
+                    ]
+                  },
+                  "baseLevelAtWill": {
+                    "type": "boolean"
+                  },
+                  "atWillLimitedUseLevel": {},
+                  "isSignatureSpell": {},
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "spellListId": {}
+                },
+                "required": [
+                  "overrideSaveDc",
+                  "limitedUse",
+                  "id",
+                  "entityTypeId",
+                  "definition",
+                  "definitionId",
+                  "prepared",
+                  "countsAsKnownSpell",
+                  "usesSpellSlot",
+                  "alwaysPrepared",
+                  "restriction",
+                  "displayAsAttack",
+                  "additionalDescription",
+                  "castOnlyAsRitual",
+                  "ritualCastingType",
+                  "range",
+                  "activation",
+                  "baseLevelAtWill",
+                  "atWillLimitedUseLevel",
+                  "isSignatureSpell",
+                  "componentId",
+                  "componentTypeId",
+                  "spellListId"
+                ]
+              }
+            },
+            "background": {},
+            "item": {
+              "type": "array",
+              "items": {}
+            },
+            "feat": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "race",
+            "class",
+            "background",
+            "item",
+            "feat"
+          ]
+        },
+        "options": {
+          "type": "object",
+          "properties": {
+            "race": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "definition": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "entityTypeId": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      },
+                      "activation": {},
+                      "sourceId": {},
+                      "sourcePageNumber": {
+                        "type": "number"
+                      },
+                      "creatureRules": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "spellListIds": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "entityTypeId",
+                      "name",
+                      "description",
+                      "snippet",
+                      "activation",
+                      "sourceId",
+                      "sourcePageNumber",
+                      "creatureRules",
+                      "spellListIds"
+                    ]
+                  }
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "definition"
+                ]
+              }
+            },
+            "class": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "definition": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "entityTypeId": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "snippet": {
+                        "type": "string"
+                      },
+                      "activation": {},
+                      "sourceId": {
+                        "type": "number"
+                      },
+                      "sourcePageNumber": {
+                        "type": "number"
+                      },
+                      "creatureRules": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "spellListIds": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "entityTypeId",
+                      "name",
+                      "description",
+                      "snippet",
+                      "activation",
+                      "sourceId",
+                      "creatureRules",
+                      "spellListIds"
+                    ]
+                  }
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "definition"
+                ]
+              }
+            },
+            "background": {},
+            "item": {},
+            "feat": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "race",
+            "class",
+            "background",
+            "item",
+            "feat"
+          ]
+        },
+        "choices": {
+          "type": "object",
+          "properties": {
+            "race": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "parentChoiceId": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "number"
+                  },
+                  "subType": {
+                    "type": "number"
+                  },
+                  "optionValue": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "isOptional": {
+                    "type": "boolean"
+                  },
+                  "isInfinite": {
+                    "type": "boolean"
+                  },
+                  "defaultSubtypes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "displayOrder": {},
+                  "options": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "optionIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "id",
+                  "type",
+                  "optionValue",
+                  "isOptional",
+                  "isInfinite",
+                  "defaultSubtypes",
+                  "displayOrder",
+                  "options",
+                  "optionIds"
+                ]
+              }
+            },
+            "class": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "parentChoiceId": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "number"
+                  },
+                  "subType": {
+                    "type": "number"
+                  },
+                  "optionValue": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "isOptional": {
+                    "type": "boolean"
+                  },
+                  "isInfinite": {
+                    "type": "boolean"
+                  },
+                  "defaultSubtypes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "displayOrder": {
+                    "type": "number"
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "optionIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "id",
+                  "type",
+                  "optionValue",
+                  "isOptional",
+                  "isInfinite",
+                  "defaultSubtypes",
+                  "options",
+                  "optionIds"
+                ]
+              }
+            },
+            "background": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "parentChoiceId": {},
+                  "type": {
+                    "type": "number"
+                  },
+                  "subType": {
+                    "type": "number"
+                  },
+                  "optionValue": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "isOptional": {
+                    "type": "boolean"
+                  },
+                  "isInfinite": {
+                    "type": "boolean"
+                  },
+                  "defaultSubtypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "displayOrder": {},
+                  "options": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "optionIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "id",
+                  "parentChoiceId",
+                  "type",
+                  "subType",
+                  "optionValue",
+                  "label",
+                  "isOptional",
+                  "isInfinite",
+                  "defaultSubtypes",
+                  "displayOrder",
+                  "options",
+                  "optionIds"
+                ]
+              }
+            },
+            "item": {},
+            "feat": {
+              "type": "array",
+              "items": {}
+            },
+            "choiceDefinitions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "options"
+                ]
+              }
+            },
+            "definitionKeyNameMap": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "required": [
+            "race",
+            "class",
+            "background",
+            "item",
+            "feat",
+            "choiceDefinitions",
+            "definitionKeyNameMap"
+          ]
+        },
+        "actions": {
+          "type": "object",
+          "properties": {
+            "race": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "entityTypeId": {
+                    "type": "string"
+                  },
+                  "limitedUse": {},
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "snippet": {
+                    "type": "string"
+                  },
+                  "abilityModifierStatId": {},
+                  "onMissDescription": {
+                    "type": "string"
+                  },
+                  "saveFailDescription": {
+                    "type": "string"
+                  },
+                  "saveSuccessDescription": {
+                    "type": "string"
+                  },
+                  "saveStatId": {},
+                  "fixedSaveDc": {},
+                  "attackTypeRange": {},
+                  "actionType": {
+                    "type": "number"
+                  },
+                  "attackSubtype": {},
+                  "dice": {},
+                  "value": {},
+                  "damageTypeId": {},
+                  "isMartialArts": {
+                    "type": "boolean"
+                  },
+                  "isProficient": {
+                    "type": "boolean"
+                  },
+                  "spellRangeType": {},
+                  "displayAsAttack": {},
+                  "range": {
+                    "type": "object",
+                    "properties": {
+                      "range": {},
+                      "longRange": {},
+                      "aoeType": {},
+                      "aoeSize": {},
+                      "hasAoeSpecialDescription": {
+                        "type": "boolean"
+                      },
+                      "minimumRange": {}
+                    },
+                    "required": [
+                      "range",
+                      "longRange",
+                      "aoeType",
+                      "aoeSize",
+                      "hasAoeSpecialDescription",
+                      "minimumRange"
+                    ]
+                  },
+                  "activation": {
+                    "type": "object",
+                    "properties": {
+                      "activationTime": {},
+                      "activationType": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "activationTime",
+                      "activationType"
+                    ]
+                  },
+                  "numberOfTargets": {},
+                  "fixedToHit": {},
+                  "ammunition": {}
+                },
+                "required": [
+                  "componentId",
+                  "componentTypeId",
+                  "id",
+                  "entityTypeId",
+                  "limitedUse",
+                  "name",
+                  "description",
+                  "snippet",
+                  "abilityModifierStatId",
+                  "onMissDescription",
+                  "saveFailDescription",
+                  "saveSuccessDescription",
+                  "saveStatId",
+                  "fixedSaveDc",
+                  "attackTypeRange",
+                  "actionType",
+                  "attackSubtype",
+                  "dice",
+                  "value",
+                  "damageTypeId",
+                  "isMartialArts",
+                  "isProficient",
+                  "spellRangeType",
+                  "displayAsAttack",
+                  "range",
+                  "activation",
+                  "numberOfTargets",
+                  "fixedToHit",
+                  "ammunition"
+                ]
+              }
+            },
+            "class": {
+              "type": "array",
+              "items": {}
+            },
+            "background": {},
+            "item": {},
+            "feat": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "race",
+            "class",
+            "background",
+            "item",
+            "feat"
+          ]
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "race": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "fixedValue": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "entityId": {
+                    "type": "number"
+                  },
+                  "entityTypeId": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "subType": {
+                    "type": "string"
+                  },
+                  "dice": {},
+                  "restriction": {
+                    "type": "string"
+                  },
+                  "statId": {},
+                  "requiresAttunement": {
+                    "type": "boolean"
+                  },
+                  "duration": {},
+                  "friendlyTypeName": {
+                    "type": "string"
+                  },
+                  "friendlySubtypeName": {
+                    "type": "string"
+                  },
+                  "isGranted": {
+                    "type": "boolean"
+                  },
+                  "bonusTypes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "availableToMulticlass": {
+                    "type": "boolean"
+                  },
+                  "modifierTypeId": {
+                    "type": "number"
+                  },
+                  "modifierSubTypeId": {
+                    "type": "number"
+                  },
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "id",
+                  "entityId",
+                  "entityTypeId",
+                  "type",
+                  "subType",
+                  "dice",
+                  "restriction",
+                  "statId",
+                  "requiresAttunement",
+                  "duration",
+                  "friendlyTypeName",
+                  "friendlySubtypeName",
+                  "isGranted",
+                  "bonusTypes",
+                  "availableToMulticlass",
+                  "modifierTypeId",
+                  "modifierSubTypeId",
+                  "componentId",
+                  "componentTypeId"
+                ]
+              }
+            },
+            "class": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "fixedValue": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "entityId": {
+                    "type": "number"
+                  },
+                  "entityTypeId": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "subType": {
+                    "type": "string"
+                  },
+                  "dice": {},
+                  "restriction": {
+                    "type": "string"
+                  },
+                  "statId": {
+                    "type": "number"
+                  },
+                  "requiresAttunement": {
+                    "type": "boolean"
+                  },
+                  "duration": {},
+                  "friendlyTypeName": {
+                    "type": "string"
+                  },
+                  "friendlySubtypeName": {
+                    "type": "string"
+                  },
+                  "isGranted": {
+                    "type": "boolean"
+                  },
+                  "bonusTypes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "availableToMulticlass": {
+                    "type": "boolean"
+                  },
+                  "modifierTypeId": {
+                    "type": "number"
+                  },
+                  "modifierSubTypeId": {
+                    "type": "number"
+                  },
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "id",
+                  "type",
+                  "subType",
+                  "dice",
+                  "requiresAttunement",
+                  "duration",
+                  "friendlyTypeName",
+                  "friendlySubtypeName",
+                  "isGranted",
+                  "bonusTypes",
+                  "availableToMulticlass",
+                  "modifierTypeId",
+                  "modifierSubTypeId",
+                  "componentId",
+                  "componentTypeId"
+                ]
+              }
+            },
+            "background": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "fixedValue": {},
+                  "id": {
+                    "type": "string"
+                  },
+                  "entityId": {
+                    "type": "number"
+                  },
+                  "entityTypeId": {
+                    "type": "number"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "subType": {
+                    "type": "string"
+                  },
+                  "dice": {},
+                  "restriction": {
+                    "type": "string"
+                  },
+                  "statId": {},
+                  "requiresAttunement": {
+                    "type": "boolean"
+                  },
+                  "duration": {},
+                  "friendlyTypeName": {
+                    "type": "string"
+                  },
+                  "friendlySubtypeName": {
+                    "type": "string"
+                  },
+                  "isGranted": {
+                    "type": "boolean"
+                  },
+                  "bonusTypes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "value": {},
+                  "availableToMulticlass": {
+                    "type": "boolean"
+                  },
+                  "modifierTypeId": {
+                    "type": "number"
+                  },
+                  "modifierSubTypeId": {
+                    "type": "number"
+                  },
+                  "componentId": {
+                    "type": "number"
+                  },
+                  "componentTypeId": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "fixedValue",
+                  "id",
+                  "entityId",
+                  "entityTypeId",
+                  "type",
+                  "subType",
+                  "dice",
+                  "restriction",
+                  "statId",
+                  "requiresAttunement",
+                  "duration",
+                  "friendlyTypeName",
+                  "friendlySubtypeName",
+                  "isGranted",
+                  "bonusTypes",
+                  "value",
+                  "availableToMulticlass",
+                  "modifierTypeId",
+                  "modifierSubTypeId",
+                  "componentId",
+                  "componentTypeId"
+                ]
+              }
+            },
+            "item": {
+              "type": "array",
+              "items": {}
+            },
+            "feat": {
+              "type": "array",
+              "items": {}
+            },
+            "condition": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "race",
+            "class",
+            "background",
+            "item",
+            "feat",
+            "condition"
+          ]
+        },
+        "classSpells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entityTypeId": {
+                "type": "number"
+              },
+              "characterClassId": {
+                "type": "number"
+              },
+              "spells": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "overrideSaveDc": {},
+                    "limitedUse": {},
+                    "id": {
+                      "type": "number"
+                    },
+                    "entityTypeId": {
+                      "type": "number"
+                    },
+                    "definition": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "definitionKey": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "level": {
+                          "type": "number"
+                        },
+                        "school": {
+                          "type": "string"
+                        },
+                        "duration": {
+                          "type": "object",
+                          "properties": {
+                            "durationInterval": {
+                              "type": "number"
+                            },
+                            "durationUnit": {
+                              "type": "string"
+                            },
+                            "durationType": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "durationInterval",
+                            "durationType"
+                          ]
+                        },
+                        "activation": {
+                          "type": "object",
+                          "properties": {
+                            "activationTime": {
+                              "type": "number"
+                            },
+                            "activationType": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "activationTime",
+                            "activationType"
+                          ]
+                        },
+                        "range": {
+                          "type": "object",
+                          "properties": {
+                            "origin": {
+                              "type": "string"
+                            },
+                            "rangeValue": {
+                              "type": "number"
+                            },
+                            "aoeType": {},
+                            "aoeValue": {}
+                          },
+                          "required": [
+                            "origin",
+                            "rangeValue",
+                            "aoeType",
+                            "aoeValue"
+                          ]
+                        },
+                        "asPartOfWeaponAttack": {
+                          "type": "boolean"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "snippet": {
+                          "type": "string"
+                        },
+                        "concentration": {
+                          "type": "boolean"
+                        },
+                        "ritual": {
+                          "type": "boolean"
+                        },
+                        "rangeArea": {},
+                        "damageEffect": {},
+                        "components": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "componentsDescription": {
+                          "type": "string"
+                        },
+                        "saveDcAbilityId": {
+                          "type": "number"
+                        },
+                        "healing": {},
+                        "healingDice": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "tempHpDice": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "attackType": {
+                          "type": "number"
+                        },
+                        "canCastAtHigherLevel": {
+                          "type": "boolean"
+                        },
+                        "isHomebrew": {
+                          "type": "boolean"
+                        },
+                        "version": {},
+                        "sourceId": {},
+                        "sourcePageNumber": {
+                          "type": "number"
+                        },
+                        "requiresSavingThrow": {
+                          "type": "boolean"
+                        },
+                        "requiresAttackRoll": {
+                          "type": "boolean"
+                        },
+                        "atHigherLevels": {
+                          "type": "object",
+                          "properties": {
+                            "higherLevelDefinitions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "level": {
+                                    "type": "number"
+                                  },
+                                  "typeId": {
+                                    "type": "number"
+                                  },
+                                  "dice": {},
+                                  "value": {
+                                    "type": "number"
+                                  },
+                                  "details": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "level",
+                                  "typeId",
+                                  "dice",
+                                  "value",
+                                  "details"
+                                ]
+                              }
+                            },
+                            "additionalAttacks": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "additionalTargets": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "areaOfEffect": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "duration": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "creatures": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "special": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "points": {
+                              "type": "array",
+                              "items": {}
+                            },
+                            "range": {
+                              "type": "array",
+                              "items": {}
+                            }
+                          },
+                          "required": [
+                            "higherLevelDefinitions",
+                            "additionalAttacks",
+                            "additionalTargets",
+                            "areaOfEffect",
+                            "duration",
+                            "creatures",
+                            "special",
+                            "points",
+                            "range"
+                          ]
+                        },
+                        "modifiers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "fixedValue": {},
+                              "id": {
+                                "type": "string"
+                              },
+                              "entityId": {},
+                              "entityTypeId": {},
+                              "type": {
+                                "type": "string"
+                              },
+                              "subType": {
+                                "type": "string"
+                              },
+                              "dice": {},
+                              "restriction": {
+                                "type": "string"
+                              },
+                              "statId": {},
+                              "requiresAttunement": {
+                                "type": "boolean"
+                              },
+                              "duration": {},
+                              "friendlyTypeName": {
+                                "type": "string"
+                              },
+                              "friendlySubtypeName": {
+                                "type": "string"
+                              },
+                              "isGranted": {
+                                "type": "boolean"
+                              },
+                              "bonusTypes": {
+                                "type": "array",
+                                "items": {}
+                              },
+                              "value": {},
+                              "availableToMulticlass": {},
+                              "modifierTypeId": {
+                                "type": "number"
+                              },
+                              "modifierSubTypeId": {
+                                "type": "number"
+                              },
+                              "componentId": {
+                                "type": "number"
+                              },
+                              "componentTypeId": {
+                                "type": "number"
+                              },
+                              "die": {
+                                "type": "object",
+                                "properties": {
+                                  "diceCount": {
+                                    "type": "number"
+                                  },
+                                  "diceValue": {
+                                    "type": "number"
+                                  },
+                                  "diceMultiplier": {},
+                                  "fixedValue": {},
+                                  "diceString": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "diceMultiplier",
+                                  "fixedValue"
+                                ]
+                              },
+                              "count": {
+                                "type": "number"
+                              },
+                              "durationUnit": {},
+                              "usePrimaryStat": {
+                                "type": "boolean"
+                              },
+                              "atHigherLevels": {
+                                "type": "object",
+                                "properties": {
+                                  "higherLevelDefinitions": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "level": {
+                                          "type": "number"
+                                        },
+                                        "typeId": {
+                                          "type": "number"
+                                        },
+                                        "dice": {
+                                          "type": "object",
+                                          "properties": {
+                                            "diceCount": {
+                                              "type": "number"
+                                            },
+                                            "diceValue": {
+                                              "type": "number"
+                                            },
+                                            "diceMultiplier": {},
+                                            "fixedValue": {
+                                              "type": "number"
+                                            },
+                                            "diceString": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "diceCount",
+                                            "diceValue",
+                                            "diceMultiplier",
+                                            "fixedValue",
+                                            "diceString"
+                                          ]
+                                        },
+                                        "value": {},
+                                        "details": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "level",
+                                        "typeId",
+                                        "dice",
+                                        "value",
+                                        "details"
+                                      ]
+                                    }
+                                  },
+                                  "additionalAttacks": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "additionalTargets": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "areaOfEffect": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "duration": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "creatures": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "special": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "points": {
+                                    "type": "array",
+                                    "items": {}
+                                  },
+                                  "range": {
+                                    "type": "array",
+                                    "items": {}
+                                  }
+                                },
+                                "required": [
+                                  "higherLevelDefinitions",
+                                  "additionalAttacks",
+                                  "additionalTargets",
+                                  "areaOfEffect",
+                                  "duration",
+                                  "creatures",
+                                  "special",
+                                  "points",
+                                  "range"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "fixedValue",
+                              "id",
+                              "entityId",
+                              "entityTypeId",
+                              "type",
+                              "subType",
+                              "dice",
+                              "restriction",
+                              "statId",
+                              "requiresAttunement",
+                              "duration",
+                              "friendlyTypeName",
+                              "friendlySubtypeName",
+                              "isGranted",
+                              "bonusTypes",
+                              "value",
+                              "availableToMulticlass",
+                              "modifierTypeId",
+                              "modifierSubTypeId",
+                              "componentId",
+                              "componentTypeId",
+                              "die",
+                              "count",
+                              "durationUnit",
+                              "usePrimaryStat",
+                              "atHigherLevels"
+                            ]
+                          }
+                        },
+                        "conditions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "number"
+                              },
+                              "conditionId": {
+                                "type": "number"
+                              },
+                              "conditionDuration": {
+                                "type": "number"
+                              },
+                              "durationUnit": {
+                                "type": "string"
+                              },
+                              "exception": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "conditionId",
+                              "conditionDuration",
+                              "durationUnit",
+                              "exception"
+                            ]
+                          }
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "castingTimeDescription": {
+                          "type": "string"
+                        },
+                        "scaleType": {
+                          "type": "string"
+                        },
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "sourceId": {
+                                "type": "number"
+                              },
+                              "pageNumber": {
+                                "type": "number"
+                              },
+                              "sourceType": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "sourceId",
+                              "sourceType"
+                            ]
+                          }
+                        },
+                        "spellGroups": {
+                          "type": "array",
+                          "items": {}
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "definitionKey",
+                        "name",
+                        "level",
+                        "school",
+                        "duration",
+                        "activation",
+                        "range",
+                        "asPartOfWeaponAttack",
+                        "description",
+                        "snippet",
+                        "concentration",
+                        "ritual",
+                        "rangeArea",
+                        "damageEffect",
+                        "components",
+                        "componentsDescription",
+                        "healing",
+                        "healingDice",
+                        "tempHpDice",
+                        "canCastAtHigherLevel",
+                        "isHomebrew",
+                        "version",
+                        "sourceId",
+                        "sourcePageNumber",
+                        "requiresSavingThrow",
+                        "requiresAttackRoll",
+                        "atHigherLevels",
+                        "modifiers",
+                        "conditions",
+                        "tags",
+                        "castingTimeDescription",
+                        "sources",
+                        "spellGroups"
+                      ]
+                    },
+                    "definitionId": {
+                      "type": "number"
+                    },
+                    "prepared": {
+                      "type": "boolean"
+                    },
+                    "countsAsKnownSpell": {
+                      "type": "boolean"
+                    },
+                    "usesSpellSlot": {
+                      "type": "boolean"
+                    },
+                    "castAtLevel": {},
+                    "alwaysPrepared": {
+                      "type": "boolean"
+                    },
+                    "restriction": {},
+                    "spellCastingAbilityId": {},
+                    "displayAsAttack": {},
+                    "additionalDescription": {},
+                    "castOnlyAsRitual": {
+                      "type": "boolean"
+                    },
+                    "ritualCastingType": {},
+                    "range": {
+                      "type": "object",
+                      "properties": {
+                        "origin": {
+                          "type": "string"
+                        },
+                        "rangeValue": {
+                          "type": "number"
+                        },
+                        "aoeType": {},
+                        "aoeValue": {}
+                      },
+                      "required": [
+                        "origin",
+                        "rangeValue",
+                        "aoeType",
+                        "aoeValue"
+                      ]
+                    },
+                    "activation": {
+                      "type": "object",
+                      "properties": {
+                        "activationTime": {
+                          "type": "number"
+                        },
+                        "activationType": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "activationTime",
+                        "activationType"
+                      ]
+                    },
+                    "baseLevelAtWill": {
+                      "type": "boolean"
+                    },
+                    "atWillLimitedUseLevel": {},
+                    "isSignatureSpell": {},
+                    "componentId": {
+                      "type": "number"
+                    },
+                    "componentTypeId": {
+                      "type": "number"
+                    },
+                    "spellListId": {}
+                  },
+                  "required": [
+                    "overrideSaveDc",
+                    "limitedUse",
+                    "id",
+                    "entityTypeId",
+                    "definition",
+                    "definitionId",
+                    "prepared",
+                    "countsAsKnownSpell",
+                    "usesSpellSlot",
+                    "castAtLevel",
+                    "alwaysPrepared",
+                    "restriction",
+                    "spellCastingAbilityId",
+                    "displayAsAttack",
+                    "additionalDescription",
+                    "castOnlyAsRitual",
+                    "ritualCastingType",
+                    "range",
+                    "activation",
+                    "baseLevelAtWill",
+                    "atWillLimitedUseLevel",
+                    "isSignatureSpell",
+                    "componentId",
+                    "componentTypeId",
+                    "spellListId"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "entityTypeId",
+              "characterClassId",
+              "spells"
+            ]
+          }
+        },
+        "customItems": {
+          "type": "array",
+          "items": {}
+        },
+        "campaign": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "link": {
+              "type": "string"
+            },
+            "publicNotes": {
+              "type": "string"
+            },
+            "dmUserId": {
+              "type": "number"
+            },
+            "dmUsername": {
+              "type": "string"
+            },
+            "characters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "number"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "characterId": {
+                    "type": "number"
+                  },
+                  "characterName": {
+                    "type": "string"
+                  },
+                  "characterUrl": {
+                    "type": "string"
+                  },
+                  "avatarUrl": {
+                    "type": "string"
+                  },
+                  "privacyType": {
+                    "type": "number"
+                  },
+                  "campaignId": {},
+                  "isAssigned": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "username",
+                  "characterId",
+                  "characterName",
+                  "characterUrl",
+                  "privacyType",
+                  "campaignId",
+                  "isAssigned"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "description",
+            "link",
+            "publicNotes",
+            "dmUserId",
+            "dmUsername",
+            "characters"
+          ]
+        },
+        "creatures": {
+          "type": "array",
+          "items": {}
+        },
+        "optionalOrigins": {
+          "type": "array",
+          "items": {}
+        },
+        "optionalClassFeatures": {
+          "type": "array",
+          "items": {}
+        },
+        "dateModified": {
+          "type": "string"
+        },
+        "providedFrom": {
+          "type": "string"
+        },
+        "canEdit": {
+          "type": "boolean"
+        },
+        "campaignSetting": {}
+      },
+      "required": [
+        "id",
+        "userId",
+        "username",
+        "isAssignedToPlayer",
+        "readonlyUrl",
+        "decorations",
+        "name",
+        "socialName",
+        "gender",
+        "faith",
+        "age",
+        "hair",
+        "eyes",
+        "skin",
+        "height",
+        "weight",
+        "inspiration",
+        "baseHitPoints",
+        "bonusHitPoints",
+        "overrideHitPoints",
+        "removedHitPoints",
+        "temporaryHitPoints",
+        "currentXp",
+        "alignmentId",
+        "lifestyleId",
+        "stats",
+        "bonusStats",
+        "overrideStats",
+        "background",
+        "race",
+        "raceDefinitionId",
+        "raceDefinitionTypeId",
+        "notes",
+        "traits",
+        "preferences",
+        "configuration",
+        "lifestyle",
+        "inventory",
+        "currencies",
+        "classes",
+        "feats",
+        "features",
+        "customDefenseAdjustments",
+        "customSenses",
+        "customSpeeds",
+        "customProficiencies",
+        "customActions",
+        "characterValues",
+        "conditions",
+        "deathSaves",
+        "adjustmentXp",
+        "spellSlots",
+        "pactMagic",
+        "activeSourceCategories",
+        "spells",
+        "options",
+        "choices",
+        "actions",
+        "modifiers",
+        "classSpells",
+        "customItems",
+        "campaign",
+        "creatures",
+        "optionalOrigins",
+        "optionalClassFeatures",
+        "dateModified",
+        "providedFrom",
+        "canEdit",
+        "campaignSetting"
+      ]
+    },
+    "pagination": {}
+  },
+  "required": [
+    "id",
+    "success",
+    "message",
+    "data",
+    "pagination"
+  ]
+}
