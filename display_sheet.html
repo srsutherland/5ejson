@@ -15,7 +15,7 @@
     </section>
     <script>
         const utfCircleOpen =  "○"
-        const utfCircleFull =  "⦿"
+        const utfCircleFull =  "●"
         const utfDiamondOpen = "◇"
         const utfDiamondFull = "◈"
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
@@ -42,10 +42,13 @@
                 const mod = Math.floor((score-10)/2)
                 ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
                 // Skills + Saves + etc
-                let skillBox = `<div>◇ Saving Throw: ${modString(character.saves[ability])}</div>`
+                const saveDot = char.proficiencies.saves.includes(ability.toLowerCase()) ? utfDiamondFull : utfDiamondOpen
+                let skillBox = `<div>${saveDot} Saving Throw: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
-                    skillBox += `<div>○ ${skillName}: ${modString(skillMod)}</div>`
+                    let isProficient = char.proficiencies.skills.includes(skillName.toLowerCase())
+                    let skillDot = isProficient ? utfCircleFull : utfCircleOpen
+                    skillBox += `<div>${skillDot} ${skillName}: ${modString(skillMod)}</div>`
                 }
                 ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
             }
