@@ -4,3 +4,35 @@
         background-color: #111;
     }
 }
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#sheet {
+    margin: 1em;
+}
+
+.sheet header {
+    display: flex;
+}
+
+.sheet header h1 {
+    font: optional;
+}
+
+.ast_score {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ast_mod td {
+    text-align: center;
+    font-size: 1.2em;
+    padding-right: 1em;
+}
+
+.ast_skills {
+    vertical-align: top;
+}

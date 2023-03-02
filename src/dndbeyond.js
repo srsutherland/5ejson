@@ -9,7 +9,7 @@ const abilityScoreNames = Object.freeze([
 ])
 
 // eslint-disable-next-line no-unused-vars
-const skillNamesByAbility = /*Object.freeze*/({
+const skillNamesByAbility = Object.freeze({
     "Strength": [
         "Athletics"
     ],
@@ -73,6 +73,7 @@ function dndbeyond_json_parse(response) {
         background: chardata.background.definition.name,
         class: null, //assigned later
         classlist: [], //assigned later
+        level: 0, //assigned later
         skills: {},
         saves: {},
         alignment: alignments[chardata.alignmentId],
@@ -82,7 +83,7 @@ function dndbeyond_json_parse(response) {
         //removedHitPoints: chardata.removedHitPoints,
         temporaryHitPoints: chardata.temporaryHitPoints,
         proficiencies: {skills:[], saves:[], other:[]},
-        proficiencyBonus: null,
+        proficiencyBonus: 0, //assigned later
     }
     // Restructure modifier data
     const modifiers = {}
@@ -96,6 +97,33 @@ function dndbeyond_json_parse(response) {
         }
     }
     character.dndb_modifiers = modifiers
+
+    //Calc total level for PB
+    character.proficiencyBonus = 10
+    for (const dndbclass of character.dndb_data.classes) {
+        const jclass = {}
+        jclass.name = dndbclass.definition.name
+        jclass.level = dndbclass.level
+        jclass.subclass = dndbclass.subclassDefinition?.name
+        jclass.isStartingClass = dndbclass.isStartingClass
+
+        character.level += jclass.level
+        
+        // Class string
+        if (character.class == null) {
+            character.class = ""
+        } else {
+            character.class += " / "
+        }
+        character.class += jclass.name
+        if (jclass.subclass) {
+            character.class += "(" + jclass.subclass + ")"
+        }
+        character.class += " " + jclass.level
+
+        character.classlist.push(jclass)
+    }
+    character.proficiencyBonus = Math.floor(character.level/4) + 2
 
     // Ability Scores
     // Only the base scores, need to add bonuses below.
@@ -121,8 +149,9 @@ function dndbeyond_json_parse(response) {
     }
     
     const skillNamesLower = new Set(
-        [].concat(...Object.entries(skillNamesByAbility))
+        [].concat(...Object.values(skillNamesByAbility)).map(s => s.toLowerCase())
     )
+    console.log(skillNamesLower)
     for (const mod of modifiers.proficiency) {
         const subType = mod.subType
         if (skillNamesLower.has(subType)) {
@@ -140,6 +169,10 @@ function dndbeyond_json_parse(response) {
         const mod = Math.floor((character.abilityScores[ability]-10)/2)
         for (const skill of skillNamesByAbility[ability]) {
             character.skills[skill] = mod;
+            // add PB
+            if (character.proficiencies.skills.includes(skill.toLowerCase())) {
+                character.skills[skill] += character.proficiencyBonus
+            }
         }
     }
 
@@ -148,6 +181,10 @@ function dndbeyond_json_parse(response) {
     for (const ability of abilityScoreNames) {
         const mod = Math.floor((character.abilityScores[ability]-10)/2)
         character.saves[ability] = mod;
+        // add PB
+        if (character.proficiencies.saves.includes(ability.toLowerCase())) {
+            character.saves[ability] += character.proficiencyBonus
+        }
     }
 
     window.character = character
