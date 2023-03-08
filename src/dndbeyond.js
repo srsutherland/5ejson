@@ -54,6 +54,7 @@ function dndbeyond_json_parse(response) {
     }
     
     const chardata = response.data
+    window.dndb_data = chardata
     let character = {
         dndb_data: chardata,
         name: chardata.name,
@@ -84,6 +85,7 @@ function dndbeyond_json_parse(response) {
         temporaryHitPoints: chardata.temporaryHitPoints,
         proficiencies: {skills:[], saves:[], other:[]},
         proficiencyBonus: 0, //assigned later
+        spells: [[], [], [], [], [], [], [], [], [], []],
     }
     // Restructure modifier data
     const modifiers = {}
@@ -97,6 +99,9 @@ function dndbeyond_json_parse(response) {
         }
     }
     character.dndb_modifiers = modifiers
+    if (modifiers.size) {
+        character.size = modifiers.size[modifiers.size.length-1].subType
+    }
 
     //Calc total level for PB
     character.proficiencyBonus = 10
@@ -152,14 +157,16 @@ function dndbeyond_json_parse(response) {
         [].concat(...Object.values(skillNamesByAbility)).map(s => s.toLowerCase())
     )
     console.log(skillNamesLower)
-    for (const mod of modifiers.proficiency) {
-        const subType = mod.subType
+    for (const prof of modifiers.proficiency) {
+        const subType = prof.subType
         if (skillNamesLower.has(subType)) {
             character.proficiencies.skills.push(subType)
         }
-        if (subType.endsWith("-saving-throws")) {
+        else if (subType.endsWith("-saving-throws")) {
             const saveType = subType.replace("-saving-throws","")
             character.proficiencies.saves.push(saveType)
+        } else {
+            character.proficiencies.other.push(prof.friendlySubtypeName)
         }
     }
 
@@ -187,6 +194,34 @@ function dndbeyond_json_parse(response) {
         }
     }
 
+    // Spells
+    for (const [classnum, spellclass] of Object.entries(character.dndb_data.classSpells)) {
+        for (const spelldata of spellclass.spells) {
+            const name = spelldata.definition.name;
+            const level = spelldata.definition.level
+            const source = character.dndb_data.classes[classnum]
+            const spellobj = {name: name, level: level, source: source, dndb_data: spelldata}
+            try {
+                character.spells[level].push(spellobj)
+            } catch {
+                console.log(spellobj)
+            }
+        }
+    }
+    for (const [source, spellsFromSource] of Object.entries(character.dndb_data.spells)) {
+        for (const spelldata of (spellsFromSource || [])) {
+            const name = spelldata.definition.name;
+            const level = spelldata.definition.level
+            const spellobj = {name: name, level: level, source: source, dndb_data: spelldata}
+            try {
+                character.spells[level].push(spellobj)
+            } catch {
+                console.log(spellobj)
+            }
+        }
+    }
+
+    // Export
     window.character = character
     console.log(character)
     return character
