@@ -100,7 +100,7 @@ function dndbeyond_json_parse(response) {
     }
     character.dndb_modifiers = modifiers
     if (modifiers.size) {
-        character.size = modifiers.size[modifiers.size.length-1].subType
+        character.size = modifiers.size.at(-1).subType
     }
 
     //Calc total level for PB
