@@ -13,12 +13,20 @@ body {
     margin: 1em;
 }
 
-.sheet header {
+#sheet header {
     display: flex;
+    align-items: baseline;
 }
 
-.sheet header h1 {
+#sheet header h1 {
     font: optional;
+    margin-right: 2em;
+}
+
+#sheet header h2 {
+    font: optional;
+    font-size: 1.2em;
+    margin-right: 1em;
 }
 
 .ast_score {
@@ -35,4 +43,11 @@ body {
 
 .ast_skills {
     vertical-align: top;
+}
+
+.spell-level h2 {
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: monospace;
+    margin: 0.8em 0 0.3em;
 }
