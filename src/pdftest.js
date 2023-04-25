@@ -40,5 +40,37 @@ async function annotateFieldNames(filename) {
     window.open(url);
 }
 
+async function fillForm(filename, jmap, chardata) {
+    //Helper functions
+    const modString = mod => mod >= 0 ? `+${mod}` : `${mod}`
+    const modFromScore = score => modString(Math.floor((score-10)/2))
+
+    const formPdfBytes = fetch(filename).then((res) => res.arrayBuffer());
+    const mappingFetch = fetch(jmap).then((res) => res.json());
+    
+    const pdfDoc = await PDFDocument.load(await formPdfBytes);
+    const form = pdfDoc.getForm();
+    const fields = form.getFields();
+
+    const mapping = await mappingFetch;
+    const char = chardata;
+    for (const [key, value] of Object.entries(mapping)) {
+        const field = fields.find(f => f.getName() === key);
+        if (field instanceof PDFTextField) {
+            console.log(`${key}: ${value}`);
+            // evil eval
+            field.setText(`${eval(value)}`);
+        }
+    }
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+}
+
 window.listFieldNames = listFieldNames;
 window.annotateFieldNames = annotateFieldNames;
+window.fillForm = fillForm;
+
+export { listFieldNames, annotateFieldNames, fillForm };

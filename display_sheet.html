@@ -16,6 +16,9 @@
         </table>
         <div id="spells"></div>
     </section>
+    <section>
+        <button id="1page_v6">1page_v6</button>
+    </section>
     <script>
         const utfCircleOpen =  "○"
         const utfCircleFull =  "●"
@@ -50,7 +53,7 @@
                 ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
                 // Skills + Saves + etc
                 const saveDot = char.proficiencies.saves.includes(ability.toLowerCase()) ? utfDiamondFull : utfDiamondOpen
-                let skillBox = `<div>${saveDot} Saving Throw: ${modString(character.saves[ability])}</div>`
+                let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
                     let isProficient = char.proficiencies.skills.includes(skillName.toLowerCase())
@@ -79,6 +82,12 @@
                 }
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
             }
+            // 1page_v6
+            document.getElementById("1page_v6").addEventListener("click", () => {
+                import("./src/pdftest.js").then((module) => {
+                    module.fillForm("pdfs/1page_v6/sheet.pdf", "pdfs/1page_v6/sheet.json", character)
+                })
+            })
         })
     </script>
 </body>

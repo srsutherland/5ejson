@@ -199,7 +199,7 @@ function dndbeyond_json_parse(response) {
         for (const spelldata of spellclass.spells) {
             const name = spelldata.definition.name;
             const level = spelldata.definition.level
-            const source = character.dndb_data.classes[classnum]
+            const source = character.classlist[classnum]
             const spellobj = {name: name, level: level, source: source, dndb_data: spelldata}
             try {
                 character.spells[level].push(spellobj)
