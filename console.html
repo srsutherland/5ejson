@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Console</title>
+        <script type="module" src="src/pdftest.js"></script>
+        <script>
+            
+        </script>
+        <style>
+            #console {
+                display: block;
+                max-height: 90vh;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="save">Annotate Field Names</button>
+        <pre id="console"></pre>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const console_div = document.getElementById("console");
+                const oldlog = console.log;
+                const oldError = console.error;
+                console.log = (msg) => {
+                    const div = document.createElement("div");
+                    div.textContent = msg;
+                    console_div.insertAdjacentElement("beforeend", div);
+                    div.scrollIntoView();
+                    oldlog(msg);
+                };
+                console.error = (msg) => {
+                    const div = document.createElement("div");
+                    div.textContent = msg;
+                    div.style.color = "red";
+                    console_div.insertAdjacentElement("beforeend", div);
+                    div.scrollIntoView();
+                    oldError(msg);
+                };
+                console.log("Console loaded.")
+                const sheet_path = "./pdfs/1page_v6/sheet.pdf"
+                try {
+                    listFieldNames(sheet_path);
+                } catch (e) {
+                    console.error(e);
+                }
+                document.getElementById("save").addEventListener("click", () => {
+                    try {
+                        console.log("Annotating...");
+                        annotateFieldNames(sheet_path);
+                    } catch (e) {
+                        console.error(e);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
