@@ -7,6 +7,8 @@ async function listFieldNames(filename) {
     const form = pdfDoc.getForm();
     const fields = form.getFields();
 
+    const list = {};
+
     fields.forEach((field) => {
         const fieldName = field.getName();
         const widgets = field.acroField.getWidgets();
@@ -14,10 +16,13 @@ async function listFieldNames(filename) {
             const rect = widgets[0].getRectangle();
             const coords = Object.entries(rect).map(p => `${p[0]}:${Math.round(p[1])}`).join(', ')
             console.log(`${fieldName}: (${coords}})`);
+            list[fieldName] = rect;
         } else {
             console.log(`${fieldName}: unknown`);
+            list[fieldName] = 'unknown';
         }
     });
+    return list;
 }
 
 async function annotateFieldNames(filename) {

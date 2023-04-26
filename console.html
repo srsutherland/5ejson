@@ -12,13 +12,20 @@
                 max-height: 90vh;
                 overflow: auto;
             }
+            #buttons button {
+                margin: 0.2em;
+            }
         </style>
     </head>
     <body>
-        <button id="save">Annotate Field Names</button>
+        <div id="buttons">
+            <div id="pdf_list"></div>
+            <div id="pdf_actions"></button>
+        </div>
         <pre id="console"></pre>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
+                // bind console output to a div
                 const console_div = document.getElementById("console");
                 const oldlog = console.log;
                 const oldError = console.error;
@@ -37,21 +44,49 @@
                     div.scrollIntoView();
                     oldError(msg);
                 };
+
                 console.log("Console loaded.")
-                const sheet_path = "./pdfs/1page_v6/sheet.pdf"
-                try {
-                    listFieldNames(sheet_path);
-                } catch (e) {
-                    console.error(e);
-                }
-                document.getElementById("save").addEventListener("click", () => {
-                    try {
-                        console.log("Annotating...");
-                        annotateFieldNames(sheet_path);
-                    } catch (e) {
-                        console.error(e);
+                const sheet_names = ["1page_v6", "halfpage_double_color", "standard"];
+                const sheet_loaders = [];
+                for (const sheet_name of sheet_names) {
+                    const button = document.createElement("button");
+                    button.textContent = sheet_name;
+                    // create a function to load the sheet
+                    const sheet_loader = () => {
+                        console_div.innerHTML = "";
+                        const sheet_path = `./pdfs/${sheet_name}/sheet.pdf`;
+                        console.log(`Loading ${sheet_path}...`);
+                        // log the field names to the console
+                        try {
+                            listFieldNames(sheet_path);
+                        } catch (e) {
+                            console.error(e);
+                        }
+                        // now handle the pdf-specific actions
+                        const pdf_actions = document.getElementById("pdf_actions");
+                        pdf_actions.innerHTML = `<span style="font-weight:bold">${sheet_name}: </span>`;
+                        // create a button to annotate the field names
+                        const annotate_button = document.createElement("button");
+                        annotate_button.textContent = "Annotate Field Names";
+                        annotate_button.addEventListener("click", () => {
+                            try {
+                                console.log("Annotating...");
+                                annotateFieldNames(sheet_path);
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        });
+                        pdf_actions.insertAdjacentElement("beforeend", annotate_button);
                     }
-                });
+                    sheet_loaders.push(sheet_loader);
+                    // bind the function to the button
+                    button.addEventListener("click", sheet_loader);
+                    // add the button to the top of the page
+                    const pdf_list = document.getElementById("pdf_list");
+                    pdf_list.insertAdjacentElement("beforeend", button);
+                }
+                // load first sheet by default
+                sheet_loaders[0]()
             });
         </script>
     </body>
