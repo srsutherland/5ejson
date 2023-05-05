@@ -195,14 +195,59 @@ function dndbeyond_json_parse(response) {
     }
 
     // Spells
+    const parseSpell = (spelldata, source) => {
+        const name = spelldata.definition.name;
+        const level = spelldata.definition.level
+        const spellobj = {
+            name: name, 
+            level: level,
+            source: source,
+            school: spelldata.definition.school,
+            duration: null,
+            range: null,
+            area: null,
+            isConcentration: spelldata.definition.concentration,
+            isRitual: spelldata.definition.ritual,
+            description: spelldata.definition.description,
+            dndb_data: spelldata
+        }
+        const dndb_dur = spelldata.definition.duration
+        if (dndb_dur.durationType == "Instantaneous") {
+            spellobj.duration = "Instantaneous"
+        } else if (dndb_dur.durationType == "Time" || dndb_dur.durationType == "Concentration") {
+            spellobj.duration = dndb_dur.durationInterval + " " + dndb_dur.durationUnit
+            if (dndb_dur.durationInterval != 1) {
+                spellobj.duration += "s"
+            }
+            if (dndb_dur.durationType == "Concentration") {
+                spellobj.duration += " (C)"
+            }
+        }
+        console.log(spellobj.duration)
+        console.log(spellobj.isConcentration)
+
+        const dndb_range = spelldata.definition.range
+        if (dndb_range.origin == "Touch" || dndb_range.origin == "Self") {
+            spellobj.range = dndb_range.origin
+        } else if (dndb_range.origin == "Ranged") {
+            spellobj.range = dndb_range.rangeValue + " ft"
+        }
+        if (dndb_range.aoeType != null) {
+            spellobj.area = dndb_range.aoeValue + " ft " + dndb_range.aoeType
+        }
+        console.log(dndb_range)
+        console.log(spellobj.range)
+        console.log(spellobj.area)
+
+        console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
+        return spellobj
+    }
     for (const [classnum, spellclass] of Object.entries(character.dndb_data.classSpells)) {
         for (const spelldata of spellclass.spells) {
-            const name = spelldata.definition.name;
-            const level = spelldata.definition.level
             const source = character.classlist[classnum]
-            const spellobj = {name: name, level: level, source: source, dndb_data: spelldata}
+            const spellobj = parseSpell(spelldata, source)
             try {
-                character.spells[level].push(spellobj)
+                character.spells[spellobj.level].push(spellobj)
             } catch {
                 console.log(spellobj)
             }
@@ -210,11 +255,9 @@ function dndbeyond_json_parse(response) {
     }
     for (const [source, spellsFromSource] of Object.entries(character.dndb_data.spells)) {
         for (const spelldata of (spellsFromSource || [])) {
-            const name = spelldata.definition.name;
-            const level = spelldata.definition.level
-            const spellobj = {name: name, level: level, source: source, dndb_data: spelldata}
+            const spellobj = parseSpell(spelldata, source)
             try {
-                character.spells[level].push(spellobj)
+                character.spells[spellobj.level].push(spellobj)
             } catch {
                 console.log(spellobj)
             }
