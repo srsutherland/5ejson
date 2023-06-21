@@ -2,6 +2,7 @@
 <head>
     <title>Character Sheet</title>
     <link href="res/sheet.css" rel="stylesheet">
+    <script src="src/constants.js"></script>
     <script src="src/dndbeyond.js"></script>
     <script src="test_json/Jack.jsonp"></script>
 </head>
@@ -25,7 +26,7 @@
         const utfDiamondOpen = "◇"
         const utfDiamondFull = "◈"
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
-        document.addEventListener("DOMContentLoaded", () => {
+        const onCharLoaded = () => {
             char = window.character
             document.getElementById("name").textContent = character.name
             document.getElementById("race").textContent = character.race
@@ -131,6 +132,7 @@
             newPageButton.textContent = "json in new tab"
             newPageButton.addEventListener("click", () => jsonExport(false))
             export_section.insertAdjacentElement("beforeend", newPageButton)
-        })
+        }
+        document.addEventListener("DOMContentLoaded", onCharLoaded)
     </script>
 </body>
