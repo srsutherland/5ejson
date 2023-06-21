@@ -1,51 +1,52 @@
-// eslint-disable-next-line no-unused-vars
-const abilityScoreNames = Object.freeze([
-    "Strength",
-    "Dexterity",
-    "Constitution",
-    "Intelligence",
-    "Wisdom",
-    "Charisma"
-])
+if (typeof abilityScoreNames === 'undefined') {
+    const abilityScoreNames = Object.freeze([
+        "Strength",
+        "Dexterity",
+        "Constitution",
+        "Intelligence",
+        "Wisdom",
+        "Charisma"
+    ])
 
-// eslint-disable-next-line no-unused-vars
-const skillNamesByAbility = Object.freeze({
-    "Strength": [
-        "Athletics"
-    ],
-    "Dexterity": [
-        "Acrobatics",
-        "Sleight of Hand",
-        "Stealth"
-    ],
-    "Constitution": [],
-    "Intelligence": [
-        "Arcana",
-        "History",
-        "Investigation",
-        "Nature",
-        "Religion"
-    ],
-    "Wisdom": [
-        "Animal Handling",
-        "Insight",
-        "Medicine",
-        "Perception",
-        "Survival"
-    ],
-    "Charisma": [
-        "Deception",
-        "Intimidation",
-        "Performance",
-        "Persuasion"
-    ]
-})
+    // eslint-disable-next-line no-unused-vars
+    const skillNamesByAbility = Object.freeze({
+        "Strength": [
+            "Athletics"
+        ],
+        "Dexterity": [
+            "Acrobatics",
+            "Sleight of Hand",
+            "Stealth"
+        ],
+        "Constitution": [],
+        "Intelligence": [
+            "Arcana",
+            "History",
+            "Investigation",
+            "Nature",
+            "Religion"
+        ],
+        "Wisdom": [
+            "Animal Handling",
+            "Insight",
+            "Medicine",
+            "Perception",
+            "Survival"
+        ],
+        "Charisma": [
+            "Deception",
+            "Intimidation",
+            "Performance",
+            "Persuasion"
+        ]
+    })
 
-const alignments = Object.freeze([
-    'LG', 'NG', 'CG', 
-    'LN', 'N',  'CN', 
-    'LE', 'NE', 'CE'
-])
+    const alignments = Object.freeze([
+        'LG', 'NG', 'CG', 
+        'LN', 'N',  'CN', 
+        'LE', 'NE', 'CE'
+    ])
+}
 
 // eslint-disable-next-line no-unused-vars
 function dndbeyond_json_parse(response) {
@@ -122,7 +123,14 @@ function dndbeyond_json_parse(response) {
         }
         character.class += jclass.name
         if (jclass.subclass) {
-            character.class += "(" + jclass.subclass + ")"
+            let subclass = jclass.subclass
+            if (typeof abbreviations !== 'undefined') {
+                console.log(abbreviations)
+                for (const [full, abbr] of Object.entries(abbreviations.subclass)) {
+                    subclass = subclass.replace(full, abbr)
+                }
+            }
+            character.class += "(" + subclass + ")"
         }
         character.class += " " + jclass.level
 
@@ -223,8 +231,6 @@ function dndbeyond_json_parse(response) {
                 spellobj.duration += " (C)"
             }
         }
-        console.log(spellobj.duration)
-        console.log(spellobj.isConcentration)
 
         const dndb_range = spelldata.definition.range
         if (dndb_range.origin == "Touch" || dndb_range.origin == "Self") {
@@ -235,11 +241,9 @@ function dndbeyond_json_parse(response) {
         if (dndb_range.aoeType != null) {
             spellobj.area = dndb_range.aoeValue + " ft " + dndb_range.aoeType
         }
-        console.log(dndb_range)
-        console.log(spellobj.range)
-        console.log(spellobj.area)
+        console.log({name: name, dndb_dur: dndb_dur, duration: spellobj.duration, isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, range: spellobj.range, area: spellobj.area})
 
-        console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
+        //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
         return spellobj
     }
     for (const [classnum, spellclass] of Object.entries(character.dndb_data.classSpells)) {
@@ -249,7 +253,7 @@ function dndbeyond_json_parse(response) {
             try {
                 character.spells[spellobj.level].push(spellobj)
             } catch {
-                console.log(spellobj)
+                console.error(spellobj)
             }
         }
     }
@@ -259,7 +263,7 @@ function dndbeyond_json_parse(response) {
             try {
                 character.spells[spellobj.level].push(spellobj)
             } catch {
-                console.log(spellobj)
+                console.error(spellobj)
             }
         }
     }
