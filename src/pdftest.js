@@ -1,15 +1,5 @@
 import { PDFDocument, PDFTextField, PDFCheckBox, rgb } from 'https://cdn.skypack.dev/pdf-lib';
 
-const colors = {
-    'red': rgb(1, 0, 0),
-    'orange': rgb(1, 0.5, 0),
-    'yellow': rgb(1, 1, 0),
-    'green': rgb(0, 1, 0),
-    'cyan': rgb(0, 1, 1),
-    'blue': rgb(0, 0, 1),
-    'purple': rgb(1, 0, 1),
-}
-
 async function listFieldNames(filename) {
     const formPdfBytes = await fetch(filename).then((res) => res.arrayBuffer());
 
@@ -86,29 +76,39 @@ async function annotateFieldNames(filename) {
     window.open(url);
 }
 
-async function fillForm(filename, jmap, chardata) {
-    //Helper functions
+async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined) {
+    const log = logFunc || console.log;
+    // Gets used by eval
+    const char = chardata;
+    // Helper functions, for use in eval
     const modString = mod => mod >= 0 ? `+${mod}` : `${mod}`
     const modFromScore = score => modString(Math.floor((score-10)/2))
 
-    const formPdfBytes = fetch(filename).then((res) => res.arrayBuffer());
-    const mappingFetch = fetch(jmap).then((res) => res.json());
+    const formPdfBytes = fetch(pdf_filename).then((res) => res.arrayBuffer());
+    const mappingFetch = fetch(jmap_filename).then((res) => res.json());
     
     const pdfDoc = await PDFDocument.load(await formPdfBytes);
+    log(pdf_filename + ' loaded');
     const form = pdfDoc.getForm();
     const fields = form.getFields();
+    log('Fields loaded');
 
     const mapping = await mappingFetch;
-    const char = chardata;
+    log(jmap_filename + ' loaded');
+    
     for (const [key, value] of Object.entries(mapping)) {
         const field = fields.find(f => f.getName() === key);
+        if (!field) {
+            console.warn(`Field ${key} not found`);
+            continue;
+        }
         if (field instanceof PDFTextField) {
-            console.log(`${key}: ${value}`);
+            log(`${key}: ${value}`);
             // evil eval
             field.setText(`${eval(value)}`);
         }
         if (field instanceof PDFCheckBox) {
-            console.log(`${key}: ${value}`);
+            log(`${key}: ${value}`);
             const isChecked = eval(value);
             if (isChecked === true) {
                 field.check();
@@ -117,13 +117,14 @@ async function fillForm(filename, jmap, chardata) {
                 field.uncheck();
             }
         }
-            
     }
+    log('Fields filled, saving PDF');
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     window.open(url);
+    log('PDF opened in new tab');
 }
 
 window.listFieldNames = listFieldNames;

@@ -20,6 +20,7 @@
     <section id="export">
         <button id="1page_v6">1page_v6</button>
     </section>
+    <div id="debug"><pre id="log"></pre></div>
     <script>
         const utfCircleOpen =  "○"
         const utfCircleFull =  "●"
@@ -84,16 +85,24 @@
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
             }
             
-            // Export
+            // PDF Exports
             export_section = document.getElementById("export")
             export_section.innerHTML = "<span>Export: </span>"
             const sheet_names = ["1page_v6", "halfpage_double_color", "standard"];
             for (const sheet_name of sheet_names) {
                 const sheet_button = document.createElement("button")
+                const log_elem = document.getElementById("log")
                 sheet_button.textContent = sheet_name + ".pdf"
                 sheet_button.addEventListener("click", () => {
                     import("./src/pdftest.js").then((module) => {
-                        module.fillForm(`pdfs/${sheet_name}/sheet.pdf`, `pdfs/${sheet_name}/sheet.json`, character)
+                        module.fillForm(
+                            `pdfs/${sheet_name}/sheet.pdf`, 
+                            `pdfs/${sheet_name}/sheet.json`, 
+                            character,
+                            (str) => { log_elem.textContent = str }
+                        )
+                    }).catch((err) => {
+                        log_elem.textContent = err
                     })
                 })
                 document.getElementById("export").insertAdjacentElement("beforeend", sheet_button)
