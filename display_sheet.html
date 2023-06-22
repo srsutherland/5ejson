@@ -94,7 +94,7 @@
                 const log_elem = document.getElementById("log")
                 sheet_button.textContent = sheet_name + ".pdf"
                 sheet_button.addEventListener("click", () => {
-                    import("./src/pdftest.js").then((module) => {
+                    import("./src/pdf.js").then((module) => {
                         module.fillForm(
                             `pdfs/${sheet_name}/sheet.pdf`, 
                             `pdfs/${sheet_name}/sheet.json`, 
