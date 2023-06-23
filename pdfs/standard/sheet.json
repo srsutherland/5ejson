@@ -68,6 +68,8 @@
     "Check Box 38": "char.proficiencies.skills.includes('sleight of hand')",
     "Check Box 39": "char.proficiencies.skills.includes('stealth')",
     "Check Box 40": "char.proficiencies.skills.includes('survival')",
+
+    "ProficienciesLang": "char.proficiencies.other.join(', ')",
     
     "CharacterName2": "char.name",
     "Age": "char.description.age ?? ''",
