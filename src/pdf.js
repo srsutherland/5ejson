@@ -62,7 +62,6 @@ async function annotateFieldNames(filename) {
                     });
 
                     field.check();
-                    c_index++;
                 } catch (e) {
                     console.log(e);
                 }
