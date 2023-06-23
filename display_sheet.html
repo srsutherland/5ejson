@@ -2,6 +2,7 @@
 <head>
     <title>Character Sheet</title>
     <link href="res/sheet.css" rel="stylesheet">
+    <link rel="icon" href="res/favicon.png">
     <script src="src/constants.js"></script>
     <script src="src/dndbeyond.js"></script>
     <script src="test_json/Jack.jsonp"></script>
@@ -94,6 +95,7 @@
                 const log_elem = document.getElementById("log")
                 sheet_button.textContent = sheet_name + ".pdf"
                 sheet_button.addEventListener("click", () => {
+                    log_elem.textContent = "importing pdf.js..."
                     import("./src/pdf.js").then((module) => {
                         module.fillForm(
                             `pdfs/${sheet_name}/sheet.pdf`, 
