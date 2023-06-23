@@ -145,5 +145,14 @@
             export_section.insertAdjacentElement("beforeend", newPageButton)
         }
         document.addEventListener("DOMContentLoaded", onCharLoaded)
+
+        // Debug
+        function fill_spells() {
+            // For testing pdf spell fields, fill in all spells as "lvl - num"
+            char.spells = Object.keys(char.spells).map(
+                l => Object.keys(Array(15).fill(''))
+                .map(i => Object.fromEntries([["name", `${l} - ${i}`]]))
+            )
+        }
     </script>
 </body>
