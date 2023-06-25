@@ -21,6 +21,37 @@
     <section id="export">
         <button id="1page_v6">1page_v6</button>
     </section>
+    <section id="import">
+        <button id="import-5ejson">Import 5ejson</button>
+        <button id="import-dndb">Import D&D Beyond</button>
+        <!-- dropdown for loading sample chars 
+            Jack.json
+            kepaniGinger\Artificer_Yllakalyn_Fasharash.json
+            kepaniGinger\Cleric_Cookie_Porridgepot.json
+            kepaniGinger\Cleric_Narith.json
+            kepaniGinger\Monk_Cleo.json
+            kepaniGinger\multiWarlockFighterSorcerer_Sharver_Greenbottle.json
+            kepaniGinger\Paladin_Qivira.json
+            kepaniGinger\Wizard_Kaitvian.json
+            OgPhoen1xWolf\Bard_Azarrus.json
+            OgPhoen1xWolf\Bard_Lucius_Maverick.json
+            OgPhoen1xWolf\multiBardWizard_Klaus.json
+        -->
+        <select id="sample-chars">
+            <option value="Jack.json">Jack (default)</option>
+            <option value="kepaniGinger/Artificer_Yllakalyn_Fasharash.json">Artificer_Yllakalyn_Fasharash</option>
+            <option value="kepaniGinger/Cleric_Cookie_Porridgepot.json">Cleric_Cookie_Porridgepot</option>
+            <option value="kepaniGinger/Cleric_Narith.json">Cleric_Narith</option>
+            <option value="kepaniGinger/Monk_Cleo.json">Monk_Cleo</option>
+            <option value="kepaniGinger/multiWarlockFighterSorcerer_Sharver_Greenbottle.json">multiWarlockFighterSorcerer_Sharver_Greenbottle</option>
+            <option value="kepaniGinger/Paladin_Qivira.json">Paladin_Qivira</option>
+            <option value="kepaniGinger/Wizard_Kaitvian.json">Wizard_Kaitvian</option>
+            <option value="OgPhoen1xWolf/Bard_Azarrus.json">Bard_Azarrus</option>
+            <option value="OgPhoen1xWolf/Bard_Lucius_Maverick.json">Bard_Lucius_Maverick</option>
+            <option value="OgPhoen1xWolf/multiBardWizard_Klaus.json">multiBardWizard_Klaus</option>
+        </select>
+        <button id="load-sample-char">Load Sample Char</button>
+    </section>
     <div id="debug"><pre id="log"></pre></div>
     <script>
         const utfCircleOpen =  "○"
@@ -34,6 +65,7 @@
             document.getElementById("race").textContent = character.race
             document.getElementById("class").textContent = character.class
             const ASTable = document.getElementById("abilityscores")
+            ASTable.innerHTML = ""
             const ASRows = ["ast_name", "ast_score", "ast_mod", "ast_skills"]
             // Set up rows (as named above)
             for (let i = 0; i < 4; i++) {
@@ -67,6 +99,7 @@
             }
             // Spells
             const spellContain = document.getElementById("spells")
+            spellContain.innerHTML = ""
             for (const [i, spells] of Object.entries(character.spells)) {
                 if (spells.length == 0) {
                     continue
@@ -145,6 +178,62 @@
             export_section.insertAdjacentElement("beforeend", newPageButton)
         }
         document.addEventListener("DOMContentLoaded", onCharLoaded)
+
+        // Hook up import buttons
+        // 5ejson
+        document.getElementById("import-5ejson").addEventListener("click", () => {
+            const fileInput = document.createElement("input")
+            fileInput.type = "file"
+            fileInput.accept = ".json"
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0]
+                const reader = new FileReader()
+                reader.addEventListener("load", () => {
+                    const json = JSON.parse(reader.result)
+                    character = json
+                    char = json
+                    onCharLoaded()
+                })
+                reader.readAsText(file)
+            })
+            fileInput.click()
+        })
+        // dndb
+        document.getElementById("import-dndb").addEventListener("click", () => {
+            const fileInput = document.createElement("input")
+            fileInput.type = "file"
+            fileInput.accept = ".json"
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0]
+                const reader = new FileReader()
+                reader.addEventListener("load", () => {
+                    const json = JSON.parse(reader.result)
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                })
+                reader.readAsText(file)
+            })
+            fileInput.click()
+        })
+        // sample char
+        document.getElementById("load-sample-char").addEventListener("click", () => {
+            const log_elem = document.getElementById("log")
+            const option = document.getElementById("sample-chars").value
+            log_elem.textContent = "fetching " + option + "..."
+            fetch("test_json/" + option).then(r => r.json()).then(json => {
+                try {
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                log_elem.textContent = err
+            })
+        })
+
 
         // Debug
         function fill_spells() {
