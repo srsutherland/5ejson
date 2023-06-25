@@ -1,4 +1,6 @@
+/* global abilityScoreNames, skillNamesByAbility, alignments, abbreviations */
 if (typeof abilityScoreNames === 'undefined') {
+    // eslint-disable-next-line no-unused-vars
     const abilityScoreNames = Object.freeze([
         "Strength",
         "Dexterity",
@@ -41,6 +43,7 @@ if (typeof abilityScoreNames === 'undefined') {
         ]
     })
 
+    // eslint-disable-next-line no-unused-vars
     const alignments = Object.freeze([
         'LG', 'NG', 'CG', 
         'LN', 'N',  'CN', 
