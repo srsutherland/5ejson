@@ -206,9 +206,11 @@ function dndbeyond_json_parse(response) {
     }
 
     // Spells
+    character.dndb_spells = {}
     const parseSpell = (spelldata, source) => {
         const name = spelldata.definition.name;
         const level = spelldata.definition.level
+        character.dndb_spells[name] = spelldata
         const spellobj = {
             name: name, 
             level: level,
