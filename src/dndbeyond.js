@@ -76,19 +76,22 @@ function dndbeyond_json_parse(response) {
         race: chardata.race.fullName,
         size: chardata.race.size,
         background: chardata.background.definition.name,
+        alignment: alignments[chardata.alignmentId],
         class: null, //assigned later
         classlist: [], //assigned later
         level: 0, //assigned later
         skills: {},
         saves: {},
-        alignment: alignments[chardata.alignmentId],
+        initiative: 0, //assigned later
         baseHitPoints: chardata.baseHitPoints,
         //bonusHitPoints: chardata.bonusHitPoints,
         //overrideHitPoints: chardata.overrideHitPoints,
         //removedHitPoints: chardata.removedHitPoints,
         temporaryHitPoints: chardata.temporaryHitPoints,
-        proficiencies: {skills:[], saves:[], other:[]},
         proficiencyBonus: 0, //assigned later
+        proficiencies: {skills:[], saves:[], other:[]},
+        expertise: {skills:[], saves:[], other:[]},
+        halfProf: false, //assigned later
         spells: [[], [], [], [], [], [], [], [], [], []],
     }
     // Restructure modifier data
@@ -165,10 +168,11 @@ function dndbeyond_json_parse(response) {
     }
     
     const skillNamesLower = new Set(
-        [].concat(...Object.values(skillNamesByAbility)).map(s => s.toLowerCase())
+        [].concat(...Object.values(skillNamesByAbility)).map(s => s.toLowerCase().replace(/ /g, "-"))
     )
-    console.log(skillNamesLower)
-    for (const prof of modifiers.proficiency) {
+    //console.log(skillNamesLower)
+    // Proficiencies
+    for (const prof of modifiers.proficiency || []) {
         const subType = prof.subType
         if (skillNamesLower.has(subType)) {
             character.proficiencies.skills.push(subType)
@@ -178,6 +182,27 @@ function dndbeyond_json_parse(response) {
             character.proficiencies.saves.push(saveType)
         } else {
             character.proficiencies.other.push(prof.friendlySubtypeName)
+        }
+    }
+    // Expertise
+    for (const mod of modifiers.expertise || []) {
+        const subType = mod.subType
+        if (skillNamesLower.has(subType)) {
+            character.expertise.skills.push(subType)
+        }
+        else if (subType.endsWith("-saving-throws")) {
+            // Saves can't usually be expertised, but just in case
+            const saveType = subType.replace("-saving-throws","")
+            character.expertise.saves.push(saveType)
+        } else {
+            character.expertise.other.push(mod.friendlySubtypeName)
+        }
+    }
+    // Half Proficiency
+    for (const mod of modifiers['half-proficiency'] || []) {
+        // Jack of All Trades gives half proficiency to "ability-checks"
+        if (mod.subType == "ability-checks") {
+            character.halfProf = true
         }
     }
 
@@ -190,6 +215,12 @@ function dndbeyond_json_parse(response) {
             // add PB
             if (character.proficiencies.skills.includes(skill.toLowerCase())) {
                 character.skills[skill] += character.proficiencyBonus
+                // add PB again if expertise
+                if (character.expertise.skills.includes(skill.toLowerCase())) {
+                    character.skills[skill] += character.proficiencyBonus
+                }
+            } else if (character.halfProf) {
+                character.skills[skill] += Math.floor(character.proficiencyBonus/2)
             }
         }
     }
@@ -203,6 +234,12 @@ function dndbeyond_json_parse(response) {
         if (character.proficiencies.saves.includes(ability.toLowerCase())) {
             character.saves[ability] += character.proficiencyBonus
         }
+    }
+
+    // Initiative bonus
+    character.initiative = Math.floor((character.abilityScores.Dexterity-10)/2)
+    if (character.halfProf) {
+        character.initiative += Math.floor(character.proficiencyBonus/2)
     }
 
     // Spells

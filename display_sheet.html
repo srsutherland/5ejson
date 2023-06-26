@@ -54,8 +54,10 @@
     </section>
     <div id="debug"><pre id="log"></pre></div>
     <script>
-        const utfCircleOpen =  "○"
+        const utfCircleOpen =  "◌"
         const utfCircleFull =  "●"
+        const utfCircleExtra = "☀"
+        const utfCircleHalf =  "○"
         const utfDiamondOpen = "◇"
         const utfDiamondFull = "◈"
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
@@ -91,8 +93,12 @@
                 let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
-                    let isProficient = char.proficiencies.skills.includes(skillName.toLowerCase())
-                    let skillDot = isProficient ? utfCircleFull : utfCircleOpen
+                    const profKey = skillName.toLowerCase().replace(/ /g, "-")
+                    const isProficient = char.proficiencies.skills.includes(profKey)
+                    const hasExpertise = char.expertise.skills.includes(profKey)
+                    const skillDot = isProficient ? 
+                        (hasExpertise ? utfCircleExtra : utfCircleFull) : 
+                        (char.halfProf ? utfCircleHalf : utfCircleOpen)
                     skillBox += `<div>${skillDot} ${skillName}: ${modString(skillMod)}</div>`
                 }
                 ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
