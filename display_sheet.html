@@ -64,6 +64,17 @@
         const onCharLoaded = () => {
             char = window.character
             document.getElementById("name").textContent = character.name
+            // Link to D&D Beyond
+            if (character.dndb_data?.id) {
+                document.getElementById("name").insertAdjacentHTML("beforeend", `
+                    <a 
+                        href="https://www.dndbeyond.com/characters/${character.dndb_data.id}" 
+                        style="margin-left: .5em; font-size: 16px; color: grey; text-decoration: none;"
+                    >
+                        <img src="https://www.google.com/s2/favicons?sz=16&amp;domain=www.dndbeyond.com">🡥
+                    </a>
+                `)
+            }
             document.getElementById("race").textContent = character.race
             document.getElementById("class").textContent = character.class
             const ASTable = document.getElementById("abilityscores")
