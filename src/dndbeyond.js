@@ -73,6 +73,7 @@ function dndbeyond_json_parse(response) {
             weight: chardata.weight,
         },
         abilityScores: {array: []}, //assigned later
+        abilityMods: {array: []}, //assigned later
         race: chardata.race.fullName,
         size: chardata.race.size,
         background: chardata.background.definition.name,
@@ -112,7 +113,6 @@ function dndbeyond_json_parse(response) {
     }
 
     //Calc total level for PB
-    character.proficiencyBonus = 10
     for (const dndbclass of character.dndb_data.classes) {
         const jclass = {}
         jclass.name = dndbclass.definition.name
@@ -143,6 +143,7 @@ function dndbeyond_json_parse(response) {
 
         character.classlist.push(jclass)
     }
+    // Proficiency Bonus starts at +2 at level 1, and increases every 4 levels
     character.proficiencyBonus = Math.floor(character.level/4) + 2
 
     // Ability Scores
@@ -167,7 +168,13 @@ function dndbeyond_json_parse(response) {
             character.abilityScores.array[mod.entityId - 1] += value
         }
     }
-    // add con mod to hp
+    // Now calculate the modifiers from the scores
+    const mods = character.abilityMods
+    for (let i = 0; i < 6; i++) {
+        mods.array[i] = Math.floor((scores.array[i] - 10) / 2)
+        mods[abilityScoreNames[i]] = mods.array[i]
+    }
+    // add con mod bonus to hp
     character.maxHP += Math.floor((character.abilityScores.Constitution-10)/2) * character.level
     
     const skillNamesLower = new Set(
@@ -212,7 +219,7 @@ function dndbeyond_json_parse(response) {
     // Skills
     // Start with ability modifiers
     for (const ability of abilityScoreNames) {
-        const mod = Math.floor((character.abilityScores[ability]-10)/2)
+        const mod = character.abilityMods[ability]
         for (const skill of skillNamesByAbility[ability]) {
             character.skills[skill] = mod;
             const skillLower = skill.toLowerCase().replace(/ /g, "-")
@@ -241,7 +248,7 @@ function dndbeyond_json_parse(response) {
     }
 
     // Initiative bonus
-    character.initiative = Math.floor((character.abilityScores.Dexterity-10)/2)
+    character.initiative = character.abilityMods.Dexterity
     if (character.halfProf) {
         character.initiative += Math.floor(character.proficiencyBonus/2)
     }
@@ -322,6 +329,65 @@ function dndbeyond_json_parse(response) {
         console.log(item)
         character.dndb_inventory[name] = item
     }
+
+    // Armor Class
+    const armorClasses = []
+    const armorBonues = []
+    const notEquipped = []
+    // This is surprisingly complicated
+    // First 10 + Dex
+    armorClasses.push({
+        name: "Unarmored", type: "unarmored", isArmor: false,
+        components: [
+            {name: "Base", value: 10},
+            {name: "Dex", value: character.abilityMods.Dexterity}
+        ], ac: (10 + character.abilityMods.Dexterity)
+    })
+    const itemsWhichAreArmor = Object.values(character.dndb_inventory).filter(item => item.definition.filterType == "Armor")
+    const itemsWhichGiveAC = Object.values(character.dndb_inventory).filter(item => item.definition.armorClass != null)
+    for (const armor of itemsWhichAreArmor) {
+        const def = armor.definition
+        const name = def.name
+        const ac = def.armorClass
+        const components = [{name: "Base", value: ac}]
+        let type = null
+        if (def.armorTypeId == 1) {
+            // Light armor
+            components.push({name: "Dex", value: character.abilityMods.Dexterity})
+            type = "light"
+        } else if (def.armorTypeId == 2) {
+            // Medium armor
+            components.push({name: "Dex", value: Math.min(character.abilityMods.Dexterity, 2)})
+            type = "medium"
+        } else if (def.armorTypeId == 3) {
+            // Heavy armor
+            type = "heavy"
+        } else if (def.armorTypeId == 4) {
+            // Shield
+            type = "shield"
+        }
+        const totalAC = Object.values(components).reduce((acc, cur) => acc + cur.value, 0)
+        armorObj = {name: name, type: type, isArmor: true, components: components, ac: totalAC, equipped: armor.equipped}
+        if (armor.equipped) {
+            if (armorObj.type == "shield") {
+                armorBonues.push(armorObj)
+            } else {
+                armorClasses.push(armorObj)
+            }
+        } else {
+            notEquipped.push(armorObj)
+        }
+        // Remove from itemsWhichGiveAC
+        itemsWhichGiveAC.splice(itemsWhichGiveAC.indexOf(armor), 1)
+    }
+    character.armorCalculation = {
+        armorClasses: armorClasses,
+        armorBonues: armorBonues,
+        notEquipped: notEquipped,
+        itemsWhichGiveAC: itemsWhichGiveAC
+    }
+
+
 
     // Export
     window.character = character
