@@ -41,6 +41,7 @@
         -->
         <select id="sample-chars">
             <option value="Jack.json">Jack (default)</option>
+            <option value="Warlock_Jack.json">Warlock_Jack</option>
             <option value="kepaniGinger/Artificer_Yllakalyn_Fasharash.json">Artificer_Yllakalyn_Fasharash</option>
             <option value="kepaniGinger/Cleric_Cookie_Porridgepot.json">Cleric_Cookie_Porridgepot</option>
             <option value="kepaniGinger/Cleric_Narith.json">Cleric_Narith</option>
@@ -66,6 +67,7 @@
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
         const onCharLoaded = () => {
             char = window.character
+            //// Header ////
             document.getElementById("name").textContent = character.name
             // Link to D&D Beyond
             if (character.dndb_data?.id) {
@@ -80,6 +82,8 @@
             }
             document.getElementById("race").textContent = character.race
             document.getElementById("class").textContent = character.class
+
+            //// Ability Scores ////
             const ASTable = document.getElementById("abilityscores")
             ASTable.innerHTML = ""
             const ASRows = ["ast_name", "ast_score", "ast_mod", "ast_skills"]
@@ -117,7 +121,8 @@
                 }
                 ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
             }
-            // Spells
+
+            //// Spells ////
             const spellContain = document.getElementById("spells")
             spellContain.innerHTML = ""
             for (const [i, spells] of Object.entries(character.spells)) {
@@ -138,21 +143,23 @@
                 }
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
             }
-            // Combat
+
+            ///// Combat /////
             const combatContain = document.getElementById("combat")
             combatContain.innerHTML = ""
+
             // HP
             const hpDiv = document.createElement("div")
             hpDiv.classList.add("hp")
             //style
             hpDiv.style.fontSize = "1.5em"
             hpDiv.insertAdjacentText("beforeend", "HP: ")
-            // Tall text input with Max HP as placeholder, "slash", max HP (baseHitPoints)
+            // Tall text input with Max HP as placeholder, "slash", max HP (maxHP)
             const hpInput = document.createElement("input")
             hpInput.type = "text"
             hpInput.classList.add("hp-input")
-            hpInput.placeholder = character.baseHitPoints
-            hpInput.value = character.currentHitPoints || character.baseHitPoints
+            hpInput.placeholder = character.maxHP
+            hpInput.value = character.currentHitPoints || character.maxHP
             hpInput.addEventListener("change", () => {
                 character.currentHitPoints = hpInput.value
             })
@@ -164,7 +171,7 @@
             hpInput.style.borderBottom = "1px solid black"
             hpInput.style.margin = "-1px -2px"
             hpDiv.insertAdjacentElement("beforeend", hpInput)
-            hpDiv.insertAdjacentText("beforeend", ` / ${character.baseHitPoints}`)
+            hpDiv.insertAdjacentText("beforeend", ` / ${character.maxHP}`)
             combatContain.insertAdjacentElement("beforeend", hpDiv)
             
             // Initiative
@@ -174,8 +181,14 @@
             initDiv.innerText = `Init: ${modString(character.initiative)}`
             combatContain.insertAdjacentElement("beforeend", initDiv)
 
+            // AC
+            const acDiv = document.createElement("div")
+            acDiv.classList.add("ac")
+            acDiv.style.fontSize = "1.5em"
+            acDiv.innerText = `AC: ${character.armorClass}`
+            combatContain.insertAdjacentElement("beforeend", acDiv)
 
-            
+            //// Exports ////
             // PDF Exports
             export_section = document.getElementById("export")
             export_section.innerHTML = "<span>Export: </span>"

@@ -76,7 +76,7 @@
     "Check Box37": "char.proficiencies.skills.includes('persuasion')",
     "AC": "char.armorClass",
     "Init": "modString(char.initiative)",
-    "hp": "char.baseHitPoints",
+    "hp": "char.maxHP",
 
     "1_5": "char.proficiencies.other[0] ?? ''",
     "2_5": "char.proficiencies.other[1] ?? ''",

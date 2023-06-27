@@ -66,5 +66,5 @@
     "t23": "char.proficiencies.skills.includes('performance')",
     "t24": "char.proficiencies.skills.includes('persuasion')",
     "languages": "char.proficiencies.other.join('\\\r\\\n ')",
-    "machp": "char.baseHitPoints"
+    "machp": "char.maxHP"
 }

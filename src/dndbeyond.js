@@ -83,11 +83,12 @@ function dndbeyond_json_parse(response) {
         skills: {},
         saves: {},
         initiative: 0, //assigned later
-        baseHitPoints: chardata.baseHitPoints,
-        //bonusHitPoints: chardata.bonusHitPoints,
+        baseHP: chardata.baseHitPoints, //without con mod
+        bonusHitPoints: chardata.bonusHitPoints, //from feats, etc
         //overrideHitPoints: chardata.overrideHitPoints,
         //removedHitPoints: chardata.removedHitPoints,
-        temporaryHitPoints: chardata.temporaryHitPoints,
+        tempHP: chardata.temporaryHitPoints,
+        maxHP: chardata.baseHitPoints + chardata.bonusHitPoints, //con mod added later
         proficiencyBonus: 0, //assigned later
         proficiencies: {skills:[], saves:[], other:[]},
         expertise: {skills:[], saves:[], other:[]},
@@ -166,6 +167,8 @@ function dndbeyond_json_parse(response) {
             character.abilityScores.array[mod.entityId - 1] += value
         }
     }
+    // add con mod to hp
+    character.maxHP += Math.floor((character.abilityScores.Constitution-10)/2) * character.level
     
     const skillNamesLower = new Set(
         [].concat(...Object.values(skillNamesByAbility)).map(s => s.toLowerCase().replace(/ /g, "-"))
@@ -309,6 +312,15 @@ function dndbeyond_json_parse(response) {
                 console.error(spellobj)
             }
         }
+    }
+
+    // Equipment
+    character.dndb_inventory = {}
+    for (const item of character.dndb_data.inventory) {
+        const name = item.definition.name
+        console.log(name)
+        console.log(item)
+        character.dndb_inventory[name] = item
     }
 
     // Export

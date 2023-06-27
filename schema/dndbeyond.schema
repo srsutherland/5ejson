@@ -125,7 +125,7 @@
         "inspiration": {
           "type": "boolean"
         },
-        "baseHitPoints": {
+        "maxHP": {
           "type": "number"
         },
         "bonusHitPoints": {
@@ -4163,7 +4163,7 @@
         "height",
         "weight",
         "inspiration",
-        "baseHitPoints",
+        "maxHP",
         "bonusHitPoints",
         "overrideHitPoints",
         "removedHitPoints",
