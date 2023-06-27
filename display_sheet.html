@@ -148,6 +148,14 @@
             const combatContain = document.getElementById("combat")
             combatContain.innerHTML = ""
 
+            // PB
+            const pbDiv = document.createElement("div")
+            pbDiv.classList.add("pb")
+            //style
+            pbDiv.style.fontSize = "1.5em"
+            pbDiv.insertAdjacentText("beforeend", `PB: ${modString(character.proficiencyBonus)}`)
+            combatContain.insertAdjacentElement("beforeend", pbDiv)
+
             // HP
             const hpDiv = document.createElement("div")
             hpDiv.classList.add("hp")
@@ -185,7 +193,7 @@
             const acDiv = document.createElement("div")
             acDiv.classList.add("ac")
             acDiv.style.fontSize = "1.5em"
-            acDiv.innerText = `AC: ${character.armorClass}`
+            acDiv.innerText = `AC: ${character.armorClass || character.ac}`
             combatContain.insertAdjacentElement("beforeend", acDiv)
 
             //// Exports ////
