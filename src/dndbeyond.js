@@ -212,11 +212,12 @@ function dndbeyond_json_parse(response) {
         const mod = Math.floor((character.abilityScores[ability]-10)/2)
         for (const skill of skillNamesByAbility[ability]) {
             character.skills[skill] = mod;
+            const skillLower = skill.toLowerCase().replace(/ /g, "-")
             // add PB
-            if (character.proficiencies.skills.includes(skill.toLowerCase())) {
+            if (character.proficiencies.skills.includes(skillLower)) {
                 character.skills[skill] += character.proficiencyBonus
                 // add PB again if expertise
-                if (character.expertise.skills.includes(skill.toLowerCase())) {
+                if (character.expertise.skills.includes(skillLower)) {
                     character.skills[skill] += character.proficiencyBonus
                 }
             } else if (character.halfProf) {
