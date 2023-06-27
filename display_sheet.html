@@ -16,6 +16,7 @@
         </header>
         <table id="abilityscores">
         </table>
+        <div id="combat"></div>
         <div id="spells"></div>
     </section>
     <section id="export">
@@ -137,6 +138,43 @@
                 }
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
             }
+            // Combat
+            const combatContain = document.getElementById("combat")
+            combatContain.innerHTML = ""
+            // HP
+            const hpDiv = document.createElement("div")
+            hpDiv.classList.add("hp")
+            //style
+            hpDiv.style.fontSize = "1.5em"
+            hpDiv.insertAdjacentText("beforeend", "HP: ")
+            // Tall text input with Max HP as placeholder, "slash", max HP (baseHitPoints)
+            const hpInput = document.createElement("input")
+            hpInput.type = "text"
+            hpInput.classList.add("hp-input")
+            hpInput.placeholder = character.baseHitPoints
+            hpInput.value = character.currentHitPoints || character.baseHitPoints
+            hpInput.addEventListener("change", () => {
+                character.currentHitPoints = hpInput.value
+            })
+            //style: width: 2em; text-align: end;
+            hpInput.style.fontSize = "1em"
+            hpInput.style.width = "2em"
+            hpInput.style.textAlign = "end"
+            hpInput.style.border = "none"
+            hpInput.style.borderBottom = "1px solid black"
+            hpInput.style.margin = "-1px -2px"
+            hpDiv.insertAdjacentElement("beforeend", hpInput)
+            hpDiv.insertAdjacentText("beforeend", ` / ${character.baseHitPoints}`)
+            combatContain.insertAdjacentElement("beforeend", hpDiv)
+            
+            // Initiative
+            const initDiv = document.createElement("div")
+            initDiv.classList.add("initiative")
+            initDiv.style.fontSize = "1.5em"
+            initDiv.innerText = `Init: ${modString(character.initiative)}`
+            combatContain.insertAdjacentElement("beforeend", initDiv)
+
+
             
             // PDF Exports
             export_section = document.getElementById("export")
