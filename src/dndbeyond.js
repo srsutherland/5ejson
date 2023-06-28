@@ -332,7 +332,7 @@ function dndbeyond_json_parse(response) {
 
     // Armor Class
     const armorClasses = []
-    const armorBonues = []
+    const armorBonuses = []
     const notEquipped = []
     // This is surprisingly complicated
     // First 10 + Dex
@@ -357,7 +357,7 @@ function dndbeyond_json_parse(response) {
             type = "light"
         } else if (def.armorTypeId == 2) {
             // Medium armor
-            components.push({name: "Dex", value: Math.min(character.abilityMods.Dexterity, 2)})
+            components.push({name: "DexMax2", value: Math.min(character.abilityMods.Dexterity, 2)})
             type = "medium"
         } else if (def.armorTypeId == 3) {
             // Heavy armor
@@ -370,7 +370,7 @@ function dndbeyond_json_parse(response) {
         armorObj = {name: name, type: type, isArmor: true, components: components, ac: totalAC, equipped: armor.equipped}
         if (armor.equipped) {
             if (armorObj.type == "shield") {
-                armorBonues.push(armorObj)
+                armorBonuses.push(armorObj)
             } else {
                 armorClasses.push(armorObj)
             }
@@ -380,13 +380,74 @@ function dndbeyond_json_parse(response) {
         // Remove from itemsWhichGiveAC
         itemsWhichGiveAC.splice(itemsWhichGiveAC.indexOf(armor), 1)
     }
+    for (const mod of character.dndb_modifiers.set) {
+        if (mod.subType === "unarmored-armor-class") {
+            const statName = abilityScoreNames[mod.statId-1]
+            const statValue = character.abilityMods[statName]
+            const statShortName = statName.substring(0, 3)
+            const components = [
+                {name: "Base", value: 10},
+                {name: "Dex", value: character.abilityMods.Dexterity},
+                {name: statShortName, value: statValue}
+            ]
+            ac = {
+                name: "Unarmored +" + statShortName, type: "unarmored", isArmor: false, 
+                components: components,
+                ac: Object.values(components).reduce((acc, cur) => acc + cur.value, 0)
+            }
+            armorClasses.push(ac)
+        }
+    }
+    for (const mod of character.dndb_modifiers.bonus) {
+        if (mod.subType === "armored-armor-class") {
+            const ac = {
+                name: "Armored bonus", type: "armored", isArmor: false,
+                components: [{name: "Bonus", value: mod.value}],
+                ac: mod.value
+            }
+            armorBonuses.push(ac)
+        }
+    }
     character.armorCalculation = {
         armorClasses: armorClasses,
-        armorBonues: armorBonues,
+        armorBonuses: armorBonuses,
         notEquipped: notEquipped,
         itemsWhichGiveAC: itemsWhichGiveAC
     }
-
+    character.armorClassSource = armorClasses[0]
+    character.armorClass = character.armorClassSource.ac
+    for (const armorClass of armorClasses) {
+        const combination = [armorClass]
+        for (const armorBonus of armorBonuses) {
+            if (armorBonus.type == "shield") {
+                // Can only have one shield, choose the best one
+                if (combination.some(armor => armor.type == "shield")) {
+                    if (armorBonus.ac > combination.find(armor => armor.type == "shield").ac) {
+                        combination.splice(combination.indexOf(armorBonus), 1)
+                        combination.push(armorBonus)
+                    }
+                } else {
+                    combination.push(armorBonus)
+                }
+            } else if (armorBonus.type == "armored") {
+                if (armorClass.isArmor) {
+                    combination.push(armorBonus)
+                }
+            } else if (armorBonus.type == "unarmored") {
+                if (!armorClass.isArmor) {
+                    combination.push(armorBonus)
+                }
+            } else if (armorBonus.type == armorClass.type) {
+                combination.push(armorBonus)
+            }
+        }
+        totalAC = combination.reduce((acc, cur) => acc + cur.ac, 0)
+        if (totalAC > character.armorClass) {
+            character.armorClassSource = armorClass
+            character.armorClass = totalAC
+        }
+    }
+        
 
 
     // Export
