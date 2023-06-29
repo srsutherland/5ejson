@@ -294,6 +294,15 @@ function dndbeyond_json_parse(response) {
         if (dndb_range.aoeType != null) {
             spellobj.area = dndb_range.aoeValue + " ft " + dndb_range.aoeType
         }
+
+        const dndb_castingTime = spelldata.definition.activation
+        const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Day?", "Special?"]
+        if (dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < castingTimeTypes.length) {
+            spellobj.castingTime = dndb_castingTime.activationTime + " " + castingTimeTypes[dndb_castingTime.activationType]
+        } else {
+            spellobj.castingTime = dndb_castingTime.activationTime + " of Unknown Type"; 
+        }
+
         console.log({name: name, dndb_dur: dndb_dur, duration: spellobj.duration, isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, range: spellobj.range, area: spellobj.area})
 
         //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
@@ -320,14 +329,14 @@ function dndbeyond_json_parse(response) {
             }
         }
     }
+    console.log(character.dndb_spells)
 
     // Equipment
     character.dndb_inventory = {}
     for (const item of character.dndb_data.inventory) {
         const name = item.definition.name
-        console.log(name)
-        console.log(item)
         character.dndb_inventory[name] = item
+        // TODO: format items and add to character.inventory
     }
 
     // Armor Class
@@ -343,8 +352,8 @@ function dndbeyond_json_parse(response) {
             {name: "Dex", value: character.abilityMods.Dexterity}
         ], ac: (10 + character.abilityMods.Dexterity)
     })
-    const itemsWhichAreArmor = Object.values(character.dndb_inventory).filter(item => item.definition.filterType == "Armor")
-    const itemsWhichGiveAC = Object.values(character.dndb_inventory).filter(item => item.definition.armorClass != null)
+    const itemsWhichAreArmor = character.dndb_data.inventory.filter(item => item.definition.filterType == "Armor")
+    const itemsWhichGiveAC = character.dndb_data.inventory.filter(item => item.definition.armorClass != null)
     for (const armor of itemsWhichAreArmor) {
         const def = armor.definition
         const name = def.name
