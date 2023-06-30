@@ -297,12 +297,19 @@ function dndbeyond_json_parse(response) {
 
         const dndb_castingTime = spelldata.definition.activation
         const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Day?", "Special?"]
-        if (dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < castingTimeTypes.length) {
+        if (dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < 5) {
+            spellobj.castingTime = castingTimeTypes[dndb_castingTime.activationType]
+        } else if (dndb_castingTime.activationType > 4 && dndb_castingTime.activationType < castingTimeTypes.length) {
             spellobj.castingTime = dndb_castingTime.activationTime + " " + castingTimeTypes[dndb_castingTime.activationType]
         } else {
             spellobj.castingTime = dndb_castingTime.activationTime + " of Unknown Type"; 
         }
 
+        const componentMap = ["_", "V", "S", "M"]
+        spellobj.components = spelldata.definition.components.map(c => componentMap[c]).join("")
+
+        // TODO: REMOVE
+        character.dndb_spells[name]._parsed = spellobj
         console.log({name: name, dndb_dur: dndb_dur, duration: spellobj.duration, isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, range: spellobj.range, area: spellobj.area})
 
         //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())

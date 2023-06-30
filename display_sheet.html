@@ -138,7 +138,20 @@
                 for (const spell of spells) {
                     const spellDiv = document.createElement("div")
                     spellDiv.classList.add("spell")
-                    spellDiv.textContent = spell.name
+                    const spellNameDiv = document.createElement("div")
+                    spellNameDiv.classList.add("spell-name")
+                    spellNameDiv.textContent = spell.name
+                    spellDiv.insertAdjacentElement("beforeend", spellNameDiv)
+                    const spellDataDiv = document.createElement("div")
+                    spellDataDiv.classList.add("spell-data")
+                    spellDataDiv.textContent = [
+                        spell.castingTime,
+                        spell.components,
+                        spell.range,
+                        spell.area,
+                        spell.duration
+                    ].filter(x => x).join(" / ")
+                    spellDiv.insertAdjacentElement("beforeend", spellDataDiv)
                     spellLevelDiv.insertAdjacentElement("beforeend", spellDiv)
                 }
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
@@ -320,6 +333,15 @@
                 l => Object.keys(Array(15).fill(''))
                 .map(i => Object.fromEntries([["name", `${l} - ${i}`]]))
             )
+        }
+        function loadAllSpells() {
+            jsons = $$("option").map(_ => "./test_json/" + _.value)
+            window.spells = {}
+            for (const json of jsons) {
+                fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char =>
+                    window.spells = {...window.spells, ...char.dndb_spells}
+                )
+            }
         }
     </script>
 </body>
