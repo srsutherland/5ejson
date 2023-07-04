@@ -45,11 +45,40 @@ body {
     vertical-align: top;
 }
 
+#spells {
+    margin: 0.5em 0;
+    column-width: 250px;
+    column-gap: 0.3em;
+}
+
+.spell-level {
+    margin: 0.3em 0.3em;
+    break-inside: avoid; /* to avoid breaking content across columns */
+    background-color: #eee;
+}
+
+#spells .spell-level:first-child,
+#spells .spell-level:first-child h2 {
+    margin-top: 0;
+}
+
 .spell-level h2 {
     font-size: 1.1em;
     font-weight: bold;
     font-family: monospace;
     margin: 0.8em 0 0.3em;
+}
+
+.spell {
+    margin: 0.3em 0.3em;
+}
+
+.spell-name {
+    font-weight: bold;
+}
+
+.spell-data {
+    font-size: 0.9em;
 }
 
 #export button {
