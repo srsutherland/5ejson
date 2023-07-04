@@ -367,7 +367,7 @@ function dndbeyond_json_parse(response) {
             type = "shield"
         }
         const totalAC = Object.values(components).reduce((acc, cur) => acc + cur.value, 0)
-        armorObj = {name: name, type: type, isArmor: true, components: components, ac: totalAC, equipped: armor.equipped}
+        const armorObj = {name: name, type: type, isArmor: true, components: components, ac: totalAC, equipped: armor.equipped}
         if (armor.equipped) {
             if (armorObj.type == "shield") {
                 armorBonuses.push(armorObj)
@@ -390,7 +390,7 @@ function dndbeyond_json_parse(response) {
                 {name: "Dex", value: character.abilityMods.Dexterity},
                 {name: statShortName, value: statValue}
             ]
-            ac = {
+            const ac = {
                 name: "Unarmored +" + statShortName, type: "unarmored", isArmor: false, 
                 components: components,
                 ac: Object.values(components).reduce((acc, cur) => acc + cur.value, 0)
@@ -441,7 +441,7 @@ function dndbeyond_json_parse(response) {
                 combination.push(armorBonus)
             }
         }
-        totalAC = combination.reduce((acc, cur) => acc + cur.ac, 0)
+        const totalAC = combination.reduce((acc, cur) => acc + cur.ac, 0)
         if (totalAC > character.armorClass) {
             character.armorClassSource = armorClass
             character.armorClass = totalAC
