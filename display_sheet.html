@@ -152,6 +152,12 @@
                         spell.duration
                     ].filter(x => x).join(" / ")
                     spellDiv.insertAdjacentElement("beforeend", spellDataDiv)
+                    if (spell.damage) {
+                        spellDamageDiv = document.createElement("div")
+                        spellDamageDiv.classList.add("spell-data")
+                        spellDamageDiv.textContent = spell.damage
+                        spellDiv.insertAdjacentElement("beforeend", spellDamageDiv)
+                    }
                     spellLevelDiv.insertAdjacentElement("beforeend", spellDiv)
                 }
                 spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
@@ -337,11 +343,33 @@
         function loadAllSpells() {
             jsons = $$("option").map(_ => "./test_json/" + _.value)
             window.spells = {}
+            window.parsed_spells = {}
+            p = [];
             for (const json of jsons) {
-                fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char =>
+                p.push(fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char => {
                     window.spells = {...window.spells, ...char.dndb_spells}
-                )
+                    window.parsed_spells = {...window.parsed_spells, ...char.spells}
+                }))
             }
+            return Promise.all(p)
+        }
+        function spellsTagged(tag) {
+            return Object.fromEntries(
+                Object.entries(window.spells)
+                .filter(([_, spell]) => spell.definition.tags.includes(tag))
+            )
+        }
+        function renderSpells(spells) {
+            // 1x10 array of spells (0-9)
+            const spell_list = [[],[],[],[],[],[],[],[],[],[]]
+            for (key of Object.keys(spells).sort()) {
+                const spell = spells[key]._parsed
+                const level = spell.level
+                spell_list[level].push(spell)
+            }
+            window.character.spells = spell_list
+            onCharLoaded()
+            return spell_list
         }
     </script>
 </body>

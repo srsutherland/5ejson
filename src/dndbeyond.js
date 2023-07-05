@@ -272,6 +272,8 @@ function dndbeyond_json_parse(response) {
             description: spelldata.definition.description,
             dndb_data: spelldata
         }
+        
+        // Duration
         const dndb_dur = spelldata.definition.duration
         if (dndb_dur.durationType == "Instantaneous") {
             spellobj.duration = "Instantaneous"
@@ -285,6 +287,7 @@ function dndbeyond_json_parse(response) {
             }
         }
 
+        // Range and Area
         const dndb_range = spelldata.definition.range
         if (dndb_range.origin == "Touch" || dndb_range.origin == "Self") {
             spellobj.range = dndb_range.origin
@@ -295,6 +298,7 @@ function dndbeyond_json_parse(response) {
             spellobj.area = dndb_range.aoeValue + " ft " + dndb_range.aoeType
         }
 
+        // Casting Time
         const dndb_castingTime = spelldata.definition.activation
         const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Day?", "Special?"]
         if (dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < 5) {
@@ -305,8 +309,28 @@ function dndbeyond_json_parse(response) {
             spellobj.castingTime = dndb_castingTime.activationTime + " of Unknown Type"; 
         }
 
+        // Components (V, S, M)
         const componentMap = ["_", "V", "S", "M"]
         spellobj.components = spelldata.definition.components.map(c => componentMap[c]).join("")
+
+        // Damage
+        if (spelldata.definition.tags.includes("Damage")) {
+            const modifiers = spelldata.definition.modifiers
+            const damageMods = modifiers.filter(mod => mod.type == "damage").map(mod => {
+                const damage = {dice: mod.die.diceString, type: mod.subType}
+                if (spellobj.level == 0) {
+                    for (lvlDef of mod.atHigherLevels.higherLevelDefinitions) {
+                        if (character.level >= lvlDef.level) {
+                            damage.dice = lvlDef.dice.diceString
+                        }
+                    }
+                }
+                return damage
+            })
+
+            spellobj.damage = damageMods.map(mod => mod.dice + " " + mod.type).join(", ")
+            // Needs special handling for Eldritch Blast
+        }
 
         // TODO: REMOVE
         character.dndb_spells[name]._parsed = spellobj
