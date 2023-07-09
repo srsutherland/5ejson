@@ -94,6 +94,7 @@ function dndbeyond_json_parse(response) {
         proficiencies: {skills:[], saves:[], other:[]},
         expertise: {skills:[], saves:[], other:[]},
         halfProf: false, //assigned later
+        languages: [],
         spells: [[], [], [], [], [], [], [], [], [], []],
         spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         spellcasting: [],
@@ -216,6 +217,17 @@ function dndbeyond_json_parse(response) {
         if (mod.subType == "ability-checks") {
             character.halfProf = true
         }
+    }
+
+    // Languages
+    for (const mod of modifiers.language || []) {
+        character.languages.push(mod.friendlySubtypeName)
+    }
+    // Move Common to the front
+    const commonIndex = character.languages.indexOf("Common")
+    if (commonIndex > 0) {
+        character.languages.splice(commonIndex, 1)
+        character.languages.unshift("Common")
     }
 
     // Skills
