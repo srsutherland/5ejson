@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&DBeyond JSON Downloader
 // @namespace    dragonfang.tech
-// @version      2023.06.26
+// @version      2023.07.11
 // @description  Download D&DBeyond character sheet as JSON file with ctrl+s
 // @author       srsutherland
 // @license      MIT
