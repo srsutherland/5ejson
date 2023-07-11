@@ -94,7 +94,10 @@ function dndbeyond_json_parse(response) {
         proficiencies: {skills:[], saves:[], other:[]},
         expertise: {skills:[], saves:[], other:[]},
         halfProf: false, //assigned later
+        languages: [],
         spells: [[], [], [], [], [], [], [], [], [], []],
+        spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        spellcasting: [],
     }
     // Restructure modifier data
     const modifiers = {}
@@ -216,6 +219,17 @@ function dndbeyond_json_parse(response) {
         }
     }
 
+    // Languages
+    for (const mod of modifiers.language || []) {
+        character.languages.push(mod.friendlySubtypeName)
+    }
+    // Move Common to the front
+    const commonIndex = character.languages.indexOf("Common")
+    if (commonIndex > 0) {
+        character.languages.splice(commonIndex, 1)
+        character.languages.unshift("Common")
+    }
+
     // Skills
     // Start with ability modifiers
     for (const ability of abilityScoreNames) {
@@ -252,6 +266,31 @@ function dndbeyond_json_parse(response) {
     if (character.halfProf) {
         character.initiative += Math.floor(character.proficiencyBonus/2)
     }
+
+    // Spellcasting
+    const classSpellcastingAbilities = {
+        "Bard": "Charisma",
+        "Cleric": "Wisdom",
+        "Druid": "Wisdom",
+        "Paladin": "Charisma",
+        "Ranger": "Wisdom",
+        "Sorcerer": "Charisma",
+        "Warlock": "Charisma",
+        "Wizard": "Intelligence"
+    }
+    for (const jclass of character.classlist) {
+        const spellcastingAbility = classSpellcastingAbilities[jclass.name]
+        if (spellcastingAbility) {
+            const classSpellcasting = {
+                name: jclass.name,
+                ability: spellcastingAbility,
+                dc: 8 + character.abilityMods[spellcastingAbility] + character.proficiencyBonus,
+                attack: character.abilityMods[spellcastingAbility] + character.proficiencyBonus,
+            }
+            character.spellcasting.push(classSpellcasting)
+        }
+    }
+
 
     // Spells
     character.dndb_spells = {}
@@ -319,7 +358,7 @@ function dndbeyond_json_parse(response) {
             const damageMods = modifiers.filter(mod => mod.type == "damage").map(mod => {
                 const damage = {dice: mod.die.diceString, type: mod.subType}
                 if (spellobj.level == 0) {
-                    for (lvlDef of mod.atHigherLevels.higherLevelDefinitions) {
+                    for (const lvlDef of mod.atHigherLevels.higherLevelDefinitions) {
                         if (character.level >= lvlDef.level) {
                             damage.dice = lvlDef.dice.diceString
                         }

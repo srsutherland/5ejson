@@ -78,9 +78,11 @@ async function annotateFieldNames(filename) {
 async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined) {
     const log = logFunc || console.log;
     // Gets used by eval
+    // eslint-disable-next-line no-unused-vars
     const char = chardata;
     // Helper functions, for use in eval
-    const modString = mod => mod >= 0 ? `+${mod}` : `${mod}`
+    const modString = mod => (mod ?? 0) >= 0 ? `+${mod}` : `${mod}`
+    // eslint-disable-next-line no-unused-vars
     const modFromScore = score => modString(Math.floor((score-10)/2))
 
     const formPdfBytes = fetch(pdf_filename).then((res) => res.arrayBuffer());
