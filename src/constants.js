@@ -51,6 +51,7 @@ const skillNamesByAbility = Object.freeze({
 })
 
 const alignments = Object.freeze([
+    '______________', // 1-indexed
     'LG', 'NG', 'CG', 
     'LN', 'N',  'CN', 
     'LE', 'NE', 'CE'

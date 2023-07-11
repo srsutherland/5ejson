@@ -45,6 +45,7 @@ if (typeof abilityScoreNames === 'undefined') {
 
     // eslint-disable-next-line no-unused-vars
     const alignments = Object.freeze([
+        '______________', // 1-indexed
         'LG', 'NG', 'CG', 
         'LN', 'N',  'CN', 
         'LE', 'NE', 'CE'
