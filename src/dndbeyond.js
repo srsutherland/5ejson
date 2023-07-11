@@ -45,7 +45,6 @@ if (typeof abilityScoreNames === 'undefined') {
 
     // eslint-disable-next-line no-unused-vars
     const alignments = Object.freeze([
-        '______________', // 1-indexed
         'LG', 'NG', 'CG', 
         'LN', 'N',  'CN', 
         'LE', 'NE', 'CE'
@@ -78,7 +77,7 @@ function dndbeyond_json_parse(response) {
         race: chardata.race.fullName,
         size: chardata.race.size,
         background: chardata.background.definition.name,
-        alignment: alignments[chardata.alignmentId],
+        alignment: alignments[chardata.alignmentId-1], // 1-indexed
         class: null, //assigned later
         classlist: [], //assigned later
         level: 0, //assigned later
