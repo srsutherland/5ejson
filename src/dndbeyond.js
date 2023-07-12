@@ -99,9 +99,21 @@ function dndbeyond_json_parse(response) {
         spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         spellcasting: [],
     }
+    const rawModifiers = chardata.modifiers
+    // Before we can start we need to get the modifiers from items
+    rawModifiers.item = []
+    const itemsWhichGrantModifiers = chardata.inventory.filter(i => i.definition.grantedModifiers.length)
+    for (const item of itemsWhichGrantModifiers) {
+        for (const mod of item.definition.grantedModifiers) {
+            if (mod.isGranted && (mod.requiresAttunement == false || item.isAttuned)) {
+                rawModifiers.item.push({item: item.definition.name, ...mod})
+            }
+        }
+    }
+
     // Restructure modifier data
     const modifiers = {}
-    for (const [modSource, modList] of Object.entries(chardata.modifiers)) {
+    for (const [modSource, modList] of Object.entries(rawModifiers)) {
         for (const mod of modList) {
             const type = mod.type
             if (modifiers[type] == undefined) {
@@ -512,6 +524,21 @@ function dndbeyond_json_parse(response) {
                 ac: mod.value
             }
             armorBonuses.push(ac)
+        } else if (mod.subType === "unarmored-armor-class") { //TODO check
+            const ac = {
+                name: "Unarmored bonus", type: "unarmored", isArmor: false,
+                components: [{name: "Bonus", value: mod.value}],
+                ac: mod.value
+            }
+            armorClasses.push(ac)
+        } else if (mod.subType === "armor-class") { //TODO check
+            const ac = {
+                name: mod.item ?? "Armor class", 
+                type: "bonus", isArmor: false,
+                components: [{name: "Bonus", value: mod.value}],
+                ac: mod.value
+            }
+            armorClasses.push(ac)
         }
     }
     character.armorCalculation = {
@@ -544,6 +571,8 @@ function dndbeyond_json_parse(response) {
                     combination.push(armorBonus)
                 }
             } else if (armorBonus.type == armorClass.type) {
+                combination.push(armorBonus)
+            } else if (armorBonus.type == "bonus") { //TODO check
                 combination.push(armorBonus)
             }
         }
