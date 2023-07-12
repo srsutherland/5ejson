@@ -247,6 +247,15 @@ function dndbeyond_json_parse(response) {
             } else if (character.halfProf) {
                 character.skills[skill] += Math.floor(character.proficiencyBonus/2)
             }
+            // Check misc bonuses
+            for (const mod of modifiers.bonus || []) {
+                if (mod.subType == skillLower || mod.subType == "ability-checks") {
+                    const value = 
+                        mod.value || mod.fixedValue || 
+                        character.abilityMods.array[mod.statId-1] || 0;
+                    character.skills[skill] += value;
+                }
+            }
         }
     }
 
@@ -259,12 +268,30 @@ function dndbeyond_json_parse(response) {
         if (character.proficiencies.saves.includes(ability.toLowerCase())) {
             character.saves[ability] += character.proficiencyBonus
         }
+        // Misc bonuses
+        for (const mod of modifiers.bonus || []) {
+            if (mod.subType == ability.toLowerCase() + "-saves" || mod.subType == "saving-throws") {
+                const value = 
+                    mod.value || mod.fixedValue || 
+                    character.abilityMods.array[mod.statId-1] || 0;
+                character.saves[ability] += value;
+            }
+        }
     }
 
     // Initiative bonus
     character.initiative = character.abilityMods.Dexterity
     if (character.halfProf) {
         character.initiative += Math.floor(character.proficiencyBonus/2)
+    }
+    // Misc bonuses
+    for (const mod of modifiers.bonus || []) {
+        if (mod.subType == "initiative" || mod.subType == "ability-checks") {
+            const value = 
+                mod.value || mod.fixedValue || 
+                character.abilityMods.array[mod.statId-1] || 0;
+            character.initiative += value;
+        }
     }
 
     // Spellcasting
