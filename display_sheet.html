@@ -215,6 +215,13 @@
             acDiv.innerText = `AC: ${character.armorClass || character.ac}`
             combatContain.insertAdjacentElement("beforeend", acDiv)
 
+            // Hit Dice
+            const hitDiceDiv = document.createElement("div")
+            hitDiceDiv.classList.add("hitdice")
+            hitDiceDiv.style.fontSize = "1.5em"
+            hitDiceDiv.innerText = `Hit Dice: ${character.hitDice}`
+            combatContain.insertAdjacentElement("beforeend", hitDiceDiv)
+
             //// Exports ////
             // PDF Exports
             export_section = document.getElementById("export")

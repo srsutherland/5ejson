@@ -80,6 +80,7 @@ function dndbeyond_json_parse(response) {
         alignment: alignments[chardata.alignmentId-1], // 1-indexed
         class: null, //assigned later
         classlist: [], //assigned later
+        hitDice: null, //assigned later
         level: 0, //assigned later
         skills: {},
         saves: {},
@@ -133,6 +134,7 @@ function dndbeyond_json_parse(response) {
         jclass.name = dndbclass.definition.name
         jclass.level = dndbclass.level
         jclass.subclass = dndbclass.subclassDefinition?.name
+        jclass.hitDice = "d" + dndbclass.definition.hitDice
         jclass.isStartingClass = dndbclass.isStartingClass
 
         character.level += jclass.level
@@ -158,6 +160,7 @@ function dndbeyond_json_parse(response) {
 
         character.classlist.push(jclass)
     }
+    character.hitDice = character.classlist.map(c => c.level + c.hitDice).join("+")
     // Proficiency Bonus starts at +2 at level 1, and increases every 4 levels
     character.proficiencyBonus = Math.floor(character.level/4) + 2
 
