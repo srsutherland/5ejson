@@ -463,6 +463,7 @@ function dndbeyond_json_parse(response) {
     })
     const itemsWhichAreArmor = character.dndb_data.inventory.filter(item => item.definition.filterType == "Armor")
     const itemsWhichGiveAC = character.dndb_data.inventory.filter(item => item.definition.armorClass != null)
+    // Turn each armor or shield into an AC object and append to armorClasses
     for (const armor of itemsWhichAreArmor) {
         const def = armor.definition
         const name = def.name
@@ -498,6 +499,7 @@ function dndbeyond_json_parse(response) {
         // Remove from itemsWhichGiveAC
         itemsWhichGiveAC.splice(itemsWhichGiveAC.indexOf(armor), 1)
     }
+    // Turn each set-modifier (unarmored defense) into an AC object and append to armorClasses
     for (const mod of character.dndb_modifiers.set) {
         if (mod.subType === "unarmored-armor-class") {
             const statName = abilityScoreNames[mod.statId-1]
@@ -516,6 +518,7 @@ function dndbeyond_json_parse(response) {
             armorClasses.push(ac)
         }
     }
+    // Turn each bonus-modifier into an AC object and append to armorBonuses
     for (const mod of character.dndb_modifiers.bonus) {
         if (mod.subType === "armored-armor-class") {
             const ac = {
@@ -530,7 +533,7 @@ function dndbeyond_json_parse(response) {
                 components: [{name: "Bonus", value: mod.value}],
                 ac: mod.value
             }
-            armorClasses.push(ac)
+            armorBonuses.push(ac)
         } else if (mod.subType === "armor-class") { //TODO check
             const ac = {
                 name: mod.item ?? "Armor class", 
@@ -538,7 +541,7 @@ function dndbeyond_json_parse(response) {
                 components: [{name: "Bonus", value: mod.value}],
                 ac: mod.value
             }
-            armorClasses.push(ac)
+            armorBonuses.push(ac)
         }
     }
     character.armorCalculation = {
@@ -572,13 +575,14 @@ function dndbeyond_json_parse(response) {
                 }
             } else if (armorBonus.type == armorClass.type) {
                 combination.push(armorBonus)
-            } else if (armorBonus.type == "bonus") { //TODO check
+            } else if (armorBonus.type == "bonus") {
                 combination.push(armorBonus)
             }
         }
         const totalAC = combination.reduce((acc, cur) => acc + cur.ac, 0)
         if (totalAC > character.armorClass) {
             character.armorClassSource = armorClass
+            character.armorClassComponents = combination
             character.armorClass = totalAC
         }
     }
