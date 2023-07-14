@@ -394,5 +394,14 @@
             onCharLoaded()
             return spell_list
         }
+        // Load hacker tools if available
+        if (window.srs) {
+            window.srs.apply()
+        } else {
+            // Maybe they'll be loaded in 500ms?
+            setTimeout(() => {
+                if (window.srs) window.srs.apply()
+            }, 500)
+        }
     </script>
 </body>
