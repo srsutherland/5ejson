@@ -91,6 +91,8 @@ function dndbeyond_json_parse(response) {
         //removedHitPoints: chardata.removedHitPoints,
         tempHP: chardata.temporaryHitPoints,
         maxHP: chardata.baseHitPoints + chardata.bonusHitPoints, //con mod added later
+        speed: 0, //assigned later
+        speeds: {},
         proficiencyBonus: 0, //assigned later
         proficiencies: {skills:[], saves:[], other:[]},
         expertise: {skills:[], saves:[], other:[]},
@@ -590,7 +592,41 @@ function dndbeyond_json_parse(response) {
         }
     }
         
-
+    // Speed(s)
+    // walking, swimming, climbing, flying, burrowing
+    character.speeds.walk = 30 // This is the default speed, only change if there is a speed modifier
+    const speedTypes = ["walking", "swimming", "climbing", "flying", "burrowing"]
+    const shortSpeedTypes = ["walk", "swim", "climb", "fly", "burrow"] // I'd truncate if not for "swimm"
+    // Walking speed first, since some speeds are based on walking speed
+    for (const mod of character.dndb_modifiers.set) {
+        if (mod.subType === "innate-speed-walking") {
+            character.speeds.walk = Math.max(mod.value, character.speeds.walk)
+        }
+    }
+    for (const mod of character.dndb_modifiers.bonus) {
+        if (mod.subType === "unarmored-movement") {
+            character.speeds.walk += mod.value
+        }
+    }
+    for (const mod of character.dndb_modifiers.set) {
+        if (mod.subType.match("innate-speed-") && mod.subType !== "innate-speed-walking") {
+            const speedType = mod.subType.substring("innate-speed-".length)
+            const shortType = shortSpeedTypes[speedTypes.indexOf(speedType)]
+            // Speeds which are based on walking speed have no mod.value
+            const speed = mod.value ?? character.speeds.walk
+            character.speeds[shortType] = Math.max(speed, character.speeds[shortType] ?? 0)
+        }
+    }
+    for (const mod of character.dndb_modifiers.bonus) {
+        // This subType is a guess, I don't have a character with this modifier
+        if (mod.subType.match("speed-") && mod.subType !== "innate-speed-walking") {
+            const speedType = mod.subType.substring("innate-speed-".length)
+            const shortSpeedType = shortSpeedTypes[speedTypes.indexOf(speedType)]
+            const bonus = mod.value || mod.fixedValue;
+            character.speeds[shortSpeedType] += bonus
+        }
+    }
+    character.speed = character.speeds.walk
 
     // Export
     window.character = character

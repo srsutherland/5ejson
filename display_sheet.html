@@ -222,6 +222,25 @@
             hitDiceDiv.innerText = `Hit Dice: ${character.hitDice}`
             combatContain.insertAdjacentElement("beforeend", hitDiceDiv)
 
+            // Speed
+            const speedDiv = document.createElement("div")
+            speedDiv.classList.add("speed")
+            speedDiv.style.fontSize = "1.5em"
+            speedDiv.innerText = `Speed: ${character.speed}`
+            combatContain.insertAdjacentElement("beforeend", speedDiv)
+            // Other Speeds (fly, swim, climb, burrow)
+            for (const [mode, speed] of Object.entries(character.speeds)) {
+                if (mode.toLowerCase() == "walk") {
+                    continue
+                }
+                if (speed) {
+                    const speedDiv = document.createElement("div")
+                    speedDiv.classList.add("speed")
+                    speedDiv.innerText = `${mode}: ${speed}`
+                    combatContain.insertAdjacentElement("beforeend", speedDiv)
+                }
+            }
+
             //// Exports ////
             // PDF Exports
             export_section = document.getElementById("export")
