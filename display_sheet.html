@@ -357,18 +357,24 @@
                 .map(i => Object.fromEntries([["name", `${l} - ${i}`]]))
             )
         }
-        function loadAllSpells() {
+        function loadAllAndDo(callbackForChar) {
             jsons = $$("option").map(_ => "./test_json/" + _.value)
-            window.spells = {}
-            window.parsed_spells = {}
             p = [];
             for (const json of jsons) {
                 p.push(fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char => {
-                    window.spells = {...window.spells, ...char.dndb_spells}
-                    window.parsed_spells = {...window.parsed_spells, ...char.spells}
+                    callbackForChar(char)
                 }))
             }
             return Promise.all(p)
+        }
+        async function loadAllSpells() {
+            window.spells = {}
+            window.parsed_spells = {}
+            await loadAllAndDo(char => {
+                window.spells = {...window.spells, ...char.dndb_spells}
+                const parsed = Object.fromEntries(char.spells.flat().map(s => [s.name, s]))
+                window.parsed_spells = {...window.parsed_spells, ...parsed}
+            })
         }
         function spellsTagged(tag) {
             return Object.fromEntries(
