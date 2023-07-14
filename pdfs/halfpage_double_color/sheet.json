@@ -76,7 +76,9 @@
     "Check Box37": "char.proficiencies.skills.includes('persuasion')",
     "AC": "char.armorClass",
     "Init": "modString(char.initiative)",
+    "Speed": "char.speed + ' ft'",
     "hp": "char.maxHP",
+    "hd1": "char.hitDice",
 
     "1_3": "char.languages[0] ?? ''",
     "2_3": "char.languages[1] ?? ''",
@@ -84,6 +86,13 @@
     "4_3": "char.languages[3] ?? ''",
 
     "Text45": "'  '+char.armorClassSource.name",
+    
+    "Text474": "char.armorClassComponents.filter(c => !c.isArmor)[0]?.name ?? ''",
+    "Row1_2": "modString(char.armorClassComponents.filter(c => !c.isArmor)[0]?.ac) ?? ''",
+    "Text475": "char.armorClassComponents.filter(c => !c.isArmor)[1]?.name ?? ''",
+    "Row2_2": "modString(char.armorClassComponents.filter(c => !c.isArmor)[1]?.ac) ?? ''",
+    "Text476": "char.armorClassComponents.filter(c => !c.isArmor)[2]?.name ?? ''",
+    "Row3_2": "modString(char.armorClassComponents.filter(c => !c.isArmor)[2]?.ac) ?? ''",
 
     "Cast": "char.spellcasting[0]?.ability.substring(0, 3) ?? ''",
     "Cast1": "char.spellcasting[0]?.dc ?? ''",
