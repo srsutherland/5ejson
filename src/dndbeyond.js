@@ -101,6 +101,7 @@ function dndbeyond_json_parse(response) {
         spells: [[], [], [], [], [], [], [], [], [], []],
         spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         spellcasting: [],
+        notes: chardata.notes,
     }
     const rawModifiers = chardata.modifiers
     // Before we can start we need to get the modifiers from items
@@ -453,7 +454,11 @@ function dndbeyond_json_parse(response) {
     character.dndb_inventory = {}
     for (const item of character.dndb_data.inventory) {
         const name = item.definition.name
-        character.dndb_inventory[name] = item
+        if (character.dndb_inventory[name] != null) {
+            character.dndb_inventory[name].quantity += item.quantity
+        } else {
+            character.dndb_inventory[name] = item
+        }
         // TODO: format items and add to character.inventory
     }
 
