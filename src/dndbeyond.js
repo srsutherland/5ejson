@@ -113,6 +113,17 @@ function dndbeyond_json_parse(response) {
             }
         }
     }
+    // Get the value from the many ways it can be stored
+    const getModValue = (mod) => {
+        const value = 
+            mod.value || 
+            mod.fixedValue || 
+            character.abilityMods.array[mod.statId-1] ||
+            [NaN, character.proficiencyBonus][mod.bonusTypes[0]] ||
+            0;
+        return value
+    }
+
 
     // Restructure modifier data
     const modifiers = {}
@@ -267,9 +278,7 @@ function dndbeyond_json_parse(response) {
             // Check misc bonuses
             for (const mod of modifiers.bonus || []) {
                 if (mod.subType == skillLower || mod.subType == "ability-checks") {
-                    const value = 
-                        mod.value || mod.fixedValue || 
-                        character.abilityMods.array[mod.statId-1] || 0;
+                    const value = getModValue(mod);
                     character.skills[skill] += value;
                 }
             }
@@ -288,9 +297,7 @@ function dndbeyond_json_parse(response) {
         // Misc bonuses
         for (const mod of modifiers.bonus || []) {
             if (mod.subType == ability.toLowerCase() + "-saves" || mod.subType == "saving-throws") {
-                const value = 
-                    mod.value || mod.fixedValue || 
-                    character.abilityMods.array[mod.statId-1] || 0;
+                const value = getModValue(mod)
                 character.saves[ability] += value;
             }
         }
@@ -301,12 +308,9 @@ function dndbeyond_json_parse(response) {
     if (character.halfProf) {
         character.initiative += Math.floor(character.proficiencyBonus/2)
     }
-    // Misc bonuses
     for (const mod of modifiers.bonus || []) {
         if (mod.subType == "initiative" || mod.subType == "ability-checks") {
-            const value = 
-                mod.value || mod.fixedValue || 
-                character.abilityMods.array[mod.statId-1] || 0;
+            const value = getModValue(mod)
             character.initiative += value;
         }
     }
