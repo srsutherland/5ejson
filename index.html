@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>README</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="./homebrewery/phb.standalone.css">
+
+  <style>
+
+  </style>
+</head>
+
+<body class="phb">
+  <div>
+    <div class="page"><span class="insideCover"></span><h1 id="5ejson">5ejson</h1></div>
+
+    <div class="block note">
+      <h2>&gt;&gt;<a href="https://srsutherland.github.io/5ejson/display_sheet">Demo here</a>&lt;&lt;</h2>
+    </div>
+
+    <h3>A json character sheet <br>interchange format <br>for D&amp;D 5e</h3>
+
+    <p>There are a lot of different tools for building making and storing digital character sheets for 5e that have
+      sprung up over the years. D&amp;D beyond is the most official these days, we didn&apos;t always have that. And of
+      course, you can&apos;t export it except by PDF, so if you play on a VTT like Roll20, you have to build and store
+      it there. And then there&apos;s a plethora of android and iphone apps that all have their own formats that
+      don&apos;t play nice.</p>
+    <p>The goal of this repo is to have a sheet format that acts as a common ground between these formats, storing the
+      essential character info while not being too complex, and allowing you to export to any sheet you want.</p>
+    <hr>
+    <h3>Currently supported import formats:</h3>
+    <ul>
+      <li>5ejson</li>
+      <li>D&amp;D Beyond (API v5). [Under development]
+        <ul>
+          <li>(Download using ctrl+s with <a
+              href="https://github.com/srsutherland/5ejson/raw/main/userscript/dndb_dl.user.js">this userscript</a>)
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>Next in line:</p>
+    <ul>
+      <li>Roll20</li>
+    </ul>
+    <hr>
+    <h3>Currently supported output formats:</h3>
+    <ul>
+      <li>5ejson</li>
+      <li><a href="https://srsutherland.github.io/5ejson/display_sheet">Included web app</a> [Under development]</li>
+      <li>Several pdfs: [Under development]
+        <ul>
+          <li><a href="./blob/main/pdfs/standard/5E_CharacterSheet_Fillable.pdf">Standard layout
+              (5E_CharacterSheet_Fillable.pdf)</a></li>
+          <li><a
+              href="./blob/main/pdfs/halfpage_double_color/D_and_D_Character_Sheet_halfpage_coloured_FormFillable_V2.pdf">Double-sided
+              half-page sheet</a></li>
+          <li><a href="./blob/main/pdfs/1page_v6/CharacterSheet_1page_form6.pdf">One-page v6</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</body>
+
+</html>
