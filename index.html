@@ -9,16 +9,38 @@
   <link rel="stylesheet" href="./homebrewery/phb.standalone.css">
 
   <style>
-
+    .phb {
+      column-count: 2;
+      column-fill: unset;
+      column-gap: 20px;
+      column-width: 8cm;
+      height: 100vh;
+      width: unset;
+      max-width: 80em;
+      margin: auto;
+      font-size: 12px;
+    }
+    @media screen and (max-width: 800px) {
+      .phb {
+        column-count: 1;
+        max-width: 80em;
+        padding: 1.2cm .5cm 1.7cm;
+      }
+    }
   </style>
 </head>
 
 <body class="phb">
   <div>
-    <div class="page"><span class="insideCover"></span><h1 id="5ejson">5ejson</h1></div>
+    <div class="page">
+      <span class="insideCover"></span>
+      <h1 id="5ejson">
+        <span style="font-size: 1.2em;">5</span><span style="font-size:0.8em;margin-left: -1px;margin-right: 1px;">e</span>json
+      </h1>
+    </div>
 
     <div class="block note">
-      <h2>&gt;&gt;<a href="https://srsutherland.github.io/5ejson/display_sheet">Demo here</a>&lt;&lt;</h2>
+      <h2>&gt;&gt;<a href="./display_sheet.html">Demo here</a>&lt;&lt;</h2>
     </div>
 
     <h3>A json character sheet <br>interchange format <br>for D&amp;D 5e</h3>
