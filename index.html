@@ -2,11 +2,12 @@
 <html>
 
 <head>
-  <title>README</title>
+  <title>5ejson: A json character sheet interchange format for D&D 5e</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="./homebrewery/phb.standalone.css">
+  <link rel="stylesheet" href="./homebrewery/v3.assets.css">
 
   <style>
     .phb {
@@ -18,8 +19,29 @@
       width: unset;
       max-width: 80em;
       margin: auto;
-      font-size: 12px;
+      font-size: 14px;
     }
+
+    .phb h1 {
+      font-size: 3.0em;
+    }
+
+    .phb h2 {
+      font-size: 2.0em;
+    }
+
+    .phb h3 {
+      font-size: 1.6em;
+    }
+
+    .phb h4 {
+      font-size: 1.4em;
+    }
+
+    .phb ul ul {
+      margin-left: 0;
+    }
+
     @media screen and (max-width: 800px) {
       .phb {
         column-count: 1;
@@ -27,63 +49,97 @@
         padding: 1.2cm .5cm 1.7cm;
       }
     }
+
+    .break-avoid {
+      break-inside: avoid;
+    }
+
+    .v3 .block {
+      margin: 1em 0;
+      width: 90%;
+    }
+
+    .header {
+      column-span: all;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-family: NodestoCapsCondensed;
+      font-weight: 400;
+      font-size: 4em;
+      margin: 0;
+    }
+
+    .header h2 {
+      font-size: 1.6em;
+    }
+
+    .header hr {
+      /* 20% desaturation */
+      filter: grayscale(20%);
+    }
+
   </style>
 </head>
 
-<body class="phb">
+<body class="phb v3">
   <div>
-    <div class="page">
+    <div class="page header">
       <span class="insideCover"></span>
       <h1 id="5ejson">
-        <span style="font-size: 1.2em;">5</span><span style="font-size:0.8em;margin-left: -1px;margin-right: 1px;">e</span>json
+        <span style="font-size: 1em;">5</span><span style="font-size:0.8em">e</span>json
       </h1>
+      <h2>A json character sheet <br>interchange format <br>for D&amp;D 5e</h2>
+      <hr>
     </div>
-
     <div class="block note">
-      <h2>&gt;&gt;<a href="./display_sheet.html">Demo here</a>&lt;&lt;</h2>
+      <h4>&gt;&gt;<a href="./display_sheet.html">Demo here</a>&lt;&lt;</h4>
     </div>
-
-    <h3>A json character sheet <br>interchange format <br>for D&amp;D 5e</h3>
-
     <p>There are a lot of different tools for building making and storing digital character sheets for 5e that have
-      sprung up over the years. D&amp;D beyond is the most official these days, we didn&apos;t always have that. And of
-      course, you can&apos;t export it except by PDF, so if you play on a VTT like Roll20, you have to build and store
-      it there. And then there&apos;s a plethora of android and iphone apps that all have their own formats that
-      don&apos;t play nice.</p>
+      sprung up over the years. D&amp;D beyond is the most official these days, but we didn't always have that. And of
+      course, you can't export it except by PDF, so if you play on a VTT like Roll20, you have to build and store
+      it there. And then there's a plethora of android and iphone apps that all have their own formats that
+      don't play nice.</p>
     <p>The goal of this repo is to have a sheet format that acts as a common ground between these formats, storing the
       essential character info while not being too complex, and allowing you to export to any sheet you want.</p>
     <hr>
-    <h3>Currently supported import formats:</h3>
-    <ul>
-      <li>5ejson</li>
-      <li>D&amp;D Beyond (API v5). [Under development]
-        <ul>
-          <li>(Download using ctrl+s with <a
-              href="https://github.com/srsutherland/5ejson/raw/main/userscript/dndb_dl.user.js">this userscript</a>)
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <p>Next in line:</p>
-    <ul>
-      <li>Roll20</li>
-    </ul>
     <hr>
-    <h3>Currently supported output formats:</h3>
-    <ul>
-      <li>5ejson</li>
-      <li><a href="https://srsutherland.github.io/5ejson/display_sheet">Included web app</a> [Under development]</li>
-      <li>Several pdfs: [Under development]
-        <ul>
-          <li><a href="./blob/main/pdfs/standard/5E_CharacterSheet_Fillable.pdf">Standard layout
-              (5E_CharacterSheet_Fillable.pdf)</a></li>
-          <li><a
-              href="./blob/main/pdfs/halfpage_double_color/D_and_D_Character_Sheet_halfpage_coloured_FormFillable_V2.pdf">Double-sided
-              half-page sheet</a></li>
-          <li><a href="./blob/main/pdfs/1page_v6/CharacterSheet_1page_form6.pdf">One-page v6</a></li>
-        </ul>
-      </li>
-    </ul>
+    <div class="break-avoid">
+      <h3><span class="break-avoid">Currently supported</span> <span class="break-avoid">import formats:</span></h3>
+      <ul>
+        <li>5ejson</li>
+        <li>D&amp;D Beyond (API v5). [Under development]
+          <ul>
+            <li>(Download using ctrl+s with <a
+                href="https://github.com/srsutherland/5ejson/raw/main/userscript/dndb_dl.user.js">this userscript</a>)
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p>Next in line:</p>
+      <ul>
+        <li>Roll20</li>
+      </ul>
+      <hr>
+    </div>
+    <div class="break-avoid">
+      <h3><span class="break-avoid">Currently supported</span> <span class="break-avoid">output formats:</span></h3>
+      <ul>
+        <li>5ejson</li>
+        <li><a href="https://srsutherland.github.io/5ejson/display_sheet">Included web app</a> [Under development]</li>
+        <li>Several pdfs: [Under development]
+          <ul>
+            <li><a href="./blob/main/pdfs/standard/5E_CharacterSheet_Fillable.pdf">Standard layout
+                (5E_CharacterSheet_Fillable.pdf)</a></li>
+            <li><a
+                href="./blob/main/pdfs/halfpage_double_color/D_and_D_Character_Sheet_halfpage_coloured_FormFillable_V2.pdf">Double-sided
+                half-page sheet</a></li>
+            <li><a href="./blob/main/pdfs/1page_v6/CharacterSheet_1page_form6.pdf">One-page v6</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </body>
 
