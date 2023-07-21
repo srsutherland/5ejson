@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <title>5ejson: A json character sheet interchange format for D&D 5e</title>
@@ -15,7 +15,7 @@
       column-fill: unset;
       column-gap: 20px;
       column-width: 8cm;
-      height: 100vh;
+      min-height: 100vh;
       width: unset;
       max-width: 80em;
       margin: auto;
@@ -42,16 +42,24 @@
       margin-left: 0;
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 600px) {
       .phb {
-        column-count: 1;
+        column-count: unset;
+        column-fill: unset;
+        column-gap: unset;
+        column-width: unset;
         max-width: 80em;
         padding: 1.2cm .5cm 1.7cm;
+        margin: auto;
       }
     }
 
     .break-avoid {
       break-inside: avoid;
+    }
+    .break-avoid-inline {
+      break-inside: avoid;
+      display: inline-block;
     }
 
     .v3 .block {
@@ -78,6 +86,7 @@
     .header hr {
       /* 20% desaturation */
       filter: grayscale(20%);
+      max-width: 90vw;
     }
 
   </style>
@@ -106,7 +115,7 @@
     <hr>
     <hr>
     <div class="break-avoid">
-      <h3><span class="break-avoid">Currently supported</span> <span class="break-avoid">import formats:</span></h3>
+      <h3><span class="break-avoid-inline">Currently supported</span> <span class="break-avoid-inline">import formats:</span></h3>
       <ul>
         <li>5ejson</li>
         <li>D&amp;D Beyond (API v5). [Under development]
@@ -124,7 +133,7 @@
       <hr>
     </div>
     <div class="break-avoid">
-      <h3><span class="break-avoid">Currently supported</span> <span class="break-avoid">output formats:</span></h3>
+      <h3><span class="break-avoid-inline">Currently supported</span> <span class="break-avoid-inline">output formats:</span></h3>
       <ul>
         <li>5ejson</li>
         <li><a href="https://srsutherland.github.io/5ejson/display_sheet">Included web app</a> [Under development]</li>
