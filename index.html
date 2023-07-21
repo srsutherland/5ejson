@@ -15,31 +15,36 @@
       column-fill: unset;
       column-gap: 20px;
       column-width: 8cm;
+      height: unset;
       min-height: 100vh;
       width: unset;
-      max-width: 80em;
+      max-width: 70em;
       margin: auto;
       font-size: 14px;
+      overflow: unset;
     }
 
     .phb h1 {
       font-size: 3.0em;
     }
-
     .phb h2 {
       font-size: 2.0em;
     }
-
     .phb h3 {
       font-size: 1.6em;
     }
-
     .phb h4 {
       font-size: 1.4em;
     }
 
     .phb ul ul {
       margin-left: 0;
+    }
+
+    .phb:after {
+      background-size: contain 100%;
+      background-repeat: no-repeat;
+      background-position: bottom;
     }
 
     @media screen and (max-width: 600px) {
@@ -51,6 +56,9 @@
         max-width: 80em;
         padding: 1.2cm .5cm 1.7cm;
         margin: auto;
+      }
+      .phb:after {
+        background-size: contain;
       }
     }
 
