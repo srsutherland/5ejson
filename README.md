@@ -13,7 +13,7 @@ The goal of this repo is to have a sheet format that acts as a common ground bet
 ### Currently supported import formats:
 - 5ejson
 - D&D Beyond (API v5). [Under development\]
-    - (Download using ctrl+s with [this userscript](./raw/main/userscript/dndb_dl.user.js))
+    - (Downloaded using ctrl+s with [this userscript](./raw/main/userscript/dndb_dl.user.js))
 
 Next in line:
 - Roll20
