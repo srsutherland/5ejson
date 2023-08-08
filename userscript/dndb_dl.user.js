@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&DBeyond JSON Downloader
 // @namespace    dragonfang.tech
-// @version      2023.07.15
+// @version      2023.08.08
 // @description  Download D&DBeyond character sheet as JSON file with ctrl+s
 // @author       srsutherland
 // @license      MIT
@@ -30,7 +30,7 @@
                 ("multi" + char.classes.map(c => c.definition.name + c.level).join('')) :
                 char.classes[0].definition.name + char.classes[0].level;
             const illegalChars = /[\/\?<>\\:\*\|" ]/g;
-            const exportName = `${charclass}_${charname.replaceAll(illegalChars, "_")}.json`;
+            const exportName = `${charclass}_${charname.replaceAll(illegalChars, "_")}.dndb.json`;
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(content);
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
