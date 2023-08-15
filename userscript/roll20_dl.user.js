@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Roll20 JSON Downloader
 // @namespace    dragonfang.tech
-// @version      2023.08.07
+// @version      2023.08.15
 // @description  Download Roll20 character sheet as JSON file with ctrl+s
 // @author       srsutherland
 // @license      MIT
@@ -57,8 +57,21 @@
         return formatCharacterData(chardata);
     }
     
+    const downloadAsJSON = (data, filename) => {
+        const illegalChars = /[\/\?<>\\:\*\|" ]/g;
+        const content = JSON.stringify(data, null, 2);
+        const exportName = filename.replaceAll(illegalChars, "_");
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(content);
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", exportName);
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
     // Download the sheet as JSON
-    const dlJSON = () => {
+    const dlCharSheet = () => {
         const char = getCharacterData(true);
         if (!char) {
             return;
@@ -67,29 +80,21 @@
         const charclass = 
             char.attribs.models.find(m => m.attributes.name === "class").attributes.current +
             char.attribs.models.find(m => m.attributes.name === "level").attributes.current;
-
-        const illegalChars = /[\/\?<>\\:\*\|" ]/g;
-        const exportName = `${charclass}_${charname.replaceAll(illegalChars, "_")}.roll20.json`;
-        const content = JSON.stringify(char, null, 2);
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(content);
-        var downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", exportName);
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        
+        const filename = `${charclass}_${charname}.roll20.json`;
+        downloadAsJSON(char, filename);
     };
 
     // Download on ctrl++s
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key === 's') {
             e.preventDefault();
-            dlJSON();
+            dlCharSheet();
         }
         // Macs use cmd instead of ctrl
         if (e.metaKey && e.key === 's') {
             e.preventDefault();
-            dlJSON();
+            dlCharSheet();
         }
     });
 })();
