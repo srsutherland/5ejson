@@ -27,23 +27,23 @@
         <button id="import-dndb">Import D&D Beyond</button>
         
         <select id="sample-chars">
-            <option value="Jack.json">Jack (default)</option>
-            <option value="Warlock_Jack.json">Warlock_Jack</option>
-            <option value="Warlock6_Jack.json">Warlock6_Jack</option>
-            <option value="Warlock7_Rikka_del_Sol.json">Warlock7_Rikka_del_Sol</option>
-            <option value="kepaniGinger/Artificer_Yllakalyn_Fasharash.json">Artificer_Yllakalyn_Fasharash</option>
-            <option value="kepaniGinger/Cleric_Cookie_Porridgepot.json">Cleric_Cookie_Porridgepot</option>
-            <option value="kepaniGinger/Cleric_Narith.json">Cleric_Narith</option>
-            <option value="kepaniGinger/Monk_Cleo.json">Monk_Cleo</option>
-            <option value="kepaniGinger/multiWarlockFighterSorcerer_Sharver_Greenbottle.json">multiWarlockFighterSorcerer_Sharver_Greenbottle</option>
-            <option value="kepaniGinger/Paladin_Qivira.json">Paladin_Qivira</option>
-            <option value="kepaniGinger/Wizard_Kaitvian.json">Wizard_Kaitvian</option>
-            <option value="OgPhoen1xWolf/Barbarian6_Hesdera_“Blade”_Braveroar.json">Barbarian6_Hesdera_“Blade”_Braveroar</option>
-            <option value="OgPhoen1xWolf/Bard_Azarrus.json">Bard_Azarrus</option>
-            <option value="OgPhoen1xWolf/Bard_Lucius_Maverick.json">Bard_Lucius_Maverick</option>
-            <option value="OgPhoen1xWolf/Druid_Karn_Orvic.json">Druid_Karn_Orvic</option>
-            <option value="OgPhoen1xWolf/Druid6_Carkas.json">Druid6_Carkas</option>
-            <option value="OgPhoen1xWolf/multiBardWizard_Klaus.json">multiBardWizard_Klaus</option>
+            <option value="Jack.dndb.json">Jack (default)</option>
+            <option value="_Dragonfang/Warlock_Jack.dndb.json">Warlock_Jack</option>
+            <option value="_Dragonfang/Warlock6_Jack.dndb.json">Warlock6_Jack</option>
+            <option value="_Dragonfang/Warlock7_Rikka_del_Sol.dndb.json">Warlock7_Rikka_del_Sol</option>
+            <option value="kepaniGinger/Artificer7_Yllakalyn_Fasharash.dndb.json">Artificer7_Yllakalyn_Fasharash</option>
+            <option value="kepaniGinger/Cleric8_Cookie_Porridgepot.dndb.json">Cleric8_Cookie_Porridgepot</option>
+            <option value="kepaniGinger/Cleric16_Narith.dndb.json">Cleric16_Narith</option>
+            <option value="kepaniGinger/Monk10_Cleo.dndb.json">Monk10_Cleo</option>
+            <option value="kepaniGinger/multiWarlock5Fighter2Sorcerer3_Sharver_Greenbottle.dndb.json">multiWarlock5Fighter2Sorcerer3_Sharver_Greenbottle</option>
+            <option value="kepaniGinger/Paladin10_Qivira.dndb.json">Paladin10_Qivira</option>
+            <option value="kepaniGinger/Wizard7_Kaitvian.dndb.json">Wizard7_Kaitvian</option>
+            <option value="OgPhoen1xWolf/Barbarian6_Hesdera_“Blade”_Braveroar.dndb.json">Barbarian6_Hesdera_“Blade”_Braveroar</option>
+            <option value="OgPhoen1xWolf/Bard5_Azarrus.dndb.json">Bard5_Azarrus</option>
+            <option value="OgPhoen1xWolf/Bard6_Lucius_Maverick.dndb.json">Bard6_Lucius_Maverick</option>
+            <option value="OgPhoen1xWolf/Druid7_Karn_Orvic.dndb.json">Druid7_Karn_Orvic</option>
+            <option value="OgPhoen1xWolf/Druid6_Carkas.dndb.json">Druid6_Carkas</option>
+            <option value="OgPhoen1xWolf/multiBard5Wizard7_Klaus.dndb.json">multiBard5Wizard7_Klaus</option>
         </select>
         <button id="load-sample-char">Load Sample Char</button>
     </section>
@@ -334,7 +334,7 @@
             const log_elem = document.getElementById("log")
             const option = document.getElementById("sample-chars").value
             log_elem.textContent = "fetching " + option + "..."
-            fetch("test_json/" + option).then(r => r.json()).then(json => {
+            fetch("test_json/dndb/" + option).then(r => r.json()).then(json => {
                 try {
                     char = dndbeyond_json_parse(json)
                     onCharLoaded()
