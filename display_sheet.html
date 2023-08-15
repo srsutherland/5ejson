@@ -5,6 +5,7 @@
     <link rel="icon" href="res/favicon.png">
     <script src="src/constants.js"></script>
     <script src="src/dndbeyond.js"></script>
+    <script src="src/roll20.js"></script>
     <script src="test_json/Jack.jsonp"></script>
 </head>
 <body>
@@ -46,6 +47,7 @@
             <option value="OgPhoen1xWolf/multiBard5Wizard7_Klaus.dndb.json">multiBard5Wizard7_Klaus</option>
         </select>
         <button id="load-sample-char">Load Sample Char</button>
+        <button id="load-sample-roll20">Load Sample Roll20</button>
     </section>
     <div id="debug"><pre id="log"></pre></div>
     <script>
@@ -56,6 +58,10 @@
         const utfDiamondOpen = "◇"
         const utfDiamondFull = "◈"
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
+
+        ///////////////////////////////////////////
+        ////////// Start of onCharLoaded //////////
+        ///////////////////////////////////////////
         const onCharLoaded = () => {
             char = window.character
             //// Header ////
@@ -293,6 +299,10 @@
         }
         document.addEventListener("DOMContentLoaded", onCharLoaded)
 
+        /////////////////////////////////////////
+        ////////// End of onCharLoaded //////////
+        /////////////////////////////////////////
+
         // Hook up import buttons
         // 5ejson
         document.getElementById("import-5ejson").addEventListener("click", () => {
@@ -337,6 +347,24 @@
             fetch("test_json/dndb/" + option).then(r => r.json()).then(json => {
                 try {
                     char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                log_elem.textContent = err
+            })
+        })
+        // sample roll20
+        document.getElementById("load-sample-roll20").addEventListener("click", () => {
+            const log_elem = document.getElementById("log")
+            const option = "Bard16_Zag_Moondust.roll20.json"
+            log_elem.textContent = "fetching " + option + "..."
+            fetch("test_json/roll20/" + option).then(r => r.json()).then(json => {
+                try {
+                    char = roll20_json_parse(json)
                     onCharLoaded()
                     log_elem.textContent = ""
                 } catch (err) {
