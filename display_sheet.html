@@ -257,6 +257,7 @@
                             (str) => { log_elem.textContent = str }
                         )
                     }).catch((err) => {
+                        console.error(err)
                         log_elem.textContent = err
                     })
                 })
@@ -350,10 +351,12 @@
                     onCharLoaded()
                     log_elem.textContent = ""
                 } catch (err) {
+                    console.error(err)
                     log_elem.textContent = err
                     return
                 }
             }).catch(err => {
+                console.error(err)
                 log_elem.textContent = err
             })
         })
@@ -368,10 +371,12 @@
                     onCharLoaded()
                     log_elem.textContent = ""
                 } catch (err) {
+                    console.error(err)
                     log_elem.textContent = err
                     return
                 }
             }).catch(err => {
+                console.error(err)
                 log_elem.textContent = err
             })
         })
