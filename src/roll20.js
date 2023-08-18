@@ -24,8 +24,12 @@ function roll20_json_parse(response) {
         .filter(v => !v.name.match("repeating_"))
         .map(v => [v.name, v.current])
     );
-    const repeating = formatRepeating(chardata);
+    let repeating = 0
+    try {
+        repeating = formatRepeating(chardata);
+    } catch (e) {console.error(e)}
     const character = {
+        //// roll20_data ////
         roll20_data: Object.fromEntries(
             Object.entries(chardata).filter(([k,v]) => !k.match("repeating_"))
         ),
@@ -34,6 +38,7 @@ function roll20_json_parse(response) {
         ),
         roll20_data_simple: simple,
         roll20_repeating: repeating,
+        //// end roll20_data ////
         name: chardata.name.current,
         description: {
         },
@@ -108,13 +113,75 @@ function formatCharacterData(formatted_or_raw_response) {
 }
 
 function formatRepeating(formatted_or_raw_response) {
+    console.log("formatRepeating")
     const is_unformatted = (
         formatted_or_raw_response.attributes && 
         formatted_or_raw_response.attribs?.models instanceof Array
     )
     if (is_unformatted) {
-        return formatted_or_raw_response
+        formatted_or_raw_response = formatCharacterData(formatted_or_raw_response)
     }
+    const chardata = formatted_or_raw_response
+    console.log(chardata)
+
+    // Unflatten repeating sections
+    const nested = {}
+    const re_repeating = (
+        // repeating_{group}_{-id}_{subkey}
+        /^repeating_(?<group>[a-zA-Z0-9\-]+)_(?<id>-[a-zA-Z0-9\-]+)_(?<subkey>[\w\-]+)$/
+    )
+    for (const rep_val of Object.values(chardata)) {
+        const name = rep_val.name;
+        if (!name.startsWith("repeating_")) {
+            continue
+        }
+        const captures = name.match(re_repeating)?.groups
+        if (!captures) {
+            console.warn(`Could not parse repeating key: ${name}`)
+            continue
+        }
+        const {group, id, subkey} = captures
+        if (!nested[group]) {
+            nested[group] = {}
+        }
+        if (!nested[group][id]) {
+            nested[group][id] = {}
+        }
+        nested[group][id][subkey] = rep_val;
+    }
+    console.log("nested")
+    console.log(nested)
+    
+    // Get the order of the keys
+    const keyOrder = {}
+    for (const group of Object.keys(nested)) {
+        // Key order is lexographic unless there is a _reporder_repeating_{groupname}
+        const predefined_order = chardata[`_reporder_repeating_${group}`];
+        if (predefined_order) {
+            keyOrder[group] = predefined_order.current.split(",")
+                .filter(id => nested[group][id]) // some predef ids may have been deleted??
+        } else {
+            keyOrder[group] = Object.keys(nested[group]).sort()
+        }
+    }
+    console.log("keyOrder")
+    console.log(keyOrder)
+
+    // Format the repeating section
+    const repeating = {}
+    for (const group of Object.keys(keyOrder)) {
+        const list = []
+        repeating[group] = list;
+        for (const id of keyOrder[group]) {
+            const properties = {id: id}
+            for (const subkey of Object.keys(nested[group][id])) {
+                properties[subkey] = nested[group][id][subkey].current
+            }
+            repeating[group].push(properties)
+        }
+    }
+
+    return repeating
 }
 
 function other_format_parse(chardata) {
