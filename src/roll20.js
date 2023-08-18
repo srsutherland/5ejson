@@ -39,13 +39,42 @@ function roll20_json_parse(response) {
         roll20_data_simple: simple,
         roll20_repeating: repeating,
         //// end roll20_data ////
+        //// 5ejson data ////
         name: chardata.name.current,
         description: {
         },
         abilityScores: {array: []}, //assigned later
         abilityMods: {array: []}, //assigned later
-        race: simple.racedisplay || simple.race
+        race: simple.racedisplay || simple.race,
+        //size: ???,
+        background: simple.background,
+        alignment: simple.alignment,
+        class: simple.class_display, //TODO: handle multiclass
+        classlist: [{
+            name: simple.class, 
+            subclass: simple.subclass,
+            level: simple.level,
+            hitDice: "d"+simple.hitdietype,
+            isStartingClass: true,
+        }], //TODO: handle multiclass
+        hitDice: `${chardata.hit_dice.max}d${simple.hitdietype}`,
+        level: simple.level,
+        skills: {},
+        saves: {},
+    }
 
+    for (const scoreName of abilityScoreNames) {
+        const scoreLower = scoreName.toLowerCase()
+        character.abilityScores[scoreName] = simple[scoreLower]
+        character.abilityScores.array.push(simple[scoreLower])
+        character.abilityMods[scoreName] = Math.floor((simple[scoreLower] - 10) / 2)
+        character.abilityMods.array.push(Math.floor((simple[scoreLower] - 10) / 2))
+        character.saves[scoreName] = simple[scoreLower + "_save_bonus"]
+    }
+
+    for (const skillName of Object.values(skillNamesByAbility).flat()) {
+        const r20key = skillName.toLowerCase().replaceAll(" ", "_") + "_bonus";
+        character.skills[skillName] = simple[r20key]
     }
 
     // Export

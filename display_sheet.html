@@ -104,13 +104,13 @@
                 const mod = Math.floor((score-10)/2)
                 ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
                 // Skills + Saves + etc
-                const saveDot = char.proficiencies.saves.includes(ability.toLowerCase()) ? utfDiamondFull : utfDiamondOpen
+                const saveDot = char.proficiencies?.saves.includes(ability.toLowerCase()) ? utfDiamondFull : utfDiamondOpen
                 let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
                     const profKey = skillName.toLowerCase().replace(/ /g, "-")
-                    const isProficient = char.proficiencies.skills.includes(profKey)
-                    const hasExpertise = char.expertise.skills.includes(profKey)
+                    const isProficient = char.proficiencies?.skills.includes(profKey)
+                    const hasExpertise = char.expertise?.skills.includes(profKey)
                     const skillDot = isProficient ? 
                         (hasExpertise ? utfCircleExtra : utfCircleFull) : 
                         (char.halfProf ? utfCircleHalf : utfCircleOpen)
@@ -380,6 +380,12 @@
                 log_elem.textContent = err
             })
         })
+        //DEBUG, DELETEME
+        if (window.location.origin.match("localhost")) {
+            window.addEventListener("load", () => {
+                document.getElementById("load-sample-roll20").click()
+            })
+        }
 
 
         // Debug
