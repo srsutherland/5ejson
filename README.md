@@ -12,11 +12,15 @@ The goal of this repo is to have a sheet format that acts as a common ground bet
 
 ### Currently supported import formats:
 - 5ejson
-- D&D Beyond (API v5). [Under development\]
+- D&D Beyond (API v5) [Under development\]
     - (Downloaded using ctrl+s with [this userscript](./raw/main/userscript/dndb_dl.user.js))
+- Roll20 [Under development\]
+    - (Downloaded using [this userscript](./raw/main/userscript/roll20_dl.user.js))
 
-Next in line:
-- Roll20
+Potential future import formats:
+- Foundry VTT
+- Fight Club 5th Edition (Lions Den)
+-  
 
 ---
 
