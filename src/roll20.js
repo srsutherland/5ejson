@@ -61,6 +61,20 @@ function roll20_json_parse(response) {
         level: simple.level,
         skills: {},
         saves: {},
+        initiative: simple.initiative_bonus,
+        tempHP: chardata.hp_temp.current || 0,
+        maxHP: chardata.hp.max,
+        speed: simple.speed.match(/\d+/)?.[0],
+        armorClass: simple.ac,
+        speeds: {},
+        proficiencyBonus: simple.pb,
+        proficiencies: {skills:[], saves:[], other:[]},
+        expertise: {skills:[], saves:[], other:[]},
+        halfProf: simple.jack_of_all_trades !== undefined || simple.jack > 0,
+        languages: [],
+        spells: [[], [], [], [], [], [], [], [], [], []],
+        spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        spellcasting: [],
     }
 
     for (const scoreName of abilityScoreNames) {
@@ -70,11 +84,54 @@ function roll20_json_parse(response) {
         character.abilityMods[scoreName] = Math.floor((simple[scoreLower] - 10) / 2)
         character.abilityMods.array.push(Math.floor((simple[scoreLower] - 10) / 2))
         character.saves[scoreName] = simple[scoreLower + "_save_bonus"]
+        if (simple[scoreLower + "_save_prof"] /* is not undefined or blank */) {
+            character.proficiencies.saves.push(scoreLower)
+        }
     }
 
     for (const skillName of Object.values(skillNamesByAbility).flat()) {
-        const r20key = skillName.toLowerCase().replaceAll(" ", "_") + "_bonus";
-        character.skills[skillName] = simple[r20key]
+        const r20name = skillName.toLowerCase().replaceAll(" ", "_")
+        const hyphenated = skillName.toLowerCase().replaceAll(" ", "-")
+        character.skills[skillName] = simple[r20name + "_bonus"]
+        if (simple[r20name + "_prof"] /* is not undefined or blank */) {
+            character.proficiencies.skills.push(hyphenated)
+        }
+        if (simple[r20name + "_type"] == 2) {
+            character.expertise.skills.push(hyphenated)
+        }
+    }
+
+    for (const otherProf of repeating.proficiencies) {
+        // Assume these are actually languages
+        character.languages.push(otherProf.name)
+    }
+
+    const repeating_spell_keys = [
+        "spell-cantrip",
+        "spell-1", "spell-2", "spell-3", 
+        "spell-4", "spell-5", "spell-6",
+        "spell-7", "spell-8", "spell-9",
+    ]
+    for (const [lvl, spellKey] of repeating_spell_keys.entries()) {
+        console.log(lvl, spellKey, repeating[spellKey])
+        for (const spell of repeating[spellKey] || []) {
+            const spellobj = {
+                name: spell.spellname,
+                level: lvl,
+                school: spell.spellschool,
+                castingTime: spell.spellcastingtime,
+                duration: spell.spellduration,
+                range: spell.spellrange,
+                area: null,
+                isConcentration: spell.spellconcentration == "{{concentration=1}}",
+                isRitual: spell.spellritual == "{{ritual=1}}",
+            }
+            spellobj.components =
+                (spell.spellcomp_v == "{{v=1}}" ? "V" : "") +
+                (spell.spellcomp_s == "{{s=1}}" ? "S" : "") +
+                (spell.spellcomp_m == "{{m=1}}" ? "M" : "")
+            character.spells[lvl].push(spellobj)
+        }
     }
 
     // Export

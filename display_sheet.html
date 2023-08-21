@@ -77,6 +77,15 @@
                     </a>
                 `)
             }
+            if (character.roll20_data) {
+                document.getElementById("name").insertAdjacentHTML("beforeend", `
+                    <span  
+                        style="margin-left: .5em; font-size: 16px; color: grey; text-decoration: none;"
+                    >
+                        <img src="https://www.google.com/s2/favicons?sz=16&amp;domain=app.roll20.net">
+                    </span>
+                `)
+            }
             document.getElementById("race").textContent = character.race
             document.getElementById("class").textContent = character.class
 
@@ -104,14 +113,15 @@
                 const mod = Math.floor((score-10)/2)
                 ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
                 // Skills + Saves + etc
-                const saveDot = char.proficiencies?.saves.includes(ability.toLowerCase()) ? utfDiamondFull : utfDiamondOpen
+                const hasSaveProf = char.proficiencies?.saves.includes(ability.toLowerCase())
+                const saveDot = hasSaveProf ? utfDiamondFull : utfDiamondOpen
                 let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
                     const profKey = skillName.toLowerCase().replace(/ /g, "-")
-                    const isProficient = char.proficiencies?.skills.includes(profKey)
+                    const hasSkillProf = char.proficiencies?.skills.includes(profKey)
                     const hasExpertise = char.expertise?.skills.includes(profKey)
-                    const skillDot = isProficient ? 
+                    const skillDot = hasSkillProf ? 
                         (hasExpertise ? utfCircleExtra : utfCircleFull) : 
                         (char.halfProf ? utfCircleHalf : utfCircleOpen)
                     skillBox += `<div>${skillDot} ${skillName}: ${modString(skillMod)}</div>`
@@ -298,7 +308,14 @@
             newPageButton.addEventListener("click", () => jsonExport(false))
             export_section.insertAdjacentElement("beforeend", newPageButton)
         }
-        document.addEventListener("DOMContentLoaded", onCharLoaded)
+        if (window.location.origin.match("localhost")) {
+            //document.addEventListener("DOMContentLoaded", onCharLoaded)
+            window.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("load-sample-roll20").click()
+            })
+        } else {
+            document.addEventListener("DOMContentLoaded", onCharLoaded)
+        }
 
         /////////////////////////////////////////
         ////////// End of onCharLoaded //////////
@@ -380,12 +397,6 @@
                 log_elem.textContent = err
             })
         })
-        //DEBUG, DELETEME
-        if (window.location.origin.match("localhost")) {
-            window.addEventListener("load", () => {
-                document.getElementById("load-sample-roll20").click()
-            })
-        }
 
 
         // Debug
