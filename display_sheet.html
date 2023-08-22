@@ -307,6 +307,32 @@
             newPageButton.textContent = "json in new tab"
             newPageButton.addEventListener("click", () => jsonExport(false))
             export_section.insertAdjacentElement("beforeend", newPageButton)
+            // .5etools.json
+            if (window.location.origin.match("localhost")) {
+                const fiveetoolsExportButton = document.createElement("button")
+                fiveetoolsExportButton.textContent = "5etools.json"
+                export_section.insertAdjacentElement("beforeend", fiveetoolsExportButton)
+                fiveetoolsExportButton.addEventListener("click", () => {
+                    const log_elem = document.getElementById("log")
+                    log_elem.textContent = "exporting 5etools.json..."
+                    import("./src/5etools.js").then((module) => {
+                        const json = module.export_5etools(char)
+                        const replacer = (k, v) => k.match("dndb_") ? null : v;
+                        const jsonData = JSON.stringify(json, replacer, 2);
+                        const blob = new Blob([jsonData], {type: "application/json"});
+                        const url = URL.createObjectURL(blob);
+                        // Open a new window and set the Content-Type header to application/json
+                        const newPage = window.open(url, '_blank');
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('HEAD', url, true);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.send();
+                    }).catch((err) => {
+                        console.error(err)
+                        log_elem.textContent = err
+                    })
+                })
+            }
         }
         if (window.location.origin.match("localhost")) {
             //document.addEventListener("DOMContentLoaded", onCharLoaded)
