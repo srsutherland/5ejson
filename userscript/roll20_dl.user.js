@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Roll20 JSON Downloader
 // @namespace    dragonfang.tech
-// @version      2023.08.15
+// @version      2023.08.24
 // @description  Download Roll20 character sheet as JSON file with ctrl+s
 // @author       srsutherland
 // @license      MIT
@@ -15,7 +15,11 @@
     'use strict';
 
     var formatCharacterData = (char) => {
-        const formatted = {};
+        const formatted = {
+            id: char.id,
+            cid: char.cid,
+        };
+        // Format model attributes
         const formatModelAttributes = (attributes) => {
             return {
                 name: attributes.name,
@@ -24,11 +28,16 @@
                 id: attributes.id,   
             }
         }
+        const campaign_id = window.campaign_id || window.Campaign?.id || parent.campaign_id || parent.Campaign?.id;
+        if (!!campaign_id) {
+            formatted.campaign_id = campaign_id;
+        }
         formatted.attributes = {
             name: char.attributes.name,
             avatar: char.attributes.avatar,
             bio: char.attributes.bio,
             gmnotes: char.attributes.gmnotes,
+            controlledby: char.attributes.controlledby,
         }
         formatted.attribs = {
             length: char.attribs.length,
