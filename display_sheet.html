@@ -276,7 +276,8 @@
             // JSON Exports
             const jsonExport = (download = false) => {
                 // Convert the JSON object to a formatted string
-                const replacer = (k, v) => k.match("dndb_") ? null : v;
+                const prefixes = ["dndb_", "roll20_"]
+                const replacer = (k, v) => prefixes.some(p => k.match(p)) ? null : v;
                 const jsonData = JSON.stringify(char, replacer, 2);
                 // Create a Blob object with the JSON data and set the mime type
                 const blob = new Blob([jsonData], {type: "application/json"});
