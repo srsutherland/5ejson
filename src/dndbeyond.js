@@ -99,7 +99,7 @@ function dndbeyond_json_parse(response) {
         halfProf: false, //assigned later
         languages: [],
         spells: [[], [], [], [], [], [], [], [], [], []],
-        spellSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        spellSlots: [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         spellcasting: [],
         notes: chardata.notes,
     }

@@ -53,6 +53,49 @@ function export_5etools (chardata, settings) {
         }
     }
 
+    // Spells
+    const spells = {};
+    for (const [lvl, spells_at_lvl] of Object.entries(chardata.spells)) {
+        // if spells in not empty
+        const spell_list = [];
+        if (spells_at_lvl.length > 0) {
+            spells[lvl] = {
+                slots: chardata.spellSlots[lvl],
+                spells: spell_list
+            };
+        }
+        for (const spell of spells_at_lvl) {
+            let spell_name = spell.name.toLowerCase();
+            let prefix = "";
+            if (spell_name.startsWith("[r] ")) {
+                spell_name = spell_name.slice(4);
+                prefix = "[R] ";
+            }
+            spell_list.push(
+                prefix + "{@spell " + spell_name + "}"
+            );
+            
+        }
+    }
+    if (Object.keys(spells).length > 0) {
+        const caster_level = chardata.classlist[0].level;
+        // 1 -> 1st, 2 -> 2nd, etc.
+        const caster_level_str = 
+            (["1st", "2nd", "3rd"])[caster_level - 1] || 
+            caster_level + "th";
+        creature.spellcasting = [{
+			name: "Spellcasting",
+			"headerEntries": [
+				`${chardata.name} is a ${caster_level_str}-level ${chardata.classlist[0].name}. ` +
+                `Their spellcasting ability is ${chardata.spellcasting.ability} ` +
+                `(spell save {@dc ${chardata.spellcasting.dc}}, ` +
+                `{@hit ${chardata.spellcasting.bonus}} to hit with spell attacks). ` +
+                `${chardata.name} has the following ${chardata.classlist[0].name} spells prepared:`
+			],
+            spells: spells,
+        }];
+    }
+
 
     const out = {
         _meta: {
