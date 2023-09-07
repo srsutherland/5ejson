@@ -55,26 +55,32 @@ function export_5etools (chardata, settings) {
 
     // Spells
     const spells = {};
+    const ritual_spells = [];
     for (const [lvl, spells_at_lvl] of Object.entries(chardata.spells)) {
-        // if spells in not empty
+        // if spells is not empty
         const spell_list = [];
-        if (spells_at_lvl.length > 0) {
+        const ritual_spell_list = [];
+        for (const spell of spells_at_lvl) {
+            let spell_name = spell.name.toLowerCase();
+            if (spell_name.startsWith("[r] ") || spell.ritualOnly) {
+                spell_name = spell_name.slice(4);
+                ritual_spell_list.push(`{@spell ${spell_name}}`);
+            } else {
+                spell_list.push(`{@spell ${spell_name}}`);
+            }
+            
+        }
+        if (spell_list.length > 0) {
             spells[lvl] = {
                 slots: chardata.spellSlots[lvl],
                 spells: spell_list
             };
         }
-        for (const spell of spells_at_lvl) {
-            let spell_name = spell.name.toLowerCase();
-            let prefix = "";
-            if (spell_name.startsWith("[r] ")) {
-                spell_name = spell_name.slice(4);
-                prefix = "[R] ";
+        if (ritual_spell_list.length > 0) {
+            ritual_spells[lvl] = {
+                // No slots for ritual spells
+                spells: ritual_spell_list
             }
-            spell_list.push(
-                prefix + "{@spell " + spell_name + "}"
-            );
-            
         }
     }
     if (Object.keys(spells).length > 0) {
@@ -85,17 +91,28 @@ function export_5etools (chardata, settings) {
             caster_level + "th";
         creature.spellcasting = [{
 			name: "Spellcasting",
-			"headerEntries": [
+			headerEntries: [
 				`${chardata.name} is a ${caster_level_str}-level ${chardata.classlist[0].name}. ` +
                 `Their spellcasting ability is ${chardata.spellcasting.ability} ` +
                 `(spell save {@dc ${chardata.spellcasting.dc}}, ` +
-                `{@hit ${chardata.spellcasting.bonus}} to hit with spell attacks). ` +
+                `{@hit ${chardata.spellcasting.bonus}} to hit with spell attacks). `, 
                 `${chardata.name} has the following ${chardata.classlist[0].name} spells prepared:`
 			],
             spells: spells,
         }];
     }
-
+    if (Object.keys(ritual_spells).length > 0) {
+        creature.spellcasting = creature.spellcasting || [];
+        creature.spellcasting.push({
+            name: "Spellcasting (Rituals)",
+            headerEntries: [
+                `${chardata.name} can cast the following spells as rituals. ` +
+                `The ritual version of a spell takes 10 minutes longer to cast than normal.`
+            ],
+            spells: ritual_spells,
+        })
+    }
+    
 
     const out = {
         _meta: {
