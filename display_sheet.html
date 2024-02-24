@@ -436,7 +436,7 @@
             )
         }
         function loadAllAndDo(callbackForChar) {
-            jsons = $$("option").map(_ => "./test_json/" + _.value)
+            jsons = $$("option").map(_ => "./test_json/dndb/" + _.value)
             p = [];
             for (const json of jsons) {
                 p.push(fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char => {
