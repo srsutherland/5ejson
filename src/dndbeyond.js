@@ -388,11 +388,17 @@ function dndbeyond_json_parse(response) {
 
         // Casting Time
         const dndb_castingTime = spelldata.definition.activation
-        const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Day?", "Special?"]
-        if (dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < 5) {
-            spellobj.castingTime = castingTimeTypes[dndb_castingTime.activationType]
-        } else if (dndb_castingTime.activationType > 4 && dndb_castingTime.activationType < castingTimeTypes.length) {
-            spellobj.castingTime = dndb_castingTime.activationTime + " " + castingTimeTypes[dndb_castingTime.activationType]
+        const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Special"]
+        const castingTimeUnit = {
+            value: castingTimeTypes[dndb_castingTime.activationType],
+            IsAction: dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < 5,
+            IsSpecial: dndb_castingTime.activationType == 8,
+            IsTime: dndb_castingTime.activationType > 4 && dndb_castingTime.activationType < 8
+        }
+        if (castingTimeUnit.IsAction || castingTimeUnit.IsSpecial) {
+            spellobj.castingTime = castingTimeUnit.value
+        } else if (castingTimeUnit.IsTime) {
+            spellobj.castingTime = dndb_castingTime.activationTime + " " + castingTimeUnit.value
         } else {
             spellobj.castingTime = dndb_castingTime.activationTime + " of Unknown Type"; 
         }
