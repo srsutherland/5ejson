@@ -615,6 +615,7 @@ function dndbeyond_json_parse(response) {
         itemsWhichGiveAC: itemsWhichGiveAC
     }
     character.armorClassSource = armorClasses[0]
+    character.armorClassComponents = []
     character.armorClass = character.armorClassSource.ac
     for (const armorClass of armorClasses) {
         const combination = [armorClass]

@@ -151,7 +151,14 @@ async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined
         if (field instanceof PDFTextField) {
             log(`${key}: ${value}`);
             // evil eval
-            field.setText(`${eval(value)}`);
+            let text = `error (${key})`
+            try {
+                text = `${eval(value)}`;
+            } catch (e) {
+                console.error(`Error evaluating ${key}: ${value}`)
+                console.error(e);
+            }
+            field.setText(text);
         }
         if (field instanceof PDFCheckBox) {
             log(`${key}: ${value}`);

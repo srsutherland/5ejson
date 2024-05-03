@@ -102,7 +102,7 @@ function export_5etools (chardata, settings) {
         }];
     }
     if (Object.keys(ritual_spells).length > 0) {
-        creature.spellcasting = creature.spellcasting || [];
+        creature.spellcasting ??= []; // init if null
         creature.spellcasting.push({
             name: "Spellcasting (Rituals)",
             headerEntries: [
