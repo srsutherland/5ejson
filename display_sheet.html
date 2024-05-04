@@ -348,7 +348,23 @@
                 })
             }
         }
-        if (window.location.origin.match("localhost")) {
+
+        /// Now actually call it ///
+        if (localStorage.getItem("last_loaded")) {
+            const json = JSON.parse(localStorage.getItem("last_loaded"))
+            const json_type = localStorage.getItem("last_loaded_type")
+            if (json_type == "5ejson") {
+                character = json
+                char = json
+                onCharLoaded()
+            } else if (json_type == "dndb") {
+                char = dndbeyond_json_parse(json)
+                onCharLoaded()
+            } else if (json_type == "roll20") {
+                char = roll20_json_parse(json)
+                onCharLoaded()
+            }
+        } else if (window.location.origin.match("localhost")) {
             //document.addEventListener("DOMContentLoaded", onCharLoaded)
             window.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("load-sample-roll20").click()
@@ -361,6 +377,12 @@
         ////////// End of onCharLoaded //////////
         /////////////////////////////////////////
 
+        const setLastLoaded = (json, json_type) => {
+            // Store the last loaded character in localStorage
+            localStorage.setItem("last_loaded", JSON.stringify(json))
+            localStorage.setItem("last_loaded_type", json_type)
+        }
+
         // Hook up import buttons
         // 5ejson
         document.getElementById("import-5ejson").addEventListener("click", () => {
@@ -372,6 +394,7 @@
                 const reader = new FileReader()
                 reader.addEventListener("load", () => {
                     const json = JSON.parse(reader.result)
+                    setLastLoaded(json, "5ejson")
                     character = json
                     char = json
                     onCharLoaded()
@@ -390,6 +413,7 @@
                 const reader = new FileReader()
                 reader.addEventListener("load", () => {
                     const json = JSON.parse(reader.result)
+                    setLastLoaded(json, "dndb")
                     char = dndbeyond_json_parse(json)
                     onCharLoaded()
                 })
@@ -403,6 +427,7 @@
             const option = document.getElementById("sample-chars").value
             log_elem.textContent = "fetching " + option + "..."
             fetch("test_json/dndb/" + option).then(r => r.json()).then(json => {
+                setLastLoaded(json, "dndb")
                 try {
                     char = dndbeyond_json_parse(json)
                     onCharLoaded()
@@ -423,6 +448,7 @@
             const option = "Bard16_Zag_Moondust.roll20.json"
             log_elem.textContent = "fetching " + option + "..."
             fetch("test_json/roll20/" + option).then(r => r.json()).then(json => {
+                setLastLoaded(json, "roll20")
                 try {
                     char = roll20_json_parse(json)
                     onCharLoaded()
