@@ -326,7 +326,8 @@ function dndbeyond_json_parse(response) {
         "Ranger": "Wisdom",
         "Sorcerer": "Charisma",
         "Warlock": "Charisma",
-        "Wizard": "Intelligence"
+        "Wizard": "Intelligence",
+        "Artificer": "Intelligence",
     }
     for (const jclass of character.classlist) {
         const spellcastingAbility = classSpellcastingAbilities[jclass.name]
@@ -338,6 +339,13 @@ function dndbeyond_json_parse(response) {
                 attack: character.abilityMods[spellcastingAbility] + character.proficiencyBonus,
             }
             character.spellcasting.push(classSpellcasting)
+        }
+    }
+    for (const mod of modifiers.bonus || []) {
+        if (mod.subType == "spell-save-dc") {
+            character.spellcasting.forEach(sc => sc.dc += getModValue(mod))
+        } else if (mod.subType == "spell-attacks") {
+            character.spellcasting.forEach(sc => sc.attack += getModValue(mod))
         }
     }
 
