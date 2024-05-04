@@ -177,7 +177,7 @@ function dndbeyond_json_parse(response) {
     }
     character.hitDice = character.classlist.map(c => c.level + c.hitDice).join("+")
     // Proficiency Bonus starts at +2 at level 1, and increases every 4 levels
-    character.proficiencyBonus = Math.floor(character.level/4) + 2
+    character.proficiencyBonus = Math.floor((character.level-1)/4) + 2
 
     // Ability Scores
     // Only the base scores, need to add bonuses below.
@@ -389,7 +389,9 @@ function dndbeyond_json_parse(response) {
 
         // Casting Time
         const dndb_castingTime = spelldata.definition.activation
-        const castingTimeTypes = [null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Special"]
+        const castingTimeTypes = [
+            null, "Action", "Type2", "Bonus Action", "Reaction", "Type5", "Minute", "Hour", "Special"
+        ]
         const castingTimeUnit = {
             value: castingTimeTypes[dndb_castingTime.activationType],
             IsAction: dndb_castingTime.activationType > 0 && dndb_castingTime.activationType < 5,
@@ -429,7 +431,11 @@ function dndbeyond_json_parse(response) {
 
         // TODO: REMOVE
         character.dndb_spells[name]._parsed = spellobj
-        console.log({name: name, dndb_dur: dndb_dur, duration: spellobj.duration, isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, range: spellobj.range, area: spellobj.area})
+        console.log({
+            name: name, dndb_dur: dndb_dur, duration: spellobj.duration, 
+            isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, 
+            range: spellobj.range, area: spellobj.area
+        })
 
         //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
         return spellobj
