@@ -110,7 +110,12 @@ function dndbeyond_json_parse(response) {
     const itemsWhichGrantModifiers = chardata.inventory.filter(i => i.definition.grantedModifiers.length)
     for (const item of itemsWhichGrantModifiers) {
         for (const mod of item.definition.grantedModifiers) {
-            if (mod.isGranted && (mod.requiresAttunement == false || item.isAttuned)) {
+            const attunementSatisfied = (
+                item.definition.canAttune === false || 
+                mod.requiresAttunement === false || 
+                item.isAttuned
+            )
+            if (mod.isGranted && attunementSatisfied) {
                 rawModifiers.item.push({item: item.definition.name, ...mod})
             }
         }
