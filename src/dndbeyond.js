@@ -93,6 +93,7 @@ function dndbeyond_json_parse(response) {
         maxHP: chardata.baseHitPoints + chardata.bonusHitPoints, //con mod added later
         speed: 0, //assigned later
         speeds: {},
+        senses: {},
         proficiencyBonus: 0, //assigned later
         proficiencies: {skills:[], saves:[], other:[]},
         expertise: {skills:[], saves:[], other:[]},
@@ -613,17 +614,17 @@ function dndbeyond_json_parse(response) {
     const speedTypes = ["walking", "swimming", "climbing", "flying", "burrowing"]
     const shortSpeedTypes = ["walk", "swim", "climb", "fly", "burrow"] // I'd truncate if not for "swimm"
     // Walking speed first, since some speeds are based on walking speed
-    for (const mod of character.dndb_modifiers.set) {
+    for (const mod of character.dndb_modifiers.set || []) {
         if (mod.subType === "innate-speed-walking") {
             character.speeds.walk = Math.max(mod.value, character.speeds.walk)
         }
     }
-    for (const mod of character.dndb_modifiers.bonus) {
+    for (const mod of character.dndb_modifiers.bonus || []) {
         if (mod.subType === "unarmored-movement") {
             character.speeds.walk += mod.value
         }
     }
-    for (const mod of character.dndb_modifiers.set) {
+    for (const mod of character.dndb_modifiers.set || []) {
         if (mod.subType.match("innate-speed-") && mod.subType !== "innate-speed-walking") {
             const speedType = mod.subType.substring("innate-speed-".length)
             const shortType = shortSpeedTypes[speedTypes.indexOf(speedType)]
@@ -632,7 +633,7 @@ function dndbeyond_json_parse(response) {
             character.speeds[shortType] = Math.max(speed, character.speeds[shortType] ?? 0)
         }
     }
-    for (const mod of character.dndb_modifiers.bonus) {
+    for (const mod of character.dndb_modifiers.bonus || []) {
         // This subType is a guess, I don't have a character with this modifier
         if (mod.subType.match("speed-") && mod.subType !== "innate-speed-walking") {
             const speedType = mod.subType.substring("innate-speed-".length)
@@ -642,6 +643,22 @@ function dndbeyond_json_parse(response) {
         }
     }
     character.speed = character.speeds.walk
+
+    // Senses
+    for (const mod of character.dndb_modifiers['set-base'] || []) {
+        if (mod.subType === "darkvision") {
+            if (!character.senses.darkvision || mod.value > character.senses.darkvision) {
+                character.senses.darkvision = mod.value
+            }
+        }
+    }
+    for (const mod of character.dndb_modifiers.bonus || []) {
+        if (mod.subType === "darkvision") {
+            if (!character.senses.darkvision || mod.value > character.senses.darkvision) {
+                character.senses.darkvision += mod.value
+            }
+        }
+    }
 
     // Export
     window.character = character
