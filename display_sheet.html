@@ -249,6 +249,18 @@
                 }
             }
 
+            //Spellcasting
+            for (const sc of char.spellcasting || []) {
+                // e.g. spellcasting = {name: 'Warlock', ability: 'Charisma', dc: 16, attack: 8}
+                const spellcastingDiv = document.createElement("div")
+                spellcastingDiv.classList.add("spellcasting")
+                spellcastingDiv.style.fontSize = "1.5em"
+                const AS = sc.ability.slice(0, 3)
+                const text = `${sc.name}(${AS}): DC ${sc.dc} / ${modString(sc.attack)}`
+                spellcastingDiv.innerText = text
+                combatContain.insertAdjacentElement("beforeend", spellcastingDiv)
+            }
+
             //// Exports ////
             // PDF Exports
             export_section = document.getElementById("export")
