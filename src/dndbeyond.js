@@ -102,6 +102,8 @@ function dndbeyond_json_parse(response) {
         spells: [[], [], [], [], [], [], [], [], [], []],
         spellSlots: [undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         spellcasting: [],
+        feats: [],
+        classOptions: [],
         notes: chardata.notes,
     }
     const rawModifiers = chardata.modifiers
@@ -677,6 +679,22 @@ function dndbeyond_json_parse(response) {
                 character.senses.darkvision += mod.value
             }
         }
+    }
+
+    // Feats
+    for (const feat of chardata.feats) {
+        character.feats.push({
+            name: feat.definition.name,
+            description: feat.definition.description
+        })
+    }
+
+    // Class Options
+    for (const option of chardata.options?.class || []) {
+        character.classOptions.push({
+            name: option.definition.name,
+            description: option.definition.description
+        })
     }
 
     // Export
