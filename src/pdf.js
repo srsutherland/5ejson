@@ -139,9 +139,11 @@ async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined
     for (const [key, value] of Object.entries(mapping)) {
         const field = fields.find(f => f.getName() === key);
         if (!field) {
-            if (key.startsWith("=")) {
+            const isDeclaration = key.startsWith("=")
+            const isComment = key.startsWith("//") || key.startsWith("/*")
+            if (isDeclaration) {
                 eval(value)
-            } else {
+            } else if (!isComment) {
                 console.warn(`Field ${key} not found`);
             }
             continue;
@@ -153,6 +155,7 @@ async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined
         }
         if (field instanceof PDFCheckBox) {
             log(`${key}: ${value}`);
+            // evil eval
             const isChecked = eval(value);
             if (isChecked === true) {
                 field.check();
