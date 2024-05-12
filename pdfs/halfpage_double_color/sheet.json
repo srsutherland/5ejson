@@ -12,6 +12,7 @@
     "HAIR": "char.description.hair ?? ''",
     "Prof": "modString(char.proficiencyBonus)",
     "PasPer": "10 + char.skills.Perception",
+    "// Abilities Scores": "//",
     "StrMod2": "modFromScore(char.abilityScores.Strength)",
     "Str": "char.abilityScores.Strength",
     "DexMod": "modFromScore(char.abilityScores.Dexterity)",
@@ -24,6 +25,7 @@
     "Wis": "char.abilityScores.Wisdom",
     "ChaMod": "modFromScore(char.abilityScores.Charisma)",
     "Cha": "char.abilityScores.Charisma",
+    "// Saves and Skills": "//",
     "Skill1": "modString(char.saves.Strength)",
     "Skill2": "modString(char.skills.Athletics)",
     "Skill3": "modString(char.skills.Intimidation-char.abilityScores.Charisma+char.abilityScores.Strength)",
@@ -90,12 +92,13 @@
     "Text45": "'  '+char.armorClassSource.name",
     "Text41": "' '+char.armorClassSource.components.filter(c => c.name != 'Dex').reduce((a,c)=>a+c.value, 0)",
     
-    "Text474": "char.armorClassComponents.filter(c => !c.isArmor)[0]?.name ?? ''",
-    "Row1_2": "modOrEmpty(char.armorClassComponents.filter(c => !c.isArmor)[0]?.ac)",
-    "Text475": "char.armorClassComponents.filter(c => !c.isArmor)[1]?.name ?? ''",
-    "Row2_2": "modOrEmpty(char.armorClassComponents.filter(c => !c.isArmor)[1]?.ac)",
-    "Text476": "char.armorClassComponents.filter(c => !c.isArmor)[2]?.name ?? ''",
-    "Row3_2": "modOrEmpty(char.armorClassComponents.filter(c => !c.isArmor)[2]?.ac)",
+    "=OtherArmorMods": "window.otherArmorMods = new SafeIter(.armorClassComponents.filter(c => !c.isArmor))", 
+    "Text474": "otherArmorMods.next().name",
+    "Row1_2": "modOrEmpty(otherArmorMods.next().ac)",
+    "Text475": "otherArmorMods.next().name",
+    "Row2_2": "modOrEmpty(otherArmorMods.next().ac)",
+    "Text476": "otherArmorMods.next().name",
+    "Row3_2": "modOrEmpty(otherArmorMods.next().ac)",
 
     "Cast": "char.spellcasting[0]?.ability.substring(0, 3) ?? ''",
     "Cast1": "char.spellcasting[0]?.dc ?? ''",
@@ -231,5 +234,5 @@
     "12_4": "featsAndFeatures.next().name",
     "14_3": "featsAndFeatures.next().name",
 
-    "@End": "null"
+    "//End": "null"
 }
