@@ -92,13 +92,13 @@
     "Text45": "'  '+char.armorClassSource.name",
     "Text41": "' '+char.armorClassSource.components.filter(c => c.name != 'Dex').reduce((a,c)=>a+c.value, 0)",
     
-    "=OtherArmorMods": "window.otherArmorMods = new SafeIter(.armorClassComponents.filter(c => !c.isArmor))", 
+    "=OtherArmorMods": "window.otherArmorMods = new SafeIter(char.armorClassComponents.filter(c => !c.isArmor))", 
     "Text474": "otherArmorMods.next().name",
-    "Row1_2": "modOrEmpty(otherArmorMods.next().ac)",
+    "Row1_2": "modOrEmpty(otherArmorMods.curr().ac)",
     "Text475": "otherArmorMods.next().name",
-    "Row2_2": "modOrEmpty(otherArmorMods.next().ac)",
+    "Row2_2": "modOrEmpty(otherArmorMods.curr().ac)",
     "Text476": "otherArmorMods.next().name",
-    "Row3_2": "modOrEmpty(otherArmorMods.next().ac)",
+    "Row3_2": "modOrEmpty(otherArmorMods.curr().ac)",
 
     "Cast": "char.spellcasting[0]?.ability.substring(0, 3) ?? ''",
     "Cast1": "char.spellcasting[0]?.dc ?? ''",
