@@ -258,7 +258,11 @@ function dndbeyond_json_parse(response) {
 
     // Languages
     for (const mod of modifiers.language || []) {
-        character.languages.push(mod.friendlySubtypeName)
+        let lang = mod.friendlySubtypeName
+        if (mod.restriction) {
+            lang += " (" + mod.restriction + ")"
+        }
+        character.languages.push(lang)
     }
     // Move Common to the front
     const commonIndex = character.languages.indexOf("Common")
