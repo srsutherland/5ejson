@@ -122,7 +122,7 @@ async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined
     // eslint-disable-next-line no-unused-vars
     const modFromScore = score => modString(Math.floor((score-10)/2))
     // eslint-disable-next-line no-unused-vars
-    const modOrEmpty = score => score != null ? modString(score) : ''
+    const modOrEmpty = score => typeof x === "number" ? modString(score) : ''
 
     const formPdfBytes = fetch(pdf_filename).then((res) => res.arrayBuffer());
     const mappingFetch = fetch(jmap_filename).then((res) => res.json());
