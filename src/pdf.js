@@ -75,11 +75,48 @@ async function annotateFieldNames(filename) {
     window.open(url);
 }
 
+const chainableEmptyString = new Proxy({}, {
+    get: (target, prop) => {
+        if (prop === Symbol.toPrimitive) {
+            return () => '';
+        }
+        if (typeof prop === 'string' && (prop === 'toString' || prop === 'valueOf')) {
+            return () => '';
+        }
+        return chainableEmptyString;
+    },
+    apply: function() {
+        return '';
+    }
+});
+
+class SafeIter {
+    constructor(iterable) {
+        this.iterable = iterable;
+        this.index = -1;
+    }
+
+    next() {
+        this.index++;
+        this.current = this.iterable[this.index];
+        if (this.current == undefined) {
+            this.current = chainableEmptyString;
+        }
+        return this.current;
+    }
+
+    curr() {
+        return this.current;
+    }
+}
+
 async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined) {
     const log = logFunc || console.log;
     // Gets used by eval
     // eslint-disable-next-line no-unused-vars
     const char = chardata;
+    // eslint-disable-next-line no-unused-vars
+    const vars = {};
     // Helper functions, for use in eval
     const modString = mod => (mod ?? 0) >= 0 ? `+${mod}` : `${mod}`
     // eslint-disable-next-line no-unused-vars
@@ -102,7 +139,11 @@ async function fillForm(pdf_filename, jmap_filename, chardata, logFunc=undefined
     for (const [key, value] of Object.entries(mapping)) {
         const field = fields.find(f => f.getName() === key);
         if (!field) {
-            console.warn(`Field ${key} not found`);
+            if (key.startsWith("=")) {
+                eval(value)
+            } else {
+                console.warn(`Field ${key} not found`);
+            }
             continue;
         }
         if (field instanceof PDFTextField) {
