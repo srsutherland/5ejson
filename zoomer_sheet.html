@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<head>
+    <title>Character Sheet</title>
+    <meta charset="utf-8">
+    <link href="res/sheet.css" rel="stylesheet">
+    <link rel="icon" href="res/favicon.png">
+    <script src="src/constants.js"></script>
+    <script src="src/dndbeyond.js"></script>
+    <script src="src/roll20.js"></script>
+    <script src="test_json/Jack.jsonp"></script>
+</head>
+<body>
+    <section id="sheet">
+        <header id="top-header">
+            <h1 id="name">Name</h2>
+            <h2 id="race"></h2>
+            <h2 id="class"></h2>
+        </header>
+        <table id="abilityscores">
+        </table>
+        <div id="combat"></div>
+        <div id="spells"></div>
+    </section>
+    <section id="export">
+        <button id="1page_v6">1page_v6</button>
+    </section>
+    <section id="import">
+        <button id="import-5ejson">Import 5ejson</button>
+        <button id="import-dndb">Import D&D Beyond</button>
+        
+        <select id="sample-chars">
+            <option value="Jack.dndb.json">Jack (default)</option>
+            <option value="_Dragonfang/Warlock_Jack.dndb.json">Warlock_Jack</option>
+            <option value="_Dragonfang/Warlock6_Jack.dndb.json">Warlock6_Jack</option>
+            <option value="_Dragonfang/Warlock7_Rikka_del_Sol.dndb.json">Warlock7_Rikka_del_Sol</option>
+            <option value="kepaniGinger/Artificer7_Yllakalyn_Fasharash.dndb.json">Artificer7_Yllakalyn_Fasharash</option>
+            <option value="kepaniGinger/Cleric8_Cookie_Porridgepot.dndb.json">Cleric8_Cookie_Porridgepot</option>
+            <option value="kepaniGinger/Cleric16_Narith.dndb.json">Cleric16_Narith</option>
+            <option value="kepaniGinger/Monk10_Cleo.dndb.json">Monk10_Cleo</option>
+            <option value="kepaniGinger/multiWarlock5Fighter2Sorcerer3_Sharver_Greenbottle.dndb.json">multiWarlock5Fighter2Sorcerer3_Sharver_Greenbottle</option>
+            <option value="kepaniGinger/Paladin10_Qivira.dndb.json">Paladin10_Qivira</option>
+            <option value="kepaniGinger/Wizard7_Kaitvian.dndb.json">Wizard7_Kaitvian</option>
+            <option value="OgPhoen1xWolf/Barbarian6_Hesdera_“Blade”_Braveroar.dndb.json">Barbarian6_Hesdera_“Blade”_Braveroar</option>
+            <option value="OgPhoen1xWolf/Bard5_Azarrus.dndb.json">Bard5_Azarrus</option>
+            <option value="OgPhoen1xWolf/Bard6_Lucius_Maverick.dndb.json">Bard6_Lucius_Maverick</option>
+            <option value="OgPhoen1xWolf/Druid7_Karn_Orvic.dndb.json">Druid7_Karn_Orvic</option>
+            <option value="OgPhoen1xWolf/Druid6_Carkas.dndb.json">Druid6_Carkas</option>
+            <option value="OgPhoen1xWolf/multiBard5Wizard7_Klaus.dndb.json">multiBard5Wizard7_Klaus</option>
+        </select>
+        <button id="load-sample-char">Load Sample Char</button>
+        <button id="load-sample-roll20">Load Sample Roll20</button>
+    </section>
+    <div id="debug"><pre id="log"></pre></div>
+    <script>
+        const utfCircleOpen =  "◌"
+        const utfCircleFull =  "●"
+        const utfCircleExtra = "☀"
+        const utfCircleHalf =  "○"
+        const utfDiamondOpen = "◇"
+        const utfDiamondFull = "◈"
+        const modString = (mod) => (mod < 0 ? "" : "+") + mod
+
+        ///////////////////////////////////////////
+        ////////// Start of onCharLoaded //////////
+        ///////////////////////////////////////////
+        const onCharLoaded = () => {
+            char = window.character
+            //// Header ////
+            document.getElementById("name").textContent = character.name
+            // Link to D&D Beyond
+            if (character.dndb_data?.id) {
+                document.getElementById("name").insertAdjacentHTML("beforeend", `
+                    <a 
+                        href="https://www.dndbeyond.com/characters/${character.dndb_data.id}" 
+                        style="margin-left: .5em; font-size: 16px; color: grey; text-decoration: none;"
+                    >
+                        <img src="https://www.google.com/s2/favicons?sz=16&amp;domain=www.dndbeyond.com">🡥
+                    </a>
+                `)
+            }
+            if (character.roll20_data) {
+                document.getElementById("name").insertAdjacentHTML("beforeend", `
+                    <span  
+                        style="margin-left: .5em; font-size: 16px; color: grey; text-decoration: none;"
+                    >
+                        <img src="https://www.google.com/s2/favicons?sz=16&amp;domain=app.roll20.net">
+                    </span>
+                `)
+            }
+            document.getElementById("race").textContent = character.race
+            document.getElementById("class").textContent = character.class
+
+            //// Ability Scores ////
+            const ASTable = document.getElementById("abilityscores")
+            ASTable.innerHTML = ""
+            const ASRows = ["ast_name", "ast_score", "ast_mod", "ast_skills"]
+            // Set up rows (as named above)
+            for (let i = 0; i < 4; i++) {
+                const as_htmclass = ASRows[i]
+                ASRows[i] = document.createElement("tr")
+                if (as_htmclass && typeof as_htmclass == 'string') {
+                    ASRows[i].classList.add(as_htmclass)
+                }
+                ASTable.insertAdjacentElement("beforeend", ASRows[i])
+            }
+            // Fill in each Ability Score column
+            for (const ability of abilityScoreNames) {
+                // Name
+                ASRows[0].insertAdjacentHTML("beforeend", `<th>${ability}</th>`)
+                // Score
+                const score = character.abilityScores[ability]
+                ASRows[1].insertAdjacentHTML("beforeend", `<td>${score}</td>`)
+                // Mod
+                const mod = Math.floor((score-10)/2)
+                ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
+                // Skills + Saves + etc
+                const hasSaveProf = char.proficiencies?.saves.includes(ability.toLowerCase())
+                const saveDot = hasSaveProf ? utfDiamondFull : utfDiamondOpen
+                let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
+                for (const skillName of skillNamesByAbility[ability]) {
+                    const skillMod = character.skills[skillName]
+                    const profKey = skillName.toLowerCase().replace(/ /g, "-")
+                    const hasSkillProf = char.proficiencies?.skills.includes(profKey)
+                    const hasExpertise = char.expertise?.skills.includes(profKey)
+                    const skillDot = hasSkillProf ? 
+                        (hasExpertise ? utfCircleExtra : utfCircleFull) : 
+                        (char.halfProf ? utfCircleHalf : utfCircleOpen)
+                    skillBox += `<div>${skillDot} ${skillName}: ${modString(skillMod)}</div>`
+                }
+                ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
+            }
+
+            //// Spells ////
+            const spellContain = document.getElementById("spells")
+            spellContain.innerHTML = ""
+            for (const [i, spells] of Object.entries(character.spells)) {
+                if (spells.length == 0) {
+                    continue
+                }
+                const spellLevelDiv = document.createElement("div")
+                spellLevelDiv.classList.add("spell-level-" + i)
+                spellLevelDiv.classList.add("spell-level")
+                const spellLevelHeader = document.createElement("h2")
+                spellLevelHeader.textContent = "Level " + i
+                spellLevelDiv.insertAdjacentElement("beforeend", spellLevelHeader)
+                for (const spell of spells) {
+                    const spellDiv = document.createElement("div")
+                    spellDiv.classList.add("spell")
+                    const spellNameDiv = document.createElement("div")
+                    spellNameDiv.classList.add("spell-name")
+                    spellNameDiv.textContent = spell.name
+                    spellDiv.insertAdjacentElement("beforeend", spellNameDiv)
+                    const spellDataDiv = document.createElement("div")
+                    spellDataDiv.classList.add("spell-data")
+                    spellDataDiv.textContent = [
+                        spell.castingTime,
+                        spell.components,
+                        spell.range,
+                        spell.area,
+                        spell.duration
+                    ].filter(x => x).join(" / ")
+                    spellDiv.insertAdjacentElement("beforeend", spellDataDiv)
+                    if (spell.damage) {
+                        spellDamageDiv = document.createElement("div")
+                        spellDamageDiv.classList.add("spell-data")
+                        spellDamageDiv.textContent = spell.damage
+                        spellDiv.insertAdjacentElement("beforeend", spellDamageDiv)
+                    }
+                    spellLevelDiv.insertAdjacentElement("beforeend", spellDiv)
+                }
+                spellContain.insertAdjacentElement("beforeend", spellLevelDiv)
+            }
+
+            ///// Combat /////
+            const combatContain = document.getElementById("combat")
+            combatContain.innerHTML = ""
+
+            // PB
+            const pbDiv = document.createElement("div")
+            pbDiv.classList.add("pb")
+            //style
+            pbDiv.style.fontSize = "1.5em"
+            pbDiv.insertAdjacentText("beforeend", `PB: ${modString(character.proficiencyBonus)}`)
+            combatContain.insertAdjacentElement("beforeend", pbDiv)
+
+            // HP
+            const hpDiv = document.createElement("div")
+            hpDiv.classList.add("hp")
+            //style
+            hpDiv.style.fontSize = "1.5em"
+            hpDiv.insertAdjacentText("beforeend", "HP: ")
+            // Tall text input with Max HP as placeholder, "slash", max HP (maxHP)
+            const hpInput = document.createElement("input")
+            hpInput.type = "text"
+            hpInput.classList.add("hp-input")
+            hpInput.placeholder = character.maxHP
+            hpInput.value = character.currentHitPoints || character.maxHP
+            hpInput.addEventListener("change", () => {
+                character.currentHitPoints = hpInput.value
+            })
+            //style: width: 2em; text-align: end;
+            hpInput.style.fontSize = "1em"
+            hpInput.style.width = "2em"
+            hpInput.style.textAlign = "end"
+            hpInput.style.border = "none"
+            hpInput.style.borderBottom = "1px solid black"
+            hpInput.style.margin = "-1px -2px"
+            hpDiv.insertAdjacentElement("beforeend", hpInput)
+            hpDiv.insertAdjacentText("beforeend", ` / ${character.maxHP}`)
+            combatContain.insertAdjacentElement("beforeend", hpDiv)
+            
+            // Initiative
+            const initDiv = document.createElement("div")
+            initDiv.classList.add("initiative")
+            initDiv.style.fontSize = "1.5em"
+            initDiv.innerText = `Init: ${modString(character.initiative)}`
+            combatContain.insertAdjacentElement("beforeend", initDiv)
+
+            // AC
+            const acDiv = document.createElement("div")
+            acDiv.classList.add("ac")
+            acDiv.style.fontSize = "1.5em"
+            acDiv.innerText = `AC: ${character.armorClass || character.ac}`
+            combatContain.insertAdjacentElement("beforeend", acDiv)
+
+            // Hit Dice
+            const hitDiceDiv = document.createElement("div")
+            hitDiceDiv.classList.add("hitdice")
+            hitDiceDiv.style.fontSize = "1.5em"
+            hitDiceDiv.innerText = `Hit Dice: ${character.hitDice}`
+            combatContain.insertAdjacentElement("beforeend", hitDiceDiv)
+
+            // Speed
+            const speedDiv = document.createElement("div")
+            speedDiv.classList.add("speed")
+            speedDiv.style.fontSize = "1.5em"
+            speedDiv.innerText = `Speed: ${character.speed}`
+            combatContain.insertAdjacentElement("beforeend", speedDiv)
+            // Other Speeds (fly, swim, climb, burrow)
+            for (const [mode, speed] of Object.entries(character.speeds)) {
+                if (mode.toLowerCase() == "walk") {
+                    continue
+                }
+                if (speed) {
+                    const speedDiv = document.createElement("div")
+                    speedDiv.classList.add("speed")
+                    speedDiv.innerText = `${mode}: ${speed}`
+                    combatContain.insertAdjacentElement("beforeend", speedDiv)
+                }
+            }
+
+            //Spellcasting
+            for (const sc of char.spellcasting || []) {
+                // e.g. spellcasting = {name: 'Warlock', ability: 'Charisma', dc: 16, attack: 8}
+                const spellcastingDiv = document.createElement("div")
+                spellcastingDiv.classList.add("spellcasting")
+                spellcastingDiv.style.fontSize = "1.5em"
+                const AS = sc.ability.slice(0, 3)
+                const text = `${sc.name}(${AS}): DC ${sc.dc} / ${modString(sc.attack)}`
+                spellcastingDiv.innerText = text
+                combatContain.insertAdjacentElement("beforeend", spellcastingDiv)
+            }
+
+            //// Exports ////
+            // PDF Exports
+            export_section = document.getElementById("export")
+            export_section.innerHTML = "<span>Export: </span>"
+            const sheet_names = ["1page_v6", "halfpage_double_color", "standard"];
+            for (const sheet_name of sheet_names) {
+                const sheet_button = document.createElement("button")
+                const log_elem = document.getElementById("log")
+                sheet_button.textContent = sheet_name + ".pdf"
+                sheet_button.addEventListener("click", () => {
+                    log_elem.textContent = "importing pdf.js..."
+                    import("./src/pdf.js").then((module) => {
+                        module.fillForm(
+                            `pdfs/${sheet_name}/sheet.pdf`, 
+                            `pdfs/${sheet_name}/sheet.json`, 
+                            character,
+                            (str) => { log_elem.textContent = str }
+                        )
+                    }).catch((err) => {
+                        console.error(err)
+                        log_elem.textContent = err
+                    })
+                })
+                document.getElementById("export").insertAdjacentElement("beforeend", sheet_button)
+            }
+            // JSON Exports
+            const jsonExport = (download = false) => {
+                // Convert the JSON object to a formatted string
+                const prefixes = ["dndb_", "roll20_"]
+                const replacer = (k, v) => prefixes.some(p => k.match(p)) ? null : v;
+                const jsonData = JSON.stringify(char, replacer, 2);
+                // Create a Blob object with the JSON data and set the mime type
+                const blob = new Blob([jsonData], {type: "application/json"});
+                // Create a URL for the Blob object
+                const url = URL.createObjectURL(blob);
+                if (download) {
+                    // Create a link element and click it to download the file
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = char.name + ".char.json";
+                    link.click();
+                } else {
+                    // Open a new window and set the Content-Type header to application/json
+                    const newPage = window.open(url, '_blank');
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('HEAD', url, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send();
+                }
+            }
+            // .char.json
+            const jsonExportButton = document.createElement("button")
+            jsonExportButton.textContent = "char.json"
+            jsonExportButton.addEventListener("click", () => jsonExport(true))
+            export_section.insertAdjacentElement("beforeend", jsonExportButton)
+            // new tab
+            const newPageButton = document.createElement("button")
+            newPageButton.textContent = "json in new tab"
+            newPageButton.addEventListener("click", () => jsonExport(false))
+            export_section.insertAdjacentElement("beforeend", newPageButton)
+            // .5etools.json
+            if (window.location.origin.match("localhost")) {
+                const fiveetoolsExportButton = document.createElement("button")
+                fiveetoolsExportButton.textContent = "5etools.json"
+                export_section.insertAdjacentElement("beforeend", fiveetoolsExportButton)
+                fiveetoolsExportButton.addEventListener("click", () => {
+                    const log_elem = document.getElementById("log")
+                    log_elem.textContent = "exporting 5etools.json..."
+                    import("./src/5etools.js").then((module) => {
+                        const json = module.export_5etools(char)
+                        const replacer = (k, v) => k.match("dndb_") ? null : v;
+                        const jsonData = JSON.stringify(json, replacer, 2);
+                        const blob = new Blob([jsonData], {type: "application/json"});
+                        const url = URL.createObjectURL(blob);
+                        // Open a new window and set the Content-Type header to application/json
+                        const newPage = window.open(url, '_blank');
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('HEAD', url, true);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.send();
+                    }).catch((err) => {
+                        console.error(err)
+                        log_elem.textContent = err
+                    })
+                })
+            }
+        }
+
+        /// Now actually call it ///
+        if (localStorage.getItem("last_loaded")) {
+            const json = JSON.parse(localStorage.getItem("last_loaded"))
+            const json_type = localStorage.getItem("last_loaded_type")
+            if (json_type == "5ejson") {
+                character = json
+                char = json
+                onCharLoaded()
+            } else if (json_type == "dndb") {
+                char = dndbeyond_json_parse(json)
+                onCharLoaded()
+            } else if (json_type == "roll20") {
+                char = roll20_json_parse(json)
+                onCharLoaded()
+            }
+        } else if (window.location.origin.match("localhost")) {
+            //document.addEventListener("DOMContentLoaded", onCharLoaded)
+            window.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("load-sample-roll20").click()
+            })
+        } else {
+            document.addEventListener("DOMContentLoaded", onCharLoaded)
+        }
+
+        /////////////////////////////////////////
+        ////////// End of onCharLoaded //////////
+        /////////////////////////////////////////
+
+        const setLastLoaded = (json, json_type) => {
+            // Store the last loaded character in localStorage
+            localStorage.setItem("last_loaded", JSON.stringify(json))
+            localStorage.setItem("last_loaded_type", json_type)
+        }
+
+        // Hook up import buttons
+        // 5ejson
+        document.getElementById("import-5ejson").addEventListener("click", () => {
+            const fileInput = document.createElement("input")
+            fileInput.type = "file"
+            fileInput.accept = ".json"
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0]
+                const reader = new FileReader()
+                reader.addEventListener("load", () => {
+                    const json = JSON.parse(reader.result)
+                    setLastLoaded(json, "5ejson")
+                    character = json
+                    char = json
+                    onCharLoaded()
+                })
+                reader.readAsText(file)
+            })
+            fileInput.click()
+        })
+        // dndb
+        document.getElementById("import-dndb").addEventListener("click", () => {
+            const fileInput = document.createElement("input")
+            fileInput.type = "file"
+            fileInput.accept = ".json"
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0]
+                const reader = new FileReader()
+                reader.addEventListener("load", () => {
+                    const json = JSON.parse(reader.result)
+                    setLastLoaded(json, "dndb")
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                })
+                reader.readAsText(file)
+            })
+            fileInput.click()
+        })
+        // sample char
+        document.getElementById("load-sample-char").addEventListener("click", () => {
+            const log_elem = document.getElementById("log")
+            const option = document.getElementById("sample-chars").value
+            log_elem.textContent = "fetching " + option + "..."
+            fetch("test_json/dndb/" + option).then(r => r.json()).then(json => {
+                setLastLoaded(json, "dndb")
+                try {
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    console.error(err)
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                console.error(err)
+                log_elem.textContent = err
+            })
+        })
+        // sample roll20
+        document.getElementById("load-sample-roll20").addEventListener("click", () => {
+            const log_elem = document.getElementById("log")
+            const option = "Bard16_Zag_Moondust.roll20.json"
+            log_elem.textContent = "fetching " + option + "..."
+            fetch("test_json/roll20/" + option).then(r => r.json()).then(json => {
+                setLastLoaded(json, "roll20")
+                try {
+                    char = roll20_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    console.error(err)
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                console.error(err)
+                log_elem.textContent = err
+            })
+        })
+
+
+        // Debug
+        function fill_spells() {
+            // For testing pdf spell fields, fill in all spells as "lvl - num"
+            char.spells = Object.keys(char.spells).map(
+                l => Object.keys(Array(15).fill(''))
+                .map(i => Object.fromEntries([["name", `${l} - ${i}`]]))
+            )
+        }
+        function loadAllAndDo(callbackForChar) {
+            jsons = $$("option").map(_ => "./test_json/dndb/" + _.value)
+            p = [];
+            for (const json of jsons) {
+                p.push(fetch(json).then(r => r.json()).then(j => dndbeyond_json_parse(j)).then(char => {
+                    callbackForChar(char)
+                }))
+            }
+            return Promise.all(p)
+        }
+        async function loadAllSpells() {
+            window.spells = {}
+            window.parsed_spells = {}
+            await loadAllAndDo(char => {
+                window.spells = {...window.spells, ...char.dndb_spells}
+                const parsed = Object.fromEntries(char.spells.flat().map(s => [s.name, s]))
+                window.parsed_spells = {...window.parsed_spells, ...parsed}
+            })
+        }
+        function spellsTagged(tag) {
+            return Object.fromEntries(
+                Object.entries(window.spells)
+                .filter(([_, spell]) => spell.definition.tags.includes(tag))
+            )
+        }
+        function renderSpells(spells) {
+            // 1x10 array of spells (0-9)
+            const spell_list = [[],[],[],[],[],[],[],[],[],[]]
+            for (key of Object.keys(spells).sort()) {
+                const spell = spells[key]._parsed
+                const level = spell.level
+                spell_list[level].push(spell)
+            }
+            window.character.spells = spell_list
+            onCharLoaded()
+            return spell_list
+        }
+        // Load hacker tools if available
+        if (window.srs) {
+            window.srs.apply()
+        } else {
+            // Maybe they'll be loaded in 500ms?
+            setTimeout(() => {
+                if (window.srs) window.srs.apply()
+            }, 500)
+        }
+    </script>
+</body>
