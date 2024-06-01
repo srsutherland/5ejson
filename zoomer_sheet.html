@@ -60,6 +60,48 @@
         const utfDiamondFull = "◈"
         const modString = (mod) => (mod < 0 ? "" : "+") + mod
 
+        const emoji = {
+            //abilities
+            strength: "💪",
+            dexterity: "🏹",
+            constitution: "🛡️",
+            intelligence: "🧠",
+            wisdom: "🦉",
+            charisma: "Rizz",
+            //abilities checks
+            saves: "💾",
+            acrobatics: "🤸",
+            animal_handling: "🐎",
+            arcana: "🔮",
+            athletics: "🏋️",
+            deception: "🤥",
+            history: "📜",
+            insight: "💡",
+            intimidation: "😨",
+            investigation: "🔍",
+            medicine: "🩹",
+            nature: "🌿",
+            perception: "👀",
+            performance: "🎭",
+            persuasion: "💬",
+            religion: "🙏",
+            sleight_of_hand: "🖐️",
+            stealth: "🥷",
+            survival: "🧭",
+            //misc
+            ac: "🛡️",
+            hp: "❤️",
+            initiative: "⚔️",
+            speed: "🏃",
+            hit_dice: "🎲",
+            proficiency_bonus: "🌟",
+            //classes
+            bard: "🎵",
+            cleric: "🙏",
+            druid: "🐺",
+            fighter: "⚔️",
+        }
+
         ///////////////////////////////////////////
         ////////// Start of onCharLoaded //////////
         ///////////////////////////////////////////
@@ -90,6 +132,15 @@
             document.getElementById("race").textContent = character.race
             document.getElementById("class").textContent = character.class
 
+            //// Zoomer custom styles ////
+            const style = document.createElement("style")
+            style.textContent = `
+                #abilityscores th, #abilityscores td {
+                    padding: 0 0.5em;
+                }
+            `
+            document.head.insertAdjacentElement("beforeend", style)
+
             //// Ability Scores ////
             const ASTable = document.getElementById("abilityscores")
             ASTable.innerHTML = ""
@@ -106,10 +157,13 @@
             // Fill in each Ability Score column
             for (const ability of abilityScoreNames) {
                 // Name
-                ASRows[0].insertAdjacentHTML("beforeend", `<th>${ability}</th>`)
+                const zoomer_ability = emoji[ability.toLowerCase()] || "NONE"
+                const AS_name_row = `<th title=${ability} style="font-size: 1.7em;">${zoomer_ability}</th>`
+                ASRows[0].insertAdjacentHTML("beforeend", AS_name_row)
                 // Score
                 const score = character.abilityScores[ability]
-                ASRows[1].insertAdjacentHTML("beforeend", `<td>${score}</td>`)
+                const AS_score_row = `<td>${score}</td>`
+                ASRows[1].insertAdjacentHTML("beforeend", AS_score_row)
                 // Mod
                 const mod = Math.floor((score-10)/2)
                 ASRows[2].insertAdjacentHTML("beforeend", `<td>${modString(mod)}</td>`)
@@ -119,13 +173,22 @@
                 let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
-                    const profKey = skillName.toLowerCase().replace(/ /g, "-")
+                    const profKey = skillName.toLowerCase().replaceAll(/ /g, "-")
                     const hasSkillProf = char.proficiencies?.skills.includes(profKey)
                     const hasExpertise = char.expertise?.skills.includes(profKey)
                     const skillDot = hasSkillProf ? 
                         (hasExpertise ? utfCircleExtra : utfCircleFull) : 
                         (char.halfProf ? utfCircleHalf : utfCircleOpen)
-                    skillBox += `<div>${skillDot} ${skillName}: ${modString(skillMod)}</div>`
+                    const zoomer = emoji[skillName.toLowerCase().replaceAll(" ", "_")] || "NONE"
+                    if (zoomer == "NONE") {
+                        console.warn(`${skillName} (${skillName.toLowerCase().replace(" ", "_")}) not found`)
+                    }
+                    skillBox += `
+                        <div style="font-size: 1.3em;">
+                            ${skillDot}
+                            <span title="${skillName}">${zoomer}</span>: 
+                            ${modString(skillMod)}
+                        </div>`
                 }
                 ASRows[3].insertAdjacentHTML("beforeend", `<td>${skillBox}</td>`)
             }
