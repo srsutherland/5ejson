@@ -170,7 +170,7 @@
                 // Skills + Saves + etc
                 const hasSaveProf = char.proficiencies?.saves.includes(ability.toLowerCase())
                 const saveDot = hasSaveProf ? utfDiamondFull : utfDiamondOpen
-                let skillBox = `<div>${saveDot} Saves: ${modString(character.saves[ability])}</div>`
+                let skillBox = `<div style="font-size: 1.2em;">${saveDot} ${emoji.saves}: ${modString(character.saves[ability])}</div>`
                 for (const skillName of skillNamesByAbility[ability]) {
                     const skillMod = character.skills[skillName]
                     const profKey = skillName.toLowerCase().replaceAll(/ /g, "-")
@@ -243,7 +243,7 @@
             pbDiv.classList.add("pb")
             //style
             pbDiv.style.fontSize = "1.5em"
-            pbDiv.insertAdjacentText("beforeend", `PB: ${modString(character.proficiencyBonus)}`)
+            pbDiv.insertAdjacentText("beforeend", `${emoji.proficiency_bonus}: ${modString(character.proficiencyBonus)}`)
             combatContain.insertAdjacentElement("beforeend", pbDiv)
 
             // HP
@@ -251,7 +251,7 @@
             hpDiv.classList.add("hp")
             //style
             hpDiv.style.fontSize = "1.5em"
-            hpDiv.insertAdjacentText("beforeend", "HP: ")
+            hpDiv.insertAdjacentText("beforeend", `${emoji.hp}: `)
             // Tall text input with Max HP as placeholder, "slash", max HP (maxHP)
             const hpInput = document.createElement("input")
             hpInput.type = "text"
@@ -276,28 +276,28 @@
             const initDiv = document.createElement("div")
             initDiv.classList.add("initiative")
             initDiv.style.fontSize = "1.5em"
-            initDiv.innerText = `Init: ${modString(character.initiative)}`
+            initDiv.innerText = `${emoji.initiative}: ${modString(character.initiative)}`
             combatContain.insertAdjacentElement("beforeend", initDiv)
 
             // AC
             const acDiv = document.createElement("div")
             acDiv.classList.add("ac")
             acDiv.style.fontSize = "1.5em"
-            acDiv.innerText = `AC: ${character.armorClass || character.ac}`
+            acDiv.innerText = `${emoji.ac}: ${character.armorClass || character.ac}`
             combatContain.insertAdjacentElement("beforeend", acDiv)
 
             // Hit Dice
             const hitDiceDiv = document.createElement("div")
             hitDiceDiv.classList.add("hitdice")
             hitDiceDiv.style.fontSize = "1.5em"
-            hitDiceDiv.innerText = `Hit Dice: ${character.hitDice}`
+            hitDiceDiv.innerText = `${emoji.hit_dice}: ${character.hitDice}`
             combatContain.insertAdjacentElement("beforeend", hitDiceDiv)
 
             // Speed
             const speedDiv = document.createElement("div")
             speedDiv.classList.add("speed")
             speedDiv.style.fontSize = "1.5em"
-            speedDiv.innerText = `Speed: ${character.speed}`
+            speedDiv.innerText = `${emoji.speed}: ${character.speed}`
             combatContain.insertAdjacentElement("beforeend", speedDiv)
             // Other Speeds (fly, swim, climb, burrow)
             for (const [mode, speed] of Object.entries(character.speeds)) {
