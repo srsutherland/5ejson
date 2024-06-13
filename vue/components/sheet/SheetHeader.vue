@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps } from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
     char: Object
@@ -8,9 +8,8 @@ const props = defineProps({
 
 <template>
     <header id="top-header">
-        <h1>test</h1>
-        <h1 id="name">{{ props.char.name }}</h1>
-        <h2 id="race"></h2>
-        <h2 id="class"></h2>
+        <h1 id="name">{{ props.char.name || "Name" }}</h1>
+        <h2 id="race">{{ props.char.race }}</h2>
+        <h2 id="class">{{ props.char.class }}</h2>
     </header>
 </template>

@@ -19,10 +19,14 @@ const char = ref(json2)
 <template>
   <section v-if="char" id="sheet">
     <SheetHeader :char="char" />
-    <SheetAbilityScores />
-    <SheetCombatSection />
-    <SheetSpells />
+    <SheetAbilityScores :char="char" />
+    <SheetCombatSection :char="char" />
+    <SheetSpells :char="char" />
   </section>
 </template>
+
+<style>
+@import "../../../res/sheet.css"
+</style>
 
 <script></script>
