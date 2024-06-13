@@ -104,6 +104,7 @@ function dndbeyond_json_parse(response) {
         spellcasting: [],
         feats: [],
         classOptions: [],
+        inventory: [],
         notes: chardata.notes,
     }
     const rawModifiers = chardata.modifiers
@@ -491,7 +492,24 @@ function dndbeyond_json_parse(response) {
         } else {
             character.dndb_inventory[name] = item
         }
-        // TODO: format items and add to character.inventory
+    }
+    for (const dndb_item of Object.values(character.dndb_inventory)) {
+        const def = dndb_item.definition
+        const item = {
+            name: def.name,
+            quantity: dndb_item.quantity,
+            weight: def.weight,
+            value: def.cost,
+            description: def.description,
+            isAttuned: dndb_item.isAttuned,
+            filterType: def.filterType,
+            type: def.type,
+            subType: def.subType,
+            tags: def.tags,
+            rarity: def.rarity,
+            dndb_data: dndb_item
+        }
+        character.inventory.push(item)
     }
 
     // Armor Class
