@@ -18,7 +18,7 @@ const abilityScoreNames = Object.freeze([
 ])
 
 // eslint-disable-next-line no-unused-vars
-const skillNamesByAbility = Object.freeze({
+const skillNamesByAbility = deepFreeze({
     "Strength": [
         "Athletics"
     ],
@@ -102,3 +102,5 @@ const abbreviations = deepFreeze({
         "Order of Scribes": "Scribes",
     }
 });
+
+export { abilityScoreNames, skillNamesByAbility, alignments, abbreviations }

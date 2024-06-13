@@ -1,55 +1,6 @@
-/* global abilityScoreNames, skillNamesByAbility, alignments, abbreviations */
-if (typeof abilityScoreNames === 'undefined') {
-    // eslint-disable-next-line no-unused-vars
-    const abilityScoreNames = Object.freeze([
-        "Strength",
-        "Dexterity",
-        "Constitution",
-        "Intelligence",
-        "Wisdom",
-        "Charisma"
-    ])
+import { abilityScoreNames, skillNamesByAbility, alignments, abbreviations } from './constants.js'
 
-    // eslint-disable-next-line no-unused-vars
-    const skillNamesByAbility = Object.freeze({
-        "Strength": [
-            "Athletics"
-        ],
-        "Dexterity": [
-            "Acrobatics",
-            "Sleight of Hand",
-            "Stealth"
-        ],
-        "Constitution": [],
-        "Intelligence": [
-            "Arcana",
-            "History",
-            "Investigation",
-            "Nature",
-            "Religion"
-        ],
-        "Wisdom": [
-            "Animal Handling",
-            "Insight",
-            "Medicine",
-            "Perception",
-            "Survival"
-        ],
-        "Charisma": [
-            "Deception",
-            "Intimidation",
-            "Performance",
-            "Persuasion"
-        ]
-    })
 
-    // eslint-disable-next-line no-unused-vars
-    const alignments = Object.freeze([
-        'LG', 'NG', 'CG', 
-        'LN', 'N',  'CN', 
-        'LE', 'NE', 'CE'
-    ])
-}
 
 // eslint-disable-next-line no-unused-vars
 function dndbeyond_json_parse(response) {
@@ -729,3 +680,5 @@ function dndbeyond_json_parse(response) {
 function abilityScoreToMod(score) {
     return Math.floor((score-10)/2)
 }
+
+export { dndbeyond_json_parse, abilityScoreToMod }
