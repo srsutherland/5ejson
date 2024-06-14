@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <link href="res/sheet.css" rel="stylesheet">
     <link rel="icon" href="res/favicon.png">
+    <!-- these are modules now
     <script src="src/constants.js"></script>
     <script src="src/dndbeyond.js"></script>
     <script src="src/roll20.js"></script>
     <script src="test_json/Jack.jsonp"></script>
+    -->
 </head>
 <body>
     <section id="sheet">
@@ -51,7 +53,12 @@
         <button id="load-sample-roll20">Load Sample Roll20</button>
     </section>
     <div id="debug"><pre id="log"></pre></div>
-    <script>
+    <script type="module">
+        import { abilityScoreNames, skillNamesByAbility } from './src/constants.js';
+        import { dndbeyond_json_parse } from './src/dndbeyond.js';
+        import { roll20_json_parse } from './src/roll20.js';
+        let char = null
+
         const utfCircleOpen =  "◌"
         const utfCircleFull =  "●"
         const utfCircleExtra = "☀"
@@ -63,8 +70,12 @@
         ///////////////////////////////////////////
         ////////// Start of onCharLoaded //////////
         ///////////////////////////////////////////
-        const onCharLoaded = () => {
-            char = window.character
+        const onCharLoaded = (character) => {
+            if (!character) {
+                character = window.character
+            }
+            const char = window.character
+            window.char = char
             //// Header ////
             document.getElementById("name").textContent = character.name
             // Link to D&D Beyond
@@ -161,7 +172,7 @@
                     ].filter(x => x).join(" / ")
                     spellDiv.insertAdjacentElement("beforeend", spellDataDiv)
                     if (spell.damage) {
-                        spellDamageDiv = document.createElement("div")
+                        const spellDamageDiv = document.createElement("div")
                         spellDamageDiv.classList.add("spell-data")
                         spellDamageDiv.textContent = spell.damage
                         spellDiv.insertAdjacentElement("beforeend", spellDamageDiv)
@@ -263,7 +274,7 @@
 
             //// Exports ////
             // PDF Exports
-            export_section = document.getElementById("export")
+            const export_section = document.getElementById("export")
             export_section.innerHTML = "<span>Export: </span>"
             const sheet_names = ["1page_v6", "halfpage_double_color", "standard"];
             for (const sheet_name of sheet_names) {

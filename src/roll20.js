@@ -1,4 +1,4 @@
-
+// eslint-disable-next-line no-unused-vars
 const root_attributes_example = {
     "name": "Zag Moondust",
     "avatar": "https://s3.amazonaws.com/files.d20.io/images/329340042/HXoogRP8s4t2OTiMqsVoxg/med.png?1677115262",
@@ -6,6 +6,7 @@ const root_attributes_example = {
     "gmnotes": ""
 }
 
+// eslint-disable-next-line no-unused-vars
 const attrib_model_example = {
     "attributes": {
       "name": "intelligence_bonus",
@@ -321,3 +322,5 @@ function other_format_parse(chardata) {
     console.log(character)
     return character
 }
+
+export { roll20_json_parse }
