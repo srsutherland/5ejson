@@ -375,13 +375,24 @@
                 char = roll20_json_parse(json)
                 onCharLoaded()
             }
-        } else if (window.location.origin.match("localhost")) {
-            //document.addEventListener("DOMContentLoaded", onCharLoaded)
-            window.addEventListener("DOMContentLoaded", () => {
-                document.getElementById("load-sample-roll20").click()
-            })
         } else {
-            document.addEventListener("DOMContentLoaded", onCharLoaded)
+            window.addEventListener("DOMContentLoaded", () => {
+                fetch("test_json/dndb/Jack.dndb.json").then(r => r.json()).then(json => {
+                setLastLoaded(json, "dndb")
+                try {
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    console.error(err)
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                console.error(err)
+                log_elem.textContent = err
+            })
+            })
         }
 
         /////////////////////////////////////////
