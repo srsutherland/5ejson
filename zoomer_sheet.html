@@ -53,7 +53,12 @@
         <button id="load-sample-roll20">Load Sample Roll20</button>
     </section>
     <div id="debug"><pre id="log"></pre></div>
-    <script>
+    <script type="module">
+        import { abilityScoreNames, skillNamesByAbility } from './src/constants.js';
+        import { dndbeyond_json_parse } from './src/dndbeyond.js';
+        import { roll20_json_parse } from './src/roll20.js';
+        let char = null
+
         const utfCircleOpen =  "◌"
         const utfCircleFull =  "●"
         const utfCircleExtra = "☀"
@@ -107,8 +112,12 @@
         ///////////////////////////////////////////
         ////////// Start of onCharLoaded //////////
         ///////////////////////////////////////////
-        const onCharLoaded = () => {
-            char = window.character
+        const onCharLoaded = (character) => {
+            if (!character) {
+                character = window.character
+            }
+            const char = window.character
+            window.char = char
             //// Header ////
             document.getElementById("name").textContent = character.name
             // Link to D&D Beyond
@@ -226,7 +235,7 @@
                     ].filter(x => x).join(" / ")
                     spellDiv.insertAdjacentElement("beforeend", spellDataDiv)
                     if (spell.damage) {
-                        spellDamageDiv = document.createElement("div")
+                        const spellDamageDiv = document.createElement("div")
                         spellDamageDiv.classList.add("spell-data")
                         spellDamageDiv.textContent = spell.damage
                         spellDiv.insertAdjacentElement("beforeend", spellDamageDiv)
@@ -328,7 +337,7 @@
 
             //// Exports ////
             // PDF Exports
-            export_section = document.getElementById("export")
+            const export_section = document.getElementById("export")
             export_section.innerHTML = "<span>Export: </span>"
             const sheet_names = ["1page_v6", "halfpage_double_color", "standard"];
             for (const sheet_name of sheet_names) {
@@ -429,13 +438,24 @@
                 char = roll20_json_parse(json)
                 onCharLoaded()
             }
-        } else if (window.location.origin.match("localhost")) {
-            //document.addEventListener("DOMContentLoaded", onCharLoaded)
-            window.addEventListener("DOMContentLoaded", () => {
-                document.getElementById("load-sample-roll20").click()
-            })
         } else {
-            document.addEventListener("DOMContentLoaded", onCharLoaded)
+            window.addEventListener("DOMContentLoaded", () => {
+                fetch("test_json/dndb/Jack.dndb.json").then(r => r.json()).then(json => {
+                setLastLoaded(json, "dndb")
+                try {
+                    char = dndbeyond_json_parse(json)
+                    onCharLoaded()
+                    log_elem.textContent = ""
+                } catch (err) {
+                    console.error(err)
+                    log_elem.textContent = err
+                    return
+                }
+            }).catch(err => {
+                console.error(err)
+                log_elem.textContent = err
+            })
+            })
         }
 
         /////////////////////////////////////////

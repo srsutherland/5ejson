@@ -1,3 +1,5 @@
+import { abilityScoreNames, skillNamesByAbility, alignments } from "./constants.js"
+
 // eslint-disable-next-line no-unused-vars
 const root_attributes_example = {
     "name": "Zag Moondust",
