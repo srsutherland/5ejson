@@ -1,13 +1,12 @@
 <script setup>
 // eslint-disable-next-line no-unused-vars
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 
 import SheetHeader from './SheetHeader.vue'
 import SheetAbilityScores from './SheetAbilityScores.vue'
 import SheetCombatSection from './SheetCombatSection.vue'
 import SheetSpells from './SheetSpells.vue'
 
-import '../../../src/dndbeyond.js'
 import { dndbeyond_json_parse } from '../../../src/dndbeyond.js'
 import json from '../../../test_json/dndb/Jack.dndb.json'
 
@@ -15,13 +14,26 @@ import json from '../../../test_json/dndb/Jack.dndb.json'
 
 const json2 = dndbeyond_json_parse(json)
 const char = ref(json2)
+
+const props = defineProps({
+    char: {
+      type: Object,
+      default: () => {
+        return dndbeyond_json_parse(json);
+      }
+    }
+})
 </script>
+
 <template>
-  <section v-if="char" id="sheet">
-    <SheetHeader :char="char" />
-    <SheetAbilityScores :char="char" />
-    <SheetCombatSection :char="char" />
-    <SheetSpells :char="char" />
+  <section v-if="props.char" id="sheet">
+    <SheetHeader :char="props.char" />
+    <SheetAbilityScores :char="props.char" />
+    <SheetCombatSection :char="props.char" />
+    <SheetSpells :char="props.char" />
+  </section>
+  <section v-else>
+    <p>Sheet not loaded</p>
   </section>
 </template>
 
