@@ -1,10 +1,11 @@
 <script setup>
 import ImportSampleChar from "./ImportSampleChar.vue"
-// const props = defineProps({
-//     char: Object
-// })
+import Import5ejson from "./Import5ejson.vue"
+import ImportDndb from "./ImportDndb.vue"
 
-// This just passes the loadChar event from the other components
+import { dndbeyond_json_parse } from "../../../src/dndbeyond";
+
+// This just passes the loadChar event from the other components up to the parent
 const emit = defineEmits(["loadChar"])
 
 const loadChar = (char) => {
@@ -16,7 +17,9 @@ const loadChar = (char) => {
     <div id="import">
         <span>Import:</span>
         <!--Import 5ejson-->
+        <Import5ejson @loadChar="loadChar" />
         <!--Import dndb-->
+        <ImportDndb @loadChar="loadChar" />
         <ImportSampleChar @loadChar="loadChar" />
     </div>
 </template>

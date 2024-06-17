@@ -4,6 +4,7 @@ import samplePaths from "./sampleChars.cjs"
 import { dndbeyond_json_parse } from "../../../src/dndbeyond";
 
 const path_re = /(^|.*\/)([^./]+)\.(\w+)\.json/i
+const defaultPath = "Jack.dndb.json"
 class SampleChar {
     constructor(path) {
         const m = path.match(path_re)
@@ -16,7 +17,6 @@ class SampleChar {
         }
     }
 }
-const defaultPath = "Jack.dndb.json"
 const sampleChars = samplePaths.map(path => new SampleChar(path))
 
 // emits "loadChar" which contains a 5ejson character object
