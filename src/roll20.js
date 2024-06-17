@@ -21,6 +21,9 @@ const attrib_model_example = {
 }
 
 function roll20_json_parse(response) {
+    if (response.roll20_data) {
+        console.warn("roll20_json_parse: input appears to have already been parsed")
+    }
     const chardata = formatCharacterData(response);
     const simple = Object.fromEntries(
         Object.values(chardata)

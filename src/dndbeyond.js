@@ -4,7 +4,11 @@ import { abilityScoreNames, skillNamesByAbility, alignments, abbreviations } fro
 
 // eslint-disable-next-line no-unused-vars
 function dndbeyond_json_parse(response) {
+    if (response.dndb_data) {
+        console.warn("dndbeyond_json_parse: input appears to have already been parsed")
+    }
     if (!response.success) {
+        console.error("Argument does not appear to be a valid D&D Beyond character JSON")
         return false
     }
     
@@ -123,7 +127,7 @@ function dndbeyond_json_parse(response) {
         if (jclass.subclass) {
             let subclass = jclass.subclass
             if (typeof abbreviations !== 'undefined') {
-                console.log(abbreviations)
+                //console.log(abbreviations)
                 for (const [full, abbr] of Object.entries(abbreviations.subclass)) {
                     subclass = subclass.replace(full, abbr)
                 }
@@ -401,12 +405,12 @@ function dndbeyond_json_parse(response) {
         }
 
         // TODO: REMOVE
-        character.dndb_spells[name]._parsed = spellobj
-        console.log({
-            name: name, dndb_dur: dndb_dur, duration: spellobj.duration, 
-            isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, 
-            range: spellobj.range, area: spellobj.area
-        })
+        // character.dndb_spells[name]._parsed = spellobj
+        // console.log({
+        //     name: name, dndb_dur: dndb_dur, duration: spellobj.duration, 
+        //     isConcentration: spellobj.isConcentration, dnbd_range: dndb_range, 
+        //     range: spellobj.range, area: spellobj.area
+        // })
 
         //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
         return spellobj
