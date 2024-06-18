@@ -2,6 +2,7 @@
 import ImportSampleChar from "./ImportSampleChar.vue"
 import Import5ejson from "./Import5ejson.vue"
 import ImportDndb from "./ImportDndb.vue"
+import ImportSampleRoll20 from "./ImportSampleRoll20.vue"
 
 import { dndbeyond_json_parse } from "../../../src/dndbeyond";
 
@@ -21,5 +22,6 @@ const loadChar = (char) => {
         <!--Import dndb-->
         <ImportDndb @loadChar="loadChar" />
         <ImportSampleChar @loadChar="loadChar" />
+        <ImportSampleRoll20 @loadChar="loadChar" />
     </div>
 </template>
