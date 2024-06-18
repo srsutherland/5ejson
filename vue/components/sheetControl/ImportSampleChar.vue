@@ -2,6 +2,7 @@
 import samplePaths from "./sampleChars.cjs"
 
 import { dndbeyond_json_parse } from "../../../src/dndbeyond";
+import { setLastLoaded } from './lastLoaded.js';
 
 const path_re = /(^|.*\/)([^./]+)\.(\w+)\.json/i
 const defaultPath = "Jack.dndb.json"
@@ -30,6 +31,7 @@ const loadSampleChar = () => {
         .then((dndb_json) => {
             const json = dndbeyond_json_parse(dndb_json)
             emit("loadChar", json)
+            setLastLoaded(dndb_json, "dndb")
         }).catch((error) => {
             console.error(`Error loading sample character from "${path}"`, error)
         })

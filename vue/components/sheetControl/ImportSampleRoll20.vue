@@ -2,6 +2,7 @@
 import { roll20_json_parse } from "../../../src/roll20"
 
 const emit = defineEmits(["loadChar"])
+import { setLastLoaded } from './lastLoaded.js';
 
 const loadSampleRoll20 = () => {
     const path = "./test_json/roll20/Bard16_Zag_Moondust.roll20.json"
@@ -10,6 +11,7 @@ const loadSampleRoll20 = () => {
         .then((roll20_json) => {
             const json = roll20_json_parse(roll20_json)
             emit("loadChar", json)
+            setLastLoaded(roll20_json, "roll20")
         }).catch((error) => {
             console.error(`Error loading sample character from "${path}"`, error)
         })
