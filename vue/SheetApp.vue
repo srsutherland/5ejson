@@ -61,8 +61,7 @@ if (last_loaded.json) {
         <TheSheet v-else />
     </main>
     <footer id="control-contain">
-        Test
-        <ExportSection />
+        <ExportSection :char="char" />
         <ImportSection @loadChar="onCharLoaded" />
     </footer>
 </template>
