@@ -70,6 +70,7 @@
         ///////////////////////////////////////////
         ////////// Start of onCharLoaded //////////
         ///////////////////////////////////////////
+        // #region onCharLoaded
         const onCharLoaded = (character) => {
             if (!character) {
                 character = window.character
@@ -398,6 +399,7 @@
         /////////////////////////////////////////
         ////////// End of onCharLoaded //////////
         /////////////////////////////////////////
+        // #endregion onCharLoaded
 
         const setLastLoaded = (json, json_type) => {
             // Store the last loaded character in localStorage
@@ -405,6 +407,7 @@
             localStorage.setItem("last_loaded_type", json_type)
         }
 
+        // #region import buttons
         // Hook up import buttons
         // 5ejson
         document.getElementById("import-5ejson").addEventListener("click", () => {
@@ -485,6 +488,7 @@
                 log_elem.textContent = err
             })
         })
+        // #endregion input buttons
 
 
         // Debug
