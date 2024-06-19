@@ -1,3 +1,5 @@
+import { skillNamesByAbility } from "./constants.js";
+
 function export_5etools (chardata, settings) {
     const creature = {
         name: chardata.name,
