@@ -415,7 +415,7 @@ function dndbeyond_json_parse(response) {
         //console.log(Object.entries(spellobj).filter(([k,v]) => v != null && k != "dndb_data").map(kv => kv[1]).join())
         return spellobj
     }
-    for (const [classnum, spellclass] of Object.entries(character.dndb_data.classSpells)) {
+    for (const [classnum, spellclass] of Object.entries(character.dndb_data.classSpells || {})) {
         for (const spelldata of spellclass.spells) {
             const source = character.classlist[classnum]
             const spellobj = parseSpell(spelldata, source)
@@ -426,7 +426,7 @@ function dndbeyond_json_parse(response) {
             }
         }
     }
-    for (const [source, spellsFromSource] of Object.entries(character.dndb_data.spells)) {
+    for (const [source, spellsFromSource] of Object.entries(character.dndb_data.spells || {})) {
         for (const spelldata of (spellsFromSource || [])) {
             const spellobj = parseSpell(spelldata, source)
             try {
@@ -440,7 +440,7 @@ function dndbeyond_json_parse(response) {
 
     // Equipment
     character.dndb_inventory = {}
-    for (const item of character.dndb_data.inventory) {
+    for (const item of character.dndb_data.inventory || []) {
         const name = item.definition.name
         if (character.dndb_inventory[name] != null) {
             character.dndb_inventory[name].quantity += item.quantity
@@ -519,7 +519,7 @@ function dndbeyond_json_parse(response) {
         itemsWhichGiveAC.splice(itemsWhichGiveAC.indexOf(armor), 1)
     }
     // Turn each set-modifier (unarmored defense) into an AC object and append to armorClasses
-    for (const mod of character.dndb_modifiers.set) {
+    for (const mod of character.dndb_modifiers.set || []) {
         if (mod.subType === "unarmored-armor-class") {
             const statName = abilityScoreNames[mod.statId-1]
             const statValue = character.abilityMods[statName]
@@ -538,7 +538,7 @@ function dndbeyond_json_parse(response) {
         }
     }
     // Turn each bonus-modifier into an AC object and append to armorBonuses
-    for (const mod of character.dndb_modifiers.bonus) {
+    for (const mod of character.dndb_modifiers.bonus || []) {
         if (mod.subType === "armored-armor-class") {
             const ac = {
                 name: "Armored bonus", type: "armored", isArmor: false,
